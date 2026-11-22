@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Dopamine design tokens
+
+This Storybook documents the design tokens exported from Figma.
+
+| Source | What it holds |
+| --- | --- |
+| `src/tokens/figma-variables.json` | Figma variables: Primitives, Semantic (Light), Typography (Mobile/Desktop), Extra (radius, stroke, gap), Utility |
+| `src/tokens/figma-styles.css` | Figma styles: brand (c-p) colours, text styles, effect/shadow styles |
+
+`npm run tokens` turns both into **`src/tokens/tokens.css`**, which has every token as a CSS variable plus the `.text-*` text-style classes. The same command runs automatically before `npm run storybook`.
+
+## Using tokens
+
+```css
+@import './tokens/tokens.css';
+
+.card {
+  background: var(--bg-brand-primary);
+  color: var(--text-brand-primary);
+  border: var(--stroke-regular) solid var(--border-neutrals-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--gap-16);
+  box-shadow: var(--shadow-md);
+}
+```
+
+```html
+<h2 class="text-h2-bold">Heading</h2>
+<p class="text-body-base-regular">Body copy</p>
+```
+
+## Naming
+
+- Primitives: `--color-{palette}-{step}`, e.g. `--color-flame-coral-100`
+- Semantic: `--{bg|text|icon|border}-{group}-{name}`, e.g. `--bg-success-subtle`. These point to primitives.
+- Typography: `--font-{scale}-{size|line-height|letter-spacing}`. Mobile values are the default; Desktop values apply at 1024px and wider.
+- Dimensions: `--radius-*`, `--stroke-*`, `--gap-*`
+- Shadows: `--shadow-{xs|s|md|lg|xl|xxl}`
+- Brand: `--c-p--{name}` (name kept from the Figma export)
+
+To update the tokens, re-export from Figma, replace the two source files and run `npm run tokens`.

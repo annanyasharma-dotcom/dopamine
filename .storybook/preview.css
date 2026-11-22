@@ -1,0 +1,3 @@
+/* Tokens are Light-mode only, so keep the canvas light regardless of OS theme. */
+:root { color-scheme: light; }
+body { background: var(--bg-brand-primary); color: var(--text-brand-primary); }
