@@ -1,0 +1,135 @@
+/*
+ * Button — Figma: "Button" component set (WIP - Dopamine Spike UPDATED, node 40002646:30877).
+ * All colours, spacing, radius and stroke come from src/tokens/tokens.css.
+ *
+ * Token gap: the Figma file uses body-base (14/20) and body-lg (16/24) text variables,
+ * which are not in the exported token set (its closest scale, body-md, is 14/18 on mobile
+ * and 24/32 on desktop). The values below come from those Figma variables and are kept
+ * in one place so they can move to tokens.css once the export includes them.
+ */
+.dp-button {
+  --dp-button-font-size: 14px; /* Figma body-base/size */
+  --dp-button-line-height: 20px; /* Figma body-base/line-height */
+  --dp-button-min-height: 44px;
+
+  --dp-button-bg: transparent;
+  --dp-button-fg: var(--text-brand-primary);
+  --dp-button-icon: var(--icon-brand-primary);
+  --dp-button-border: transparent;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-4);
+  min-height: var(--dp-button-min-height);
+  margin: 0;
+  padding: var(--gap-10);
+  border: 0;
+  /* Inside stroke, like Figma: drawn inside the box so it doesn't change the 44/56px height. */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--dp-button-border);
+  border-radius: var(--radius-md);
+  background: var(--dp-button-bg);
+  color: var(--dp-button-fg);
+  font-family: var(--font-family-base);
+  font-weight: 600; /* Figma font/weight/semibold */
+  font-size: var(--dp-button-font-size);
+  line-height: var(--dp-button-line-height);
+  letter-spacing: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+/* Sizes */
+.dp-button--lg {
+  --dp-button-font-size: 16px; /* Figma body-lg/size */
+  --dp-button-line-height: 24px; /* Figma body-lg/line-height */
+  --dp-button-min-height: 56px;
+}
+
+/* Variants */
+.dp-button--brand {
+  --dp-button-bg: var(--bg-brand-coral);
+  --dp-button-fg: var(--text-brand-primary-inverse);
+  --dp-button-icon: var(--icon-brand-primary-inverse);
+}
+
+.dp-button--black {
+  --dp-button-bg: var(--bg-brand-primary-inverse);
+  --dp-button-fg: var(--text-brand-primary-inverse);
+  --dp-button-icon: var(--icon-brand-primary-inverse);
+}
+
+.dp-button--outline {
+  --dp-button-bg: var(--bg-brand-primary);
+  --dp-button-fg: var(--text-brand-brand);
+  --dp-button-icon: var(--icon-brand-coral);
+  --dp-button-border: var(--border-neutrals-secondary);
+}
+
+.dp-button--inverse {
+  --dp-button-bg: var(--bg-brand-primary);
+  --dp-button-fg: var(--text-brand-primary);
+  --dp-button-icon: var(--icon-brand-primary);
+  --dp-button-border: var(--border-neutrals-secondary);
+}
+
+/* Ghost has no container and no minimum height in Figma (24px content + 10px padding). */
+.dp-button--ghost {
+  --dp-button-fg: var(--text-brand-brand);
+  --dp-button-icon: var(--icon-brand-coral);
+  --dp-button-min-height: 0;
+}
+
+/* Disabled — Figma defines this for brand only; the same treatment is applied to every variant. */
+.dp-button:disabled {
+  --dp-button-fg: var(--text-brand-disabled-subtle);
+  --dp-button-icon: var(--icon-brand-disabled-subtle);
+  --dp-button-border: transparent;
+  cursor: not-allowed;
+}
+
+.dp-button:disabled:not(.dp-button--ghost) {
+  --dp-button-bg: var(--bg-brand-disabled-subtle);
+}
+
+/* Icons: 24px slots coloured by the variant's icon token */
+.dp-button__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--dp-button-icon);
+}
+
+.dp-button__icon > svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Default arrows: the Figma SVGs, used as masks so the icon token sets their colour */
+.dp-button__arrow {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  mask: var(--dp-button-arrow) center / 24px 24px no-repeat;
+}
+
+.dp-button__arrow--left {
+  --dp-button-arrow: url('./assets/arrow-left.svg');
+}
+
+.dp-button__arrow--right {
+  --dp-button-arrow: url('./assets/arrow-right.svg');
+}
+
+.dp-button__label {
+  flex-shrink: 0;
+}
