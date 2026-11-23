@@ -45,7 +45,7 @@
 
 .dp-input-field--disabled {
   --dp-input-field-bg: var(--bg-brand-disabled-subtle);
-  --dp-input-field-border: var(--text-brand-disabled-subtle); /* Figma uses this text token for the disabled border */
+  --dp-input-field-border: var(--border-neutrals-disabled);
   --dp-input-field-value: var(--text-brand-disabled-subtle);
   --dp-input-field-helper: var(--text-brand-quartenary);
   --dp-input-field-chip-bg: var(--bg-brand-disabled-subtle);
