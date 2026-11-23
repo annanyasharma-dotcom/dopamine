@@ -1,0 +1,166 @@
+/*
+ * InputField — Figma: "Input field" component set (WIP - Dopamine Spike UPDATED, node 40002019:3237).
+ * Colours, spacing, radius and stroke come from src/tokens/tokens.css.
+ *
+ * Token gap: the Figma text variables label-base (14/18), label-sm (12/14) and caption-base (11/16)
+ * are not in the token export, so their values are kept below as component variables.
+ */
+.dp-input-field {
+  --dp-input-field-value-size: 14px; /* Figma label-base/size */
+  --dp-input-field-value-line: 18px; /* Figma label-base/line-height */
+  --dp-input-field-label-size: 12px; /* Figma label-sm/size */
+  --dp-input-field-label-line: 14px; /* Figma label-sm/line-height */
+  --dp-input-field-helper-size: 11px; /* Figma caption-base/size */
+  --dp-input-field-helper-line: 16px; /* Figma caption-base/line-height */
+
+  --dp-input-field-bg: var(--bg-brand-primary);
+  --dp-input-field-border: var(--border-neutrals-secondary);
+  --dp-input-field-value: var(--text-brand-primary);
+  --dp-input-field-placeholder: var(--text-brand-disabled-subtle);
+  --dp-input-field-helper: var(--text-brand-quartenary);
+  --dp-input-field-chip-bg: var(--bg-brand-primary);
+  --dp-input-field-chip-border: var(--border-neutrals-secondary);
+  --dp-input-field-chip-text: var(--text-brand-tertiary);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  width: 100%;
+  padding: var(--gap-8) var(--gap-none);
+  font-family: var(--font-family-base);
+}
+
+/* Status */
+.dp-input-field--success {
+  --dp-input-field-border: var(--border-success-moderate);
+  --dp-input-field-helper: var(--text-success-base);
+}
+
+.dp-input-field--error {
+  --dp-input-field-border: var(--border-error-moderate);
+  --dp-input-field-helper: var(--text-error-base);
+}
+
+.dp-input-field--disabled {
+  --dp-input-field-bg: var(--bg-brand-disabled-subtle);
+  --dp-input-field-border: var(--text-brand-disabled-subtle); /* Figma uses this text token for the disabled border */
+  --dp-input-field-value: var(--text-brand-disabled-subtle);
+  --dp-input-field-helper: var(--text-brand-quartenary);
+  --dp-input-field-chip-bg: var(--bg-brand-disabled-subtle);
+  --dp-input-field-chip-border: var(--border-neutrals-disabled);
+  --dp-input-field-chip-text: var(--text-brand-disabled-subtle);
+}
+
+/* Label chip, sitting on the top border */
+.dp-input-field__label {
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  left: 10px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  height: 20px;
+  padding: var(--gap-2) var(--gap-4);
+  border: var(--stroke-thin) solid var(--dp-input-field-chip-border);
+  border-radius: var(--radius-xxs);
+  background: var(--dp-input-field-chip-bg);
+  color: var(--dp-input-field-chip-text);
+  font-weight: 400;
+  font-size: var(--dp-input-field-label-size);
+  line-height: var(--dp-input-field-label-line);
+  white-space: nowrap;
+}
+
+.dp-input-field__required {
+  color: var(--text-error-base);
+  font-weight: 700;
+  font-size: var(--dp-input-field-value-size);
+  line-height: var(--dp-input-field-value-line);
+}
+
+/* Input box */
+.dp-input-field__control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-8);
+  height: 44px;
+  padding: var(--gap-12);
+  border: var(--stroke-regular) solid var(--dp-input-field-border);
+  border-radius: var(--radius-md);
+  background: var(--dp-input-field-bg);
+}
+
+.dp-input-field__input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--dp-input-field-value);
+  caret-color: var(--icon-brand-secondary); /* Figma text cursor colour */
+  font: inherit;
+  font-weight: 400;
+  font-size: var(--dp-input-field-value-size);
+  line-height: var(--dp-input-field-value-line);
+}
+
+.dp-input-field__input::placeholder {
+  color: var(--dp-input-field-placeholder);
+  opacity: 1;
+}
+
+.dp-input-field__input:disabled {
+  cursor: not-allowed;
+  -webkit-text-fill-color: var(--dp-input-field-value);
+}
+
+/* Clear button: 20px box showing the 24px Figma close icon, centred and clipped as in the design */
+.dp-input-field__clear {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+  color: var(--icon-brand-primary);
+  cursor: pointer;
+}
+
+.dp-input-field__clear:disabled {
+  cursor: not-allowed;
+}
+
+.dp-input-field__clear:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+  overflow: visible;
+}
+
+.dp-input-field__clear-icon {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 24px;
+  height: 24px;
+  background-color: currentColor;
+  mask: url('./assets/close.svg') center / 24px 24px no-repeat;
+}
+
+/* Helper / validation message */
+.dp-input-field__helper {
+  color: var(--dp-input-field-helper);
+  font-weight: 400;
+  font-size: var(--dp-input-field-helper-size);
+  line-height: var(--dp-input-field-helper-line);
+}

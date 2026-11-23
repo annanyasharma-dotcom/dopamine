@@ -1,0 +1,141 @@
+/*
+ * OtpField — Figma: "OTP field" component set (WIP - Dopamine Spike UPDATED, node 40002019:3289).
+ * Colours, spacing, radius and stroke come from src/tokens/tokens.css.
+ *
+ * Token gap: Figma text variables label-base (14/18), body-sm (12/18) and the legacy "Tag"
+ * style (11/16) are not in the token export; their values are kept below.
+ * Legacy colours in this Figma component (Color/States/Error #a3111e, Color/States/Success #308956,
+ * color/content/tertiary #626a7a) are mapped to the closest semantic tokens — see docs/MASTER.md.
+ */
+.dp-otp-field {
+  --dp-otp-field-digit-size: 14px; /* Figma label-base/size */
+  --dp-otp-field-digit-line: 18px; /* Figma label-base/line-height */
+  --dp-otp-field-helper-size: 11px; /* Figma Font/Size/Tag */
+  --dp-otp-field-helper-line: 16px; /* Figma Font/Line height/16 */
+  --dp-otp-field-resend-size: 12px; /* Figma body-sm/size */
+  --dp-otp-field-resend-line: 18px; /* Figma body-sm/line-height */
+
+  --dp-otp-field-border: var(--border-neutrals-secondary);
+  --dp-otp-field-digit: var(--text-brand-primary);
+  --dp-otp-field-helper: var(--text-brand-tertiary);
+
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  font-family: var(--font-family-base);
+}
+
+.dp-otp-field--success {
+  --dp-otp-field-border: var(--border-success-moderate);
+  --dp-otp-field-helper: var(--text-success-base);
+}
+
+.dp-otp-field--error {
+  --dp-otp-field-border: var(--border-error-moderate);
+  --dp-otp-field-helper: var(--text-error-base);
+}
+
+.dp-otp-field--disabled {
+  --dp-otp-field-border: var(--border-neutrals-disabled);
+  --dp-otp-field-digit: var(--text-brand-disabled-subtle);
+}
+
+.dp-otp-field__digits {
+  display: flex;
+  gap: var(--gap-12);
+}
+
+.dp-otp-field__digit {
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: var(--gap-12);
+  border: var(--stroke-regular) solid var(--dp-otp-field-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  background: var(--bg-brand-primary);
+  color: var(--dp-otp-field-digit);
+  caret-color: var(--icon-brand-secondary); /* Figma text cursor colour */
+  font: inherit;
+  font-weight: 600;
+  font-size: var(--dp-otp-field-digit-size);
+  line-height: var(--dp-otp-field-digit-line);
+  text-align: center;
+}
+
+/* Empty boxes show "-" in the same colour as digits, as in Figma */
+.dp-otp-field__digit::placeholder {
+  color: var(--dp-otp-field-digit);
+  opacity: 1;
+}
+
+.dp-otp-field__digit:focus::placeholder {
+  color: transparent;
+}
+
+.dp-otp-field__digit:disabled {
+  cursor: not-allowed;
+  -webkit-text-fill-color: var(--dp-otp-field-digit);
+}
+
+.dp-otp-field__helper {
+  color: var(--dp-otp-field-helper);
+  font-weight: 400;
+  font-size: var(--dp-otp-field-helper-size);
+  line-height: var(--dp-otp-field-helper-line);
+}
+
+/* Resend row */
+.dp-otp-field__resend {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap-4);
+  font-size: var(--dp-otp-field-resend-size);
+  line-height: var(--dp-otp-field-resend-line);
+}
+
+.dp-otp-field__resend-prompt {
+  overflow: hidden;
+  color: var(--text-brand-tertiary);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dp-otp-field__resend-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-4);
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-brand-brand);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dp-otp-field__resend-button:disabled {
+  color: var(--text-brand-disabled-subtle);
+  cursor: not-allowed;
+}
+
+.dp-otp-field__resend-button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-otp-field__resend-icon {
+  width: 12px;
+  height: 12px;
+  background-color: var(--icon-brand-coral);
+  mask: url('./assets/resend.svg') center / 12px 12px no-repeat;
+}
+
+.dp-otp-field__resend-button:disabled .dp-otp-field__resend-icon {
+  background-color: var(--icon-brand-disabled-subtle);
+}
