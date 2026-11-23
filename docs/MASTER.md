@@ -343,7 +343,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-23 | Base font switched to Figtree (self-hosted via `@fontsource/figtree`) | `e08bc6b` |
 | 2026-11-24 | **Button** added (Figma node `40002646:30877`): props `children`, `variant`, `size`, `disabled`, `leftIcon`, `rightIcon` + native button props; stories with interaction tests; docs files created | `4d49fd8` |
 | 2026-11-24 | **InputField** added (Figma node `40002019:3237`): props `label`, `helperText`, `status`, `clearable`, `onClear`, `wrapperClassName` + native input props. **OtpField** added (Figma node `40002019:3289`): props `digits`, `value`, `defaultValue`, `onChange`, `onComplete`, `status`, `disabled`, `helperText`, `onResend`, `resendPrompt`, `resendLabel`, `aria-label`, `autoFocus`, `name`, `className`. Stories with interaction tests. | `0306c92` |
-| 2026-11-24 | **InputField** disabled border changed from `--text-brand-disabled-subtle` (#969696) to `--border-neutrals-disabled` (#adadad), following the Figma update to node `40002019:3238`. No API change. | uncommitted |
+| 2026-11-24 | **InputField** disabled border changed from `--text-brand-disabled-subtle` (#969696) to `--border-neutrals-disabled` (#adadad), following the Figma update to node `40002019:3238`. No API change. | `d49cfe1` |
 
 ---
 
