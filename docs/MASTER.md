@@ -196,7 +196,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | --- | --- | --- |
 | 2026-11-22 | Project set up: Vite + React + TS, Storybook 10, token generator, Foundations pages | `a5c4481` |
 | 2026-11-23 | Base font switched to Figtree (self-hosted via `@fontsource/figtree`) | `e08bc6b` |
-| 2026-11-24 | **Button** added (Figma node `40002646:30877`): props `children`, `variant`, `size`, `disabled`, `leftIcon`, `rightIcon` + native button props; stories with interaction tests; docs files created | uncommitted |
+| 2026-11-24 | **Button** added (Figma node `40002646:30877`): props `children`, `variant`, `size`, `disabled`, `leftIcon`, `rightIcon` + native button props; stories with interaction tests; docs files created | `4d49fd8` |
 
 ---
 
