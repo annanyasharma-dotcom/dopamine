@@ -28,8 +28,10 @@ src/
     Button/            Button.tsx, Button.css, Button.stories.tsx, index.ts, assets/
     CounterBadge/      CounterBadge.tsx, CounterBadge.css, CounterBadge.stories.tsx, index.ts
     Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
+    Icon/              Icon.tsx, Icon.css, icons.ts (registry), Icon.stories.tsx, index.ts, svg/ (library SVGs)
     InputField/        InputField.tsx, InputField.css, InputField.stories.tsx, index.ts, assets/
     OtpField/          OtpField.tsx, OtpField.css, OtpField.stories.tsx, index.ts, assets/
+    SkuCard/           SkuCard.tsx, SkuCard.css, SkuCard.stories.tsx, index.ts, assets/
   foundations/         Storybook pages documenting tokens (not shipped components)
   tokens/              figma-variables.json, figma-styles.css (sources)
                        tokens.css, tokens.json (generated), fonts.css
@@ -59,8 +61,10 @@ src/
 
 | CounterBadge | Data display | `src/components/CounterBadge/CounterBadge.tsx` | `CounterBadge` (named + default), types `CounterBadgeProps`, `CounterBadgeColour` | tokens.css, fonts.css | `40002686:16677` |
 | Header | Navigation | `src/components/Header/Header.tsx` | `Header` (named + default), type `HeaderProps` | **CounterBadge**, tokens.css, fonts.css, `assets/*.svg` (8 icons) | `40002686:16180` |
+| Icon | Foundations / media | `src/components/Icon/Icon.tsx` | `Icon` (named + default), `icons`, `iconNames`, types `IconProps`, `IconName`, `IconDefinition` | `svg/*.svg`, tokens.css | icons from node `40002750:10762` |
+| SkuCard | Commerce | `src/components/SkuCard/SkuCard.tsx` | `SkuCard` (named + default), types `SkuCardProps`, `SkuCardOrientation` | **Icon** (bestseller, check), tokens.css, fonts.css, `assets/*.svg` (5 icons) | `40002750:10762` |
 
-Import: `import { Button, CounterBadge, Header, InputField, OtpField } from './components';` (or each component's folder).
+Import: `import { Button, CounterBadge, Header, Icon, InputField, OtpField, SkuCard } from './components';` (or each component's folder).
 
 ---
 
@@ -341,6 +345,114 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 - Renders a `<header>` (banner landmark). The pill, profile and cart are real buttons with names.
 - The status bar and the cart badge are `aria-hidden`; the count is part of the cart button's name instead.
 
+### Icon (icon library)
+
+Renders an icon from the library. Each icon is the original Figma SVG export, used as a CSS mask, so its colour comes from CSS and one file serves every colour.
+
+```ts
+export type IconName = 'bestseller' | 'check';
+
+export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
+  name: IconName;
+  size?: number;
+  color?: string;
+  label?: string;
+}
+```
+
+| Prop | Type | Required | Default | Behaviour |
+| --- | --- | --- | --- | --- |
+| `name` | `IconName` | yes | — | Which icon. |
+| `size` | `number` | no | native Figma size | Square size in px. |
+| `color` | `string` | no | the icon's Figma colour | Any CSS colour; use a token, e.g. `var(--icon-brand-coral)`, or `'currentColor'`. |
+| `label` | `string` | no | — | With a label: `role="img"` + `aria-label`. Without: `aria-hidden` (decorative). |
+| …rest | native `<span>` props | no | — | `className`, `style`, `ref`, … |
+
+#### Library contents
+
+| Name | Native size | Figma colour (default) | Figma source |
+| --- | --- | --- | --- |
+| `bestseller` | 14×14 | `--color-sunshine-yellow-300` #722902 | SKU › Bestseller Badge › Bestseller Icon |
+| `check` | 24×24 | `--icon-brand-primary-inverse` white | SKU › Add Action Button › check |
+
+Also exported: `icons` (registry with `src`, `width`, `height`, `defaultColor`, `figma` per icon) and `iconNames`.
+
+**Adding an icon:** export the SVG from Figma into `src/components/Icon/svg/` unchanged, add an entry to `icons.ts`, and add a row above.
+
+### SkuCard
+
+Product card. Implements the Figma “SKU” component set: large vertical, small vertical and small horizontal, each with an added state (6 variants).
+
+```ts
+export type SkuCardOrientation = 'vertical' | 'horizontal';
+
+export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'children'> {
+  large?: boolean;
+  orientation?: SkuCardOrientation;
+  added?: boolean;
+  tag?: boolean;
+  name: ReactNode;
+  quantity?: ReactNode;
+  imageSrc?: string;
+  imageAlt?: string;
+  deliveryTime?: ReactNode;
+  price: ReactNode;
+  mrp?: ReactNode;
+  discount?: ReactNode;
+  rating?: number | string;
+  ratingCount?: ReactNode;
+  offerPrice?: ReactNode;
+  offerText?: ReactNode;
+  offerCode?: ReactNode;
+  addedQuantity?: number;
+  onAdd?: () => void;
+  onAddedClick?: () => void;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `large` | `boolean` | no | `true` | `large` | Large: 132px card, full-width Add bar, ratings, offer. Small: 76px thumbnail with floating + / ✓ button. |
+| `orientation` | `'vertical' \| 'horizontal'` | no | `'vertical'` | `orientation` | Small only. Horizontal = 328px bordered row. Ignored when `large` (no large horizontal in Figma). |
+| `added` | `boolean` | no | `false` | `added?` | Added state: large shows “{n} added ⌄” on coral; small shows a coral ✓ button. |
+| `tag` | `boolean` | no | `true` | `tag` | Bestseller badge on the image (large only). |
+| `name` | `ReactNode` | yes | — | product name | Bold 14/18, clamped to 2 lines (39px). |
+| `quantity` | `ReactNode` | no | — | “250gm powder” | |
+| `imageSrc` / `imageAlt` | `string` | no | — / `''` | Product Image | 64×64 (large) or 76×76 (small), `object-fit: contain`. Without it, an empty white box as in Figma. |
+| `deliveryTime` | `ReactNode` | no | — | “30 mins” | With the lightning icon; large adds “Get in”. |
+| `price` | `ReactNode` | yes | — | “₹93” | |
+| `mrp` | `ReactNode` | no | — | “₹100” | Struck through; read as “Original price …”. |
+| `discount` | `ReactNode` | no | — | “7% off” | Same row as price (large) or below it (small). |
+| `rating` / `ratingCount` | `number \| string` / `ReactNode` | no | — | “4.2” / “(10K+)” | Large only. Badge read as “Rated 4.2”. |
+| `offerPrice` / `offerText` / `offerCode` | `ReactNode` | no | — / `'Use Code on cart'` / — | “₹75”, “PILGRIM20” | Large only; row shows when `offerPrice` is set. |
+| `addedQuantity` | `number` | no | `1` | “1 added” | Large only. |
+| `onAdd` | `() => void` | no | — | — | Add bar / + button while not added. |
+| `onAddedClick` | `() => void` | no | — | — | Added bar / ✓ button while added (e.g. open quantity controls). |
+| …rest | native `<article>` props | no | — | — | `className`, `ref`, `aria-*`, … |
+
+#### Styling (tokens; Figma values, see Known issues)
+
+| Part | Values |
+| --- | --- |
+| Card | radius `--radius-lg`; large: 132px, padding-bottom `--gap-12`; small vertical: 76px content, padding `--gap-12` 0; horizontal: 328px, padding `--gap-12`, inside stroke `--stroke-regular` #dbdbdb |
+| Image box | `--bg-brand-primary`, border `--stroke-regular` `--color-cool-neutral-100` #dbdbdb, radius `--radius-md`; large 132×100, padding `--gap-24` `--gap-16` |
+| Bestseller tag | `--color-sunshine-yellow-50` bg, `--color-sunshine-yellow-300` text + `Icon bestseller`, radius `--radius-xs`, 10/14 medium |
+| Add bar (large) | 44px, radius `--radius-md`, `--shadow-md`; add: `--bg-brand-primary`, border `--color-cool-neutral-200` #c4c4c4, `--text-brand-brand` 14/18 bold; added: `--bg-brand-coral`, white text, 20px white circle with coral chevron |
+| + / ✓ button (small) | 36×36 at (48, −11) over the image, radius `--radius-md`, `--shadow-md`; add: white, border #c4c4c4, coral plus; added: `--bg-brand-coral`, `Icon check` white |
+| Name / quantity | `--text-brand-primary` 14/18 bold / `--text-brand-tertiary` 12/14 medium |
+| Rating | badge `--color-wellness-green-100`, white 11/16 + star, radius `--radius-xs`; count #414752 12/16 |
+| Delivery | “Get in” `--text-brand-secondary` 11/16 medium; time `--color-healing-mauve-200` 12/18 semibold; 16px circle gradient #fefbff → #f9d4ff with lightning `--color-healing-mauve-200` |
+| Price | price `--text-brand-primary` 16/24 semibold; MRP `--text-brand-quartenary` 12/18 struck; discount `--text-success-base` 12/18 |
+| Offer | badge gradient `--color-comfort-pink-200` → `-300`, white 14/18 bold + chevron; text `--color-comfort-pink-200` 10/14 medium + code 12/18 semibold |
+
+Component variables in `SkuCard.css`: `--dp-sku-border`, `--dp-sku-control-border`, `--dp-sku-rating-count`, `--dp-sku-delivery-bg`.
+
+#### Accessibility
+
+- `<article>` per card. The Add / added controls are buttons: large uses its visible text (“Add”, “1 added”); small uses `aria-label` “Add to cart” / “Added to cart”.
+- Icons are hidden from screen readers; MRP and rating get hidden prefixes (“Original price”, “Rated”).
+- The image is decorative by default (`imageAlt=''`) because the name is shown as text.
+
 ---
 
 ## 4. Architecture and dependencies
@@ -350,6 +462,8 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 - **OtpField** has no child components. One `<input>` per digit plus an optional hidden input; `useRef` tracks the boxes and the latest code for focus handling.
 - **CounterBadge** has no child components.
 - **Header** uses **CounterBadge** for the cart count. Internal `StatusBar` (not exported) renders the illustrative status bar.
+- **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders.
+- **SkuCard** has internal `Delivery` and `Pricing` parts (not exported).
 - The InputField clear button and OtpField resend button are plain `<button>`s, not the `Button` component: their Figma designs are icon-only / text-link treatments that `Button` has no variant for.
 - **Runtime dependencies:** `react`, `react-dom`, `@fontsource/figtree` (font files).
 - **Styles chain:** `fonts.css` (Figtree 400/500/600/700) → `tokens.css` (CSS variables) → component CSS. Apps must import `fonts.css` and `tokens.css` once (done in `src/main.tsx` and `.storybook/preview.tsx`).
@@ -375,7 +489,7 @@ Tokens are generated from Figma by `npm run tokens` (`scripts/build-tokens.mjs`)
 | Gap | `--gap-{none,2,4,…,40}` | |
 | Shadows | `--shadow-{xs,s,md,lg,xl,xxl}` | |
 
-No dark theme, breakpoint tokens, animation tokens or icon library exist yet.
+Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint tokens or animation tokens exist yet.
 
 ---
 
@@ -398,6 +512,8 @@ No dark theme, breakpoint tokens, animation tokens or icon library exist yet.
 | `src/components/OtpField/OtpField.stories.tsx` | Components/OtpField | Playground, Rest, Rest (6 digits), Typing\*, Typed, Error, Success, Disabled\*, Resend OTP\*, WithHelper, Test: type full code\*, Test: paste code\*, Test: backspace\*, Controlled, AllStates (+ autodocs page) |
 | `src/components/CounterBadge/CounterBadge.stories.tsx` | Components/CounterBadge | Playground, Brand, Blue, Green, Green disabled, Large counts\*, With accessible label\*, All variants (+ autodocs page) |
 | `src/components/Header/Header.stories.tsx` | Components/Header | Playground, Without status bar, Without profile, Without cart, Empty cart, Short address, Label only, Test: buttons\*, Test: status bar hidden from screen readers\* (+ autodocs page) |
+| `src/components/Icon/Icon.stories.tsx` | Components/Icon | Playground, Library, Bestseller, Check, Recolour, Accessible\* (+ autodocs page) |
+| `src/components/SkuCard/SkuCard.stories.tsx` | Components/SkuCard | Playground, Large, Large added, Small, Small added, Horizontal, Horizontal added, Without bestseller tag, With image, Short name no offer, Interactive\*, Test: small buttons\*, Test: small added button\*, All variants (+ autodocs page) |
 
 \* has a `play` interaction test.
 
@@ -410,6 +526,10 @@ OtpField controls: `digits`, `status` (radio), `disabled` (boolean), `helperText
 CounterBadge controls: `count`, `max` (number), `colour` (radio), `disabled` (boolean), `aria-label` (text).
 
 Header controls: `statusBar`, `profile`, `cart` (boolean), `locationLabel`, `locationAddress` (text), `cartCount` (number), `onLocationClick`, `onProfileClick`, `onCartClick` (action spies).
+
+Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text).
+
+SkuCard controls: `large`, `added`, `tag` (boolean), `orientation` (radio), all content props (text / number), `onAdd`, `onAddedClick` (action spies).
 
 All controls map to real props.
 
@@ -441,6 +561,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-24 | **InputField** added (Figma node `40002019:3237`): props `label`, `helperText`, `status`, `clearable`, `onClear`, `wrapperClassName` + native input props. **OtpField** added (Figma node `40002019:3289`): props `digits`, `value`, `defaultValue`, `onChange`, `onComplete`, `status`, `disabled`, `helperText`, `onResend`, `resendPrompt`, `resendLabel`, `aria-label`, `autoFocus`, `name`, `className`. Stories with interaction tests. | `0306c92` |
 | 2026-11-24 | **InputField** disabled border changed from `--text-brand-disabled-subtle` (#969696) to `--border-neutrals-disabled` (#adadad), following the Figma update to node `40002019:3238`. No API change. | `d49cfe1` |
 | 2026-11-25 | **CounterBadge** added (Figma node `40002686:16677`): props `count`, `colour`, `disabled`, `max` + native span props. **Header** added (Figma node `40002686:16180`): props `statusBar`, `locationLabel`, `locationAddress`, `onLocationClick`, `profile`, `onProfileClick`, `cart`, `cartCount`, `onCartClick` + native header props. Stories with interaction tests. Values follow the Figma file exactly. | `591d882` |
+| 2026-11-25 | **Icon** library added with `bestseller` and `check` (Figma SVGs). **SkuCard** added (Figma node `40002750:10762`): props `large`, `orientation`, `added`, `tag`, `name`, `quantity`, `imageSrc`, `imageAlt`, `deliveryTime`, `price`, `mrp`, `discount`, `rating`, `ratingCount`, `offerPrice`, `offerText`, `offerCode`, `addedQuantity`, `onAdd`, `onAddedClick` + native article props. Values follow the Figma file exactly. Stories with interaction tests. | uncommitted |
 
 ---
 
@@ -454,6 +575,7 @@ Verified unless marked *assumption*.
   - OtpField: label-base 14/18, body-sm 12/18, Tag 11/16
   - CounterBadge: label-sm 12/14
   - Header: label-base 14/18
+  - SkuCard: label-base 14/18, label-sm 12/14, body-sm 12/18, body-lg 16/24, caption-base 11/16, caption-sm 10/14, Tag 11/16, Body/12 12/16
 
   Re-exporting these Figma text variables into `tokens.css` would let all components share them.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
@@ -478,6 +600,12 @@ Verified unless marked *assumption*.
 - **Header variants not built:** the private `.header` section also has Pageheader layouts `location`, `cart`, `PDP`, `HIH` and an `HIH` set (default / HIH PDP × filled), plus Statusbar `filled?=false`. The published Header only uses `usage=brand`, so only that is implemented.
 - **CounterBadge disabled for brand/blue** — *assumption:* Figma defines disabled for green only (and says it doesn't imply others); the same muted look is applied to any colour.
 - **CounterBadge `max`** is not a Figma property; added so large counts don't overflow the 16px design.
+- **SkuCard exact Figma values:** this Figma page resolves `border/neutrals/primary` to #dbdbdb (export: #f2f2f2) and `border/neutrals/secondary` to #c4c4c4 (export: #dbdbdb), so SkuCard uses `--color-cool-neutral-100` / `-200`. Colours with no token are kept in `SkuCard.css`: `Colour Usage/Text/Secondary` #414752 (rating count) and the delivery icon gradient `Colours/Healing Mauve/99` #fefbff → `/90` #f9d4ff. `tokens.css` is unchanged.
+- **SkuCard product image:** the Figma frame has no actual image (empty white box); `imageSrc` fills it with `object-fit: contain`. The small card's image fit/padding isn't specified in Figma — *assumption:* full box, contain.
+- **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
+- **SkuCard added behaviour:** per Figma, “added” must be set only after the cart confirms, and the chevron / ✓ actions are product-defined; the component just calls `onAddedClick`.
+- **SkuCard large text:** the Figma “Add” label in the added state is hidden by overflow in Figma; only “{n} added” is rendered.
+- **Icon library scope:** only `bestseller` and `check` are in the library. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, close, resend, header icons, plus, star, lightning, chevrons) are still per-component and could be moved into the library later.
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).

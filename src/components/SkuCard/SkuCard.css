@@ -1,0 +1,415 @@
+/*
+ * SkuCard — Figma: "SKU" component set (WIP - Dopamine Spike UPDATED, node 40002750:10762).
+ * Figma is the source of truth: every value matches the Figma variable it is labelled with.
+ * Where the token export has no token with that exact value, the Figma value is kept here.
+ * Text sizes are Figma variables not in the token export (see docs/MASTER.md → Known issues).
+ */
+.dp-sku {
+  --dp-sku-border: var(--color-cool-neutral-100); /* Figma border/neutrals/primary = #dbdbdb in this file */
+  --dp-sku-control-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-sku-rating-count: #414752; /* Figma Colour Usage/Text/Secondary (no token) */
+  --dp-sku-delivery-bg: linear-gradient(to bottom, #fefbff, #f9d4ff); /* Figma Colours/Healing Mauve/99 → /90 (no tokens) */
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-12);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+}
+
+.dp-sku p {
+  margin: 0;
+}
+
+/* :where() keeps this reset at zero specificity so component styles always win */
+:where(.dp-sku button) {
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-sku button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-sku__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Icons drawn from Figma SVGs (masks coloured by tokens) ---- */
+.dp-sku__mask {
+  display: block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask: var(--dp-sku-mask) center / contain no-repeat;
+}
+.dp-sku__mask--plus { --dp-sku-mask: url('./assets/plus.svg'); width: 24px; height: 24px; color: var(--icon-brand-coral); }
+.dp-sku__mask--star { --dp-sku-mask: url('./assets/star.svg'); width: 8px; height: 8px; color: var(--icon-brand-primary-inverse); }
+.dp-sku__mask--lightning { --dp-sku-mask: url('./assets/lightning.svg'); width: 12px; height: 12px; color: var(--color-healing-mauve-200); }
+.dp-sku__mask--offer-chevron { --dp-sku-mask: url('./assets/offer-chevron.svg'); width: 12px; height: 12px; color: var(--icon-brand-primary-inverse); }
+.dp-sku__mask--chevron { --dp-sku-mask: url('./assets/chevron-down.svg'); width: 20px; height: 20px; color: var(--icon-brand-coral); }
+
+/* ---- Shared text ---- */
+.dp-sku__name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  height: 39px;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 14px; /* Figma label-base/size */
+  line-height: 18px; /* Figma label-base/line-height */
+  color: var(--text-brand-primary);
+}
+
+.dp-sku__quantity {
+  font-weight: 500;
+  font-size: 12px; /* Figma label-sm */
+  line-height: 14px;
+  color: var(--text-brand-tertiary);
+}
+
+.dp-sku__delivery {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+  white-space: nowrap;
+}
+
+.dp-sku__delivery-prefix {
+  font-weight: 500;
+  font-size: 11px; /* Figma caption-base */
+  line-height: 16px;
+  color: var(--text-brand-secondary);
+}
+
+.dp-sku__delivery-time {
+  font-weight: 600;
+  font-size: 12px; /* Figma body-sm */
+  line-height: 18px;
+  color: var(--color-healing-mauve-200); /* Figma color/healing-mauve/200 */
+}
+
+.dp-sku__delivery-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--dp-sku-delivery-bg);
+}
+
+.dp-sku__delivery-icon .dp-sku__mask {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.dp-sku__pricing {
+  white-space: nowrap;
+}
+
+.dp-sku__pricing--stacked {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.dp-sku__price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--gap-4);
+}
+
+.dp-sku__price {
+  font-weight: 600;
+  font-size: 16px; /* Figma body-lg */
+  line-height: 24px;
+  color: var(--text-brand-primary);
+}
+
+.dp-sku__mrp {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-brand-quartenary);
+  text-decoration: line-through;
+}
+
+.dp-sku__discount {
+  font-weight: 400;
+  font-size: 12px; /* Figma body-sm */
+  line-height: 18px;
+  color: var(--text-success-base);
+}
+
+.dp-sku__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ================= Large (vertical) ================= */
+.dp-sku--large {
+  width: 132px;
+  overflow: hidden;
+  padding: var(--gap-none) var(--gap-none) var(--gap-12);
+}
+
+.dp-sku__media {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 100px;
+  padding: var(--gap-24) var(--gap-16);
+  overflow: hidden;
+  border: var(--stroke-regular) solid var(--dp-sku-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+}
+
+.dp-sku__media .dp-sku__image {
+  width: 64px;
+  height: 64px;
+}
+
+.dp-sku__tag {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+  padding: var(--gap-none) var(--gap-4);
+  border-radius: var(--radius-xs);
+  background: var(--color-sunshine-yellow-50); /* Figma color/sunshine-yellow/50 */
+  color: var(--color-sunshine-yellow-300); /* Figma color/sunshine-yellow/300 */
+  font-weight: 500;
+  font-size: 10px; /* Figma caption-sm */
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.dp-sku__add-bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;
+  padding: var(--gap-12);
+  border: var(--stroke-regular) solid var(--dp-sku-control-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+  box-shadow: var(--shadow-md); /* Figma effect "md" */
+  color: var(--text-brand-brand);
+  font-weight: 700;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.dp-sku--added .dp-sku__add-bar {
+  justify-content: space-between;
+  border-color: transparent;
+  background: var(--bg-brand-coral);
+  color: var(--text-brand-primary-inverse);
+}
+
+.dp-sku__added-chevron {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  border-radius: 16px; /* Figma */
+  background: var(--bg-brand-primary);
+}
+
+.dp-sku__added-chevron .dp-sku__mask {
+  position: absolute;
+  top: calc(50% + 1px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dp-sku__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  width: 100%;
+}
+
+.dp-sku__rating {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  width: 100%;
+}
+
+.dp-sku__rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  padding: var(--gap-none) var(--gap-2);
+  border-radius: var(--radius-xs); /* Figma Corner/Radius - 4 */
+  background: var(--color-wellness-green-100); /* Figma Color/Wellness Green/30 = #156437 */
+  color: var(--icon-brand-primary-inverse); /* Figma Color/Content Inverse/Primary = white */
+  font-weight: 400;
+  font-size: 11px; /* Figma Tag */
+  line-height: 16px;
+}
+
+.dp-sku__rating-count {
+  font-weight: 400;
+  font-size: 12px; /* Figma Body/12 */
+  line-height: 16px;
+  color: var(--dp-sku-rating-count);
+}
+
+.dp-sku__purchase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  width: 100%;
+}
+
+.dp-sku__offer {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+}
+
+.dp-sku__offer-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  padding: var(--gap-none) var(--gap-4);
+  border-radius: var(--radius-xs);
+  background: linear-gradient(to bottom, var(--color-comfort-pink-200), var(--color-comfort-pink-300));
+  color: var(--text-brand-primary-inverse);
+  font-weight: 700;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.dp-sku__offer-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-2);
+  color: var(--color-comfort-pink-200);
+  white-space: nowrap;
+}
+
+.dp-sku__offer-label {
+  font-weight: 500;
+  font-size: 10px; /* Figma caption-sm */
+  line-height: 14px;
+}
+
+.dp-sku__offer-code {
+  font-weight: 600;
+  font-size: 12px; /* Figma body-sm */
+  line-height: 18px;
+}
+
+/* ================= Small (compact vertical / horizontal) ================= */
+.dp-sku--compact {
+  padding: var(--gap-12) var(--gap-none);
+}
+
+.dp-sku--horizontal {
+  align-items: flex-start;
+  width: 328px;
+  padding: var(--gap-12);
+  overflow: hidden;
+  /* Inside stroke, like Figma, so the card stays 149px tall */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--dp-sku-border);
+}
+
+.dp-sku__content {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.dp-sku--compact .dp-sku__content {
+  flex-direction: column;
+  gap: var(--gap-12);
+  width: 76px;
+}
+
+.dp-sku--horizontal .dp-sku__content {
+  gap: var(--gap-14);
+  width: 100%;
+}
+
+.dp-sku__thumb {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+  overflow: hidden;
+  border: var(--stroke-regular) solid var(--dp-sku-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+}
+
+.dp-sku__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-4);
+  min-width: 0;
+}
+
+.dp-sku--compact .dp-sku__details {
+  width: 100%;
+}
+
+.dp-sku--horizontal .dp-sku__details {
+  flex: 1;
+}
+
+.dp-sku__add-fab {
+  position: absolute;
+  top: -11px;
+  left: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  overflow: hidden;
+  border: var(--stroke-regular) solid var(--dp-sku-control-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+  box-shadow: var(--shadow-md); /* Figma effect "md" */
+}
+
+.dp-sku--added .dp-sku__add-fab {
+  border-color: transparent;
+  background: var(--bg-brand-coral);
+}

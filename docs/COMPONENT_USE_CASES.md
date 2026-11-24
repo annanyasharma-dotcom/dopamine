@@ -505,3 +505,163 @@ import { Header } from './components';
 - Only the `brand` layout is built; other Figma page-header layouts aren't.
 - The status bar shows fixed sample values (5:13, battery 76).
 - Some colours are exact Figma values with no matching token yet (see MASTER.md → Known issues).
+
+---
+
+## Icon
+
+**Purpose:** show an icon from the shared icon library, coloured with a token.
+
+### When to use
+
+- Any time you need `bestseller` or `check` (more icons will be added to the library over time).
+- When you need the same icon in different colours: one file, coloured with `color`.
+
+### When not to use
+
+- **Icons that aren't in the library yet:** don't paste SVG markup into a component. Add the Figma export to the library instead (see MASTER.md → Icon → Adding an icon).
+- **Photos or multi-colour illustrations:** the library draws one-colour icons only.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `name` | **yes** | — | `bestseller`, `check` |
+| `size` | no | Figma size (14, 24) | px |
+| `color` | no | Figma colour | CSS colour or token, or `currentColor` |
+| `label` | no | — (decorative) | accessible name |
+
+### Examples
+
+```tsx
+import { Icon } from './components';
+
+<Icon name="bestseller" />                                  // 14px, #722902 as in Figma
+<Icon name="check" color="var(--icon-brand-primary-inverse)" /> // white check on a coral button
+<Icon name="check" color="var(--icon-success-base)" label="Verified" /> // meaningful icon
+<span style={{ color: 'var(--text-brand-brand)' }}>
+  <Icon name="check" size={16} color="currentColor" /> Saved
+</span>
+```
+
+### Accessibility
+
+- Decorative by default (`aria-hidden`). Pass `label` only when the icon is the only thing carrying the meaning.
+- When the icon sits next to text that says the same thing, leave `label` off.
+
+### Common mistakes
+
+- ❌ Hardcoding a hex in `color`. Use a token.
+- ❌ Giving a decorative icon a `label`, so screen readers say it twice.
+
+---
+
+## SkuCard
+
+**Purpose:** show a product with its price and delivery time, plus an add-to-cart control.
+
+### When to use (Figma guidance)
+
+| Variant | Props | Use for |
+| --- | --- | --- |
+| Large vertical | `large` (default) | Inline widgets and category results in Spotlight search: the richest format, with ratings and coupon. |
+| Small vertical | `large={false}` | Compact lists such as previously ordered items. |
+| Small horizontal | `large={false} orientation="horizontal"` | Ad widgets and suggestions on search/category pages. |
+
+### When not to use
+
+- **Full product details:** this is a card for lists; use a product page.
+- **Showing “added” before the cart confirms.** Figma: switch to the added state only after success.
+
+### Properties
+
+| Prop | Required | Default | Notes |
+| --- | --- | --- | --- |
+| `name` | **yes** | — | 2 lines max |
+| `price` | **yes** | — | formatted string, e.g. “₹93” |
+| `large` | no | `true` | |
+| `orientation` | no | `'vertical'` | small only |
+| `added` | no | `false` | |
+| `tag` | no | `true` | bestseller badge, large only |
+| `quantity`, `imageSrc`, `imageAlt`, `deliveryTime`, `mrp`, `discount` | no | — | |
+| `rating`, `ratingCount`, `offerPrice`, `offerText`, `offerCode`, `addedQuantity` | no | — (`offerText` “Use Code on cart”, `addedQuantity` 1) | large only |
+| `onAdd`, `onAddedClick` | no | — | |
+
+> `tag` defaults to `true` (as in Figma), so the Bestseller badge shows unless you pass `tag={false}`. Only show it for products that really are bestsellers.
+
+### Behaviour
+
+- Not added: the Add bar (large) or + button (small) calls `onAdd`.
+- Added: “{n} added ⌄” (large) or ✓ (small) calls `onAddedClick`. What it does (quantity stepper, remove) is up to your flow (Figma guidance).
+- Prices and discounts are display strings; format currency before passing them in.
+- Missing optional fields are simply not rendered (no rating row without `rating`, no offer row without `offerPrice`).
+
+### Dependencies
+
+- `Icon` (bestseller, check).
+
+### Examples
+
+```tsx
+import { SkuCard } from './components';
+
+// Large card in a widget, synced with the cart
+const qty = cart.quantityOf(p.id);
+<SkuCard
+  name={p.name}
+  quantity={p.packSize}
+  imageSrc={p.image}
+  deliveryTime="30 mins"
+  price={formatINR(p.price)}
+  mrp={formatINR(p.mrp)}
+  discount={`${p.discountPct}% off`}
+  rating={p.rating}
+  ratingCount={`(${p.ratingCountLabel})`}
+  offerPrice={formatINR(p.couponPrice)}
+  offerCode={p.couponCode}
+  tag={p.isBestseller}
+  added={qty > 0}
+  addedQuantity={qty}
+  onAdd={async () => { await cart.add(p.id); }}
+  onAddedClick={() => openQuantitySheet(p.id)}
+/>
+
+// Previously ordered list
+<div style={{ display: 'flex', gap: 'var(--gap-16)', overflowX: 'auto' }}>
+  {orders.map((p) => (
+    <SkuCard key={p.id} large={false} name={p.name} quantity={p.packSize} price={formatINR(p.price)}
+      deliveryTime="30 mins" added={cart.has(p.id)} onAdd={() => cart.add(p.id)} />
+  ))}
+</div>
+
+// Ad / suggestion row
+<SkuCard large={false} orientation="horizontal" name={p.name} price={formatINR(p.price)} mrp={formatINR(p.mrp)} onAdd={() => cart.add(p.id)} />
+```
+
+### Composition
+
+- Lay out large and small vertical cards in a horizontal scroller or grid; the cards have fixed widths (132px / 76px).
+- Leave about 12px of space above small cards: the + button sits 11px above the image.
+
+### Responsive
+
+- Fixed widths: large 132px, small vertical 76px, horizontal 328px. Wrap them in a grid or scroller to adapt to the screen.
+
+### Accessibility
+
+- Each card is an `<article>`. Buttons are named “Add” / “1 added” (large) and “Add to cart” / “Added to cart” (small).
+- The image is decorative by default; pass `imageAlt` only if the image adds information the name doesn't.
+- Contrast: the coral “Add” text on white and white on coral are about 3.2:1 (same token issue as Button; see MASTER.md).
+
+### Common mistakes
+
+- ❌ Leaving `tag` on for every product.
+- ❌ Setting `added` optimistically before the cart call succeeds.
+- ❌ Passing raw numbers for prices (`price={93}` renders “93”, without the ₹).
+- ❌ Using `orientation="horizontal"` with `large`: it's ignored, since Figma has no large horizontal card.
+
+### Edge cases and limitations
+
+- Names longer than 2 lines are cut with “…”.
+- No quantity stepper or remove control; `onAddedClick` is where your flow handles that.
+- Some colours are exact Figma values without tokens yet (see MASTER.md → Known issues).

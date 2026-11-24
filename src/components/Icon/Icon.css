@@ -1,0 +1,8 @@
+/* Icon — renders a library SVG as a mask so its colour comes from CSS (tokens). */
+.dp-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  background-color: var(--dp-icon-color);
+  mask: var(--dp-icon-src) center / contain no-repeat;
+}
