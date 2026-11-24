@@ -1,0 +1,207 @@
+/*
+ * Header — Figma: "Header" component (WIP - Dopamine Spike UPDATED, node 40002686:16180),
+ * built from the private ".header" parts: Statusbar (filled) and Pageheader (usage=brand).
+ *
+ * Figma is the source of truth: every value below matches the Figma variable it is labelled with.
+ * Where the token export has no token with the same value, the exact Figma value is kept here
+ * (see docs/MASTER.md → Known issues).
+ */
+.dp-header {
+  --dp-header-text-size: 14px; /* Figma label-base/size */
+  --dp-header-text-line: 18px; /* Figma label-base/line-height */
+  --dp-header-pill-bg: #fffbfa; /* Figma Color/Sunrise Glow/99 (no token) */
+  --dp-header-pill-border: #fee9e1; /* Figma Color/Sunrise Glow/97 (no token) */
+  --dp-header-address: #262b34; /* Figma address text (raw colour, no variable) */
+  --dp-header-profile-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-header-cart-border: #dde2eb; /* Figma Color/Stroke/Subtle (no token) */
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--bg-brand-primary);
+  font-family: var(--font-family-base);
+}
+
+/* ---- Illustrative status bar ---- */
+.dp-header__status {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: var(--gap-none) var(--gap-16);
+  background: var(--bg-brand-primary);
+}
+
+.dp-header__status-time {
+  color: var(--text-brand-primary);
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif; /* Figma: SF Pro Text Semibold 15 */
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.165px;
+}
+
+.dp-header__status-icons {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap-8);
+}
+
+.dp-header__status-icons img {
+  display: block;
+}
+
+.dp-header__battery {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 13px;
+}
+
+.dp-header__battery-end {
+  position: absolute;
+  top: 4.81px;
+  left: 23.2px;
+}
+
+.dp-header__battery-level {
+  position: absolute;
+  top: 0;
+  left: 11.9px;
+  width: 7.733px;
+  color: var(--text-brand-primary-inverse);
+  font-family: -apple-system, 'SF Pro Text', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.06px;
+  text-align: center;
+}
+
+/* ---- Page header (usage=brand) ---- */
+.dp-header__bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+  padding: var(--gap-8) var(--gap-16);
+}
+
+button.dp-header__location,
+button.dp-header__circle {
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.dp-header__location:focus-visible,
+button.dp-header__circle:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+/* Location pill */
+.dp-header__location {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  padding: var(--gap-10) var(--gap-8);
+  border: 0;
+  border-radius: var(--radius-full);
+  /* Inside stroke, like Figma, so the pill is 40px tall */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--dp-header-pill-border);
+  background: var(--dp-header-pill-bg);
+  text-align: left;
+}
+
+.dp-header__location-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  font-size: var(--dp-header-text-size);
+  line-height: var(--dp-header-text-line);
+}
+
+.dp-header__location-label {
+  flex-shrink: 0;
+  color: var(--text-brand-primary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dp-header__location-address {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--dp-header-address);
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Profile and cart circles */
+.dp-header__circle {
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: var(--stroke-regular) solid;
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-primary);
+}
+
+.dp-header__circle--profile {
+  border-color: var(--dp-header-profile-border);
+  background: var(--icon-brand-primary-inverse); /* Figma Avatar Background */
+}
+
+.dp-header__circle--cart {
+  border-color: var(--dp-header-cart-border);
+}
+
+/* Figma's cart badge: 16px, bg/brand/coral, radius/md, 10/12 bold white text (CounterBadge with Figma's header sizing) */
+.dp-header .dp-header__cart-badge {
+  position: absolute;
+  top: -1px; /* Figma: badge at the top edge of the 40px circle (border included) */
+  left: 23px;
+  border-radius: var(--radius-md);
+  font-size: 10px;
+  line-height: 12px;
+}
+
+/* Icons: Figma SVGs used as masks, coloured with icon tokens */
+.dp-header__icon {
+  flex-shrink: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: var(--icon-brand-primary);
+  mask: var(--dp-header-icon) center / var(--dp-header-icon-size, 20px 20px) no-repeat;
+}
+
+.dp-header__icon--location {
+  --dp-header-icon: url('./assets/location.svg');
+  background-color: var(--icon-brand-coral);
+}
+
+.dp-header__icon--chevron {
+  --dp-header-icon: url('./assets/chevron-down.svg');
+}
+
+.dp-header__icon--person {
+  --dp-header-icon: url('./assets/person.svg');
+  --dp-header-icon-size: 13.3333px 13.3333px;
+}
+
+.dp-header__icon--bag {
+  --dp-header-icon: url('./assets/bag.svg');
+  --dp-header-icon-size: 13.4955px 16.75px;
+}

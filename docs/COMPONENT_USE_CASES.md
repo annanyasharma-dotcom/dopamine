@@ -335,3 +335,173 @@ const [status, setStatus] = useState<'default' | 'success' | 'error'>('default')
 - Digits only; letters can't be entered.
 - Deleting a middle digit shifts later digits left.
 - Error and success colours use the current semantic tokens, which differ slightly from the legacy colours in the Figma OTP frame (see MASTER.md → Known issues).
+
+---
+
+## CounterBadge
+
+**Purpose:** a small number that counts something next to an icon, tab or label (cart items, unread messages, notifications).
+
+### When to use
+
+| Colour | Use for | Figma guidance |
+| --- | --- | --- |
+| `brand` | The main count with brand emphasis. | Coral doesn't automatically mean error or urgency. |
+| `blue` | A count in a product-defined blue / informational category. | The name doesn't define meaning; say what's counted. |
+| `green` | A count in a product-defined green category (e.g. completed). | Green alone doesn't prove success. |
+| `disabled` | A muted count when its parent control is unavailable. | Keep the number accurate; explain unavailability around it. |
+
+### When not to use
+
+- **Status without a number** (online dot, “new” label): this component always shows a number.
+- **Zero:** hide the badge instead of showing 0 (as `Header` does).
+- **Long text:** it's for numbers only.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `count` | **yes** | — | number |
+| `colour` | no | `'brand'` | `brand`, `blue`, `green` |
+| `disabled` | no | `false` | boolean |
+| `max` | no | `99` | counts above show as “99+” |
+| `aria-label` | no | — | what is counted, e.g. “3 unread messages” |
+| native `<span>` props | no | — | `className`, `aria-hidden`, `ref`, … |
+
+### Behaviour
+
+- Display only; no interaction.
+- One digit: 16px circle. Two or more: widens into a pill. Above `max`: “{max}+”.
+
+### Examples
+
+```tsx
+import { CounterBadge } from './components';
+
+// Next to a label
+<span>Messages <CounterBadge count={unread} aria-label={`${unread} unread messages`} /></span>
+
+// Hide at zero
+{items > 0 && <CounterBadge count={items} />}
+
+// Category count
+<CounterBadge colour="green" count={completed} aria-label={`${completed} completed`} />
+
+// Inside a button that already says the count: hide the badge from screen readers
+<button aria-label={`Cart, ${n} items`}><BagIcon /><CounterBadge count={n} aria-hidden="true" /></button>
+```
+
+### Composition
+
+- Position it on an icon with your own wrapper (`position: relative` on the icon, `position: absolute` on the badge), as `Header` does for the cart.
+- Use one colour per meaning across the product.
+
+### Responsive
+
+- Fixed 16px height at all screen sizes.
+
+### Accessibility
+
+- A bare number means nothing to a screen reader. Give it an `aria-label`, or put the count in the parent control's name and set `aria-hidden` on the badge.
+- Don't rely on colour to explain the category (Figma guidance).
+- Contrast: white on coral is about 3.2:1 (same token issue as Button; see MASTER.md).
+
+### Common mistakes
+
+- ❌ Showing “0”.
+- ❌ Using `green` to mean “verified” without explaining it.
+- ❌ Leaving the badge unlabelled when it's the only place the count appears.
+
+### Edge cases and limitations
+
+- Disabled styling for brand/blue isn't in Figma; they use the same muted look as green disabled.
+- Negative numbers aren't handled specially.
+
+---
+
+## Header
+
+**Purpose:** the top app bar for brand-level screens. It shows the current delivery location, with profile and cart access.
+
+### When to use
+
+- Home or other top-level screens where the delivery destination should stay visible (Figma: Pageheader `usage=brand`).
+
+### When not to use
+
+- **Inner pages** (cart, product detail, HIH): Figma has separate page-header layouts for those (`cart`, `PDP`, `HIH`, `location`) that aren't built yet.
+- **Real apps on a phone:** don't turn on `statusBar`; the device draws its own.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `locationLabel` | **yes** | — | e.g. “Office”, “Home” |
+| `locationAddress` | no | — | address; truncated with “…” |
+| `onLocationClick` | no | — | open the address picker |
+| `profile` | no | `true` | show the profile button |
+| `onProfileClick` | no | — | |
+| `cart` | no | `true` | show the cart button |
+| `cartCount` | no | — | badge number; hidden at 0 |
+| `onCartClick` | no | — | |
+| `statusBar` | no | `false` | illustrative phone status bar (mock-ups only) |
+| native `<header>` props | no | — | `className`, `ref`, … |
+
+### Behaviour
+
+- The location pill, profile and cart are buttons; each calls its handler.
+- The cart badge appears when `cartCount` > 0 and uses `CounterBadge`.
+- Long addresses are cut with “…”; the name always shows in full.
+- Address selection, navigation and the cart count's source are up to your product flow (Figma guidance).
+
+### Dependencies
+
+- `CounterBadge` (cart count).
+
+### Examples
+
+```tsx
+import { Header } from './components';
+
+<Header
+  locationLabel="Office"
+  locationAddress={address.line1}
+  onLocationClick={openAddressPicker}
+  onProfileClick={() => navigate('/account')}
+  cartCount={cart.items.length}
+  onCartClick={() => navigate('/cart')}
+/>
+
+// Before the user has chosen an address
+<Header locationLabel="Select delivery location" onLocationClick={openAddressPicker} cart={false} />
+
+// Prototype / mock-up screenshot with the phone status bar
+<Header statusBar locationLabel="Office" locationAddress="3rd floor, Motorola Building" cartCount={3} />
+```
+
+### Composition
+
+- Place it at the top of the screen; for a sticky header, wrap it or pass `className` with `position: sticky; top: 0`.
+- Don't add other buttons inside it; it has no slots.
+
+### Responsive
+
+- Fills its container's width. The location pill takes the remaining space and truncates the address; the 40px buttons stay fixed. Designed at 360px wide.
+
+### Accessibility
+
+- Renders a `<header>` landmark.
+- Buttons are named “Profile” and “Cart” / “Cart, 3 items”. The pill's name is its visible text.
+- The status bar is hidden from screen readers.
+
+### Common mistakes
+
+- ❌ Leaving `statusBar` on in production.
+- ❌ Passing the count to a separate badge instead of `cartCount` (the cart button's accessible name wouldn't include it).
+- ❌ Using sample text (“Office”, “3rd floor, Motorola…”) in production.
+
+### Edge cases and limitations
+
+- Only the `brand` layout is built; other Figma page-header layouts aren't.
+- The status bar shows fixed sample values (5:13, battery 76).
+- Some colours are exact Figma values with no matching token yet (see MASTER.md → Known issues).

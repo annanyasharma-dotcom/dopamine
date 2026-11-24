@@ -26,6 +26,8 @@ scripts/build-tokens.mjs   Figma export → tokens.css / tokens.json
 src/
   components/          One folder per component; index.ts re-exports all
     Button/            Button.tsx, Button.css, Button.stories.tsx, index.ts, assets/
+    CounterBadge/      CounterBadge.tsx, CounterBadge.css, CounterBadge.stories.tsx, index.ts
+    Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
     InputField/        InputField.tsx, InputField.css, InputField.stories.tsx, index.ts, assets/
     OtpField/          OtpField.tsx, OtpField.css, OtpField.stories.tsx, index.ts, assets/
   foundations/         Storybook pages documenting tokens (not shipped components)
@@ -55,7 +57,10 @@ src/
 | InputField | Forms | `src/components/InputField/InputField.tsx` | `InputField` (named + default), types `InputFieldProps`, `InputFieldStatus` | tokens.css, fonts.css, `assets/close.svg` | `40002019:3237` |
 | OtpField | Forms | `src/components/OtpField/OtpField.tsx` | `OtpField` (named + default), types `OtpFieldProps`, `OtpFieldDigits`, `OtpFieldStatus` | tokens.css, fonts.css, `assets/resend.svg` | `40002019:3289` |
 
-Import: `import { Button, InputField, OtpField } from './components';` (or each component's folder).
+| CounterBadge | Data display | `src/components/CounterBadge/CounterBadge.tsx` | `CounterBadge` (named + default), types `CounterBadgeProps`, `CounterBadgeColour` | tokens.css, fonts.css | `40002686:16677` |
+| Header | Navigation | `src/components/Header/Header.tsx` | `Header` (named + default), type `HeaderProps` | **CounterBadge**, tokens.css, fonts.css, `assets/*.svg` (8 icons) | `40002686:16180` |
+
+Import: `import { Button, CounterBadge, Header, InputField, OtpField } from './components';` (or each component's folder).
 
 ---
 
@@ -253,6 +258,89 @@ Boxes 44×44, padding `--gap-12`, radius `--radius-md`, background `--bg-brand-p
 
 Text (component variables): digits 14/18 semibold, helper 11/16 regular, resend row 12/18 (prompt regular, action semibold).
 
+### CounterBadge
+
+Small numeric count in a 16px coloured circle. Implements the Figma “Counter badge” component set (brand, blue, green, green disabled).
+
+```ts
+export type CounterBadgeColour = 'brand' | 'blue' | 'green';
+
+export interface CounterBadgeProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
+  count: number;
+  colour?: CounterBadgeColour;
+  disabled?: boolean;
+  max?: number;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `count` | `number` | yes | — | “3” text layer | Number shown. |
+| `colour` | `'brand' \| 'blue' \| 'green'` | no | `'brand'` | `colour` | Background colour (see below). |
+| `disabled` | `boolean` | no | `false` | `disabled?` | Muted grey treatment. |
+| `max` | `number` | no | `99` | — (added) | Counts above `max` show as “{max}+”, so the badge stays small. |
+| `aria-label` | `string` | no | — | — | When set, the badge gets `role="img"` and is announced as the label (e.g. “3 unread messages”). |
+| …rest | native `<span>` props | no | — | — | `className`, `ref`, `aria-hidden`, etc. |
+
+| Colour | Background | Text |
+| --- | --- | --- |
+| brand | `--bg-brand-coral` | `--bg-brand-primary` (Figma uses this bg token, white, for the number) |
+| blue | `--color-precision-blue-100` (primitive; Figma uses the primitive too) | same |
+| green | `--color-wellness-green-100` (primitive; as Figma) | same |
+| disabled (any colour) | `--color-cool-neutral-50` #f2f2f2 | `--color-cool-neutral-300` #adadad |
+
+Size: min-width 16px, height 16px, horizontal padding `--gap-4`, radius `--radius-full`. Text 12/14 bold (Figma label-sm, component values), tabular numbers. Two-digit counts widen into a pill.
+
+### Header
+
+App header: optional illustrative status bar, then a 56px bar with a delivery-location pill, a profile button and a cart button with a count badge. Implements the published Figma “Header” component (Statusbar *filled* + Pageheader *usage=brand*).
+
+```ts
+export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'children'> {
+  statusBar?: boolean;
+  locationLabel: ReactNode;
+  locationAddress?: ReactNode;
+  onLocationClick?: () => void;
+  profile?: boolean;
+  onProfileClick?: () => void;
+  cart?: boolean;
+  cartCount?: number;
+  onCartClick?: () => void;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `statusBar` | `boolean` | no | **`false`** | `statusBar` (default true in Figma) | Shows the illustrative status bar (5:13, signal, wifi, battery 76). Off by default because Figma's guidance says to let the OS draw the real one. `aria-hidden`. |
+| `locationLabel` | `ReactNode` | yes | — | “Office” | Bold name in the pill. |
+| `locationAddress` | `ReactNode` | no | — | “3rd floor, Motorola…” | Regular text after the name, truncated with “…”. |
+| `onLocationClick` | `() => void` | no | — | — | The pill is a `<button>`; open your address picker here. |
+| `profile` | `boolean` | no | `true` | `profile` | Shows the profile button. |
+| `onProfileClick` | `() => void` | no | — | — | Profile button handler (`aria-label="Profile"`). |
+| `cart` | `boolean` | no | `true` | `cart` | Shows the cart button. |
+| `cartCount` | `number` | no | — | badge “3” | Badge count (uses `CounterBadge`); hidden when 0 or unset. |
+| `onCartClick` | `() => void` | no | — | — | Cart button handler. Accessible name “Cart” or “Cart, N items”. |
+| `className`, `ref`, …rest | native `<header>` props | no | — | — | Passed to the `<header>` element. |
+
+#### Styling (tokens)
+
+| Part | Tokens |
+| --- | --- |
+| Header / status bar background | `--bg-brand-primary` |
+| Bar | padding `--gap-8` `--gap-16`, gap `--gap-8`, 56px tall |
+| Location pill | background #fffbfa (Figma Color/Sunrise Glow/99), inside stroke `--stroke-regular` #fee9e1 (Figma Color/Sunrise Glow/97), radius `--radius-full`, padding `--gap-10` `--gap-8`, gap `--gap-4`, 40px tall |
+| Location icon / chevron | `--icon-brand-coral` / `--icon-brand-primary` (20px) |
+| Name / address | `--text-brand-primary` bold / #262b34 regular (Figma raw colour), 14/18 |
+| Profile circle | 40px, background `--icon-brand-primary-inverse`, border `--stroke-regular` `--color-cool-neutral-200` #c4c4c4 (Figma border/neutrals/secondary in this file), person icon `--icon-brand-primary` |
+| Cart circle | 40px, background `--bg-brand-primary`, border #dde2eb (Figma Color/Stroke/Subtle), bag icon `--icon-brand-primary`, `CounterBadge` at the top-right with Figma's header sizing: 10/12 bold text, `--radius-md` |
+| Status bar | 44px, padding `--gap-16`, time 15px semibold (SF Pro / system font), Figma icons as images |
+| Focus ring | `--stroke-thick` `--border-info-moderate` on the pill and circle buttons |
+
+#### Accessibility
+
+- Renders a `<header>` (banner landmark). The pill, profile and cart are real buttons with names.
+- The status bar and the cart badge are `aria-hidden`; the count is part of the cart button's name instead.
+
 ---
 
 ## 4. Architecture and dependencies
@@ -260,6 +348,8 @@ Text (component variables): digits 14/18 semibold, helper 11/16 regular, resend 
 - **Button** has no child components. Internal `IconSlot` (not exported) renders the 24px icon slots.
 - **InputField** has no child components. Uses `useId` for label/helper ids and `useState` for uncontrolled values.
 - **OtpField** has no child components. One `<input>` per digit plus an optional hidden input; `useRef` tracks the boxes and the latest code for focus handling.
+- **CounterBadge** has no child components.
+- **Header** uses **CounterBadge** for the cart count. Internal `StatusBar` (not exported) renders the illustrative status bar.
 - The InputField clear button and OtpField resend button are plain `<button>`s, not the `Button` component: their Figma designs are icon-only / text-link treatments that `Button` has no variant for.
 - **Runtime dependencies:** `react`, `react-dom`, `@fontsource/figtree` (font files).
 - **Styles chain:** `fonts.css` (Figtree 400/500/600/700) → `tokens.css` (CSS variables) → component CSS. Apps must import `fonts.css` and `tokens.css` once (done in `src/main.tsx` and `.storybook/preview.tsx`).
@@ -306,6 +396,8 @@ No dark theme, breakpoint tokens, animation tokens or icon library exist yet.
 
 | `src/components/InputField/InputField.stories.tsx` | Components/InputField | Playground, Rest, Active\*, Typing\*, Typed, Success, Error\*, Disabled\*, WithoutHelper, NotRequired, ClearValue\*, Controlled\*, AllStates (+ autodocs page) |
 | `src/components/OtpField/OtpField.stories.tsx` | Components/OtpField | Playground, Rest, Rest (6 digits), Typing\*, Typed, Error, Success, Disabled\*, Resend OTP\*, WithHelper, Test: type full code\*, Test: paste code\*, Test: backspace\*, Controlled, AllStates (+ autodocs page) |
+| `src/components/CounterBadge/CounterBadge.stories.tsx` | Components/CounterBadge | Playground, Brand, Blue, Green, Green disabled, Large counts\*, With accessible label\*, All variants (+ autodocs page) |
+| `src/components/Header/Header.stories.tsx` | Components/Header | Playground, Without status bar, Without profile, Without cart, Empty cart, Short address, Label only, Test: buttons\*, Test: status bar hidden from screen readers\* (+ autodocs page) |
 
 \* has a `play` interaction test.
 
@@ -314,6 +406,10 @@ Button controls: `children` (text), `variant` (radio), `size` (radio), `disabled
 InputField controls: `label`, `placeholder`, `helperText`, `defaultValue` (text), `status` (radio), `required`, `disabled`, `clearable` (boolean), `onChange`, `onClear` (action spies). `value` is shown in the Controlled story.
 
 OtpField controls: `digits`, `status` (radio), `disabled` (boolean), `helperText`, `defaultValue`, `resendPrompt`, `resendLabel` (text), `onChange`, `onComplete` (action spies). `value` and `onResend` are shown in the Controlled and Resend OTP stories.
+
+CounterBadge controls: `count`, `max` (number), `colour` (radio), `disabled` (boolean), `aria-label` (text).
+
+Header controls: `statusBar`, `profile`, `cart` (boolean), `locationLabel`, `locationAddress` (text), `cartCount` (number), `onLocationClick`, `onProfileClick`, `onCartClick` (action spies).
 
 All controls map to real props.
 
@@ -344,6 +440,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-24 | **Button** added (Figma node `40002646:30877`): props `children`, `variant`, `size`, `disabled`, `leftIcon`, `rightIcon` + native button props; stories with interaction tests; docs files created | `4d49fd8` |
 | 2026-11-24 | **InputField** added (Figma node `40002019:3237`): props `label`, `helperText`, `status`, `clearable`, `onClear`, `wrapperClassName` + native input props. **OtpField** added (Figma node `40002019:3289`): props `digits`, `value`, `defaultValue`, `onChange`, `onComplete`, `status`, `disabled`, `helperText`, `onResend`, `resendPrompt`, `resendLabel`, `aria-label`, `autoFocus`, `name`, `className`. Stories with interaction tests. | `0306c92` |
 | 2026-11-24 | **InputField** disabled border changed from `--text-brand-disabled-subtle` (#969696) to `--border-neutrals-disabled` (#adadad), following the Figma update to node `40002019:3238`. No API change. | `d49cfe1` |
+| 2026-11-25 | **CounterBadge** added (Figma node `40002686:16677`): props `count`, `colour`, `disabled`, `max` + native span props. **Header** added (Figma node `40002686:16180`): props `statusBar`, `locationLabel`, `locationAddress`, `onLocationClick`, `profile`, `onProfileClick`, `cart`, `cartCount`, `onCartClick` + native header props. Stories with interaction tests. Values follow the Figma file exactly. | uncommitted |
 
 ---
 
@@ -355,8 +452,10 @@ Verified unless marked *assumption*.
   - Button: body-base 14/20, body-lg 16/24
   - InputField: label-base 14/18, label-sm 12/14, caption-base 11/16
   - OtpField: label-base 14/18, body-sm 12/18, Tag 11/16
+  - CounterBadge: label-sm 12/14
+  - Header: label-base 14/18
 
-  Re-exporting these Figma text variables into `tokens.css` would let all three share them.
+  Re-exporting these Figma text variables into `tokens.css` would let all components share them.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
   - `Color/States/Error` #a3111e → `--border-error-moderate` / `--text-error-base` #c50f1f
   - `Color/States/Success` #308956 → `--border-success-moderate` / `--text-success-base` #156437
@@ -367,6 +466,18 @@ Verified unless marked *assumption*.
 - **InputField clear button is always shown** when `clearable` (as in Figma), including on an empty field.
 - **InputField `required` defaults to false**, while the Figma component always shows the asterisk. Pass `required` to match.
 - **OtpField is digits-only** and fills left to right; deleting a middle digit shifts later digits left.
+- **Figma is the source of truth for CounterBadge and Header.** This Figma page resolves some semantic variables differently from the token export, and the Header uses colours with no token. These two components use Figma's exact values, without changing `tokens.css` or other components:
+  - `bg/brand/disabled-subtle` #f2f2f2 → `--color-cool-neutral-50` (export's semantic token is #dbdbdb)
+  - `text/brand/disabled-subtle` #adadad → `--color-cool-neutral-300` (export: #969696)
+  - `border/neutrals/secondary` #c4c4c4 → `--color-cool-neutral-200` (export: #dbdbdb)
+  - `Color/Sunrise Glow/99` #fffbfa, `Color/Sunrise Glow/97` #fee9e1, `Color/Stroke/Subtle` #dde2eb and the raw address colour #262b34 have no token, so they're kept as `--dp-header-*` variables in `Header.css`.
+
+  Re-exporting the tokens from this Figma file (and adding the missing colours) would let these move back to semantic tokens.
+- **Header cart badge** in Figma is a detached frame (10/12 text, radius md) rather than a Counter badge instance. The code reuses `CounterBadge` and applies Figma's header sizing to it.
+- **Header `statusBar` defaults to false** in code (Figma default true), per Figma's own guidance that the OS should draw the status bar. Its values (5:13, battery 76) are fixed samples.
+- **Header variants not built:** the private `.header` section also has Pageheader layouts `location`, `cart`, `PDP`, `HIH` and an `HIH` set (default / HIH PDP × filled), plus Statusbar `filled?=false`. The published Header only uses `usage=brand`, so only that is implemented.
+- **CounterBadge disabled for brand/blue** — *assumption:* Figma defines disabled for green only (and says it doesn't imply others); the same muted look is applied to any colour.
+- **CounterBadge `max`** is not a Figma property; added so large counts don't overflow the 16px design.
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).

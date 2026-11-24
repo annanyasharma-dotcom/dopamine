@@ -1,0 +1,42 @@
+/*
+ * CounterBadge — Figma: "Counter badge" component set (WIP - Dopamine Spike UPDATED, node 40002686:16677).
+ * Figma is the source of truth: every value matches the Figma variable it is labelled with.
+ * Token gap: Figma label-sm text variable (12/14) is not in the token export; kept below.
+ */
+.dp-counter-badge {
+  --dp-counter-badge-bg: var(--bg-brand-coral); /* Figma bg/brand/coral #ff5443 */
+  --dp-counter-badge-fg: var(--bg-brand-primary); /* Figma uses bg/brand/primary #ffffff for the number */
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 var(--gap-4);
+  border-radius: var(--radius-full);
+  background: var(--dp-counter-badge-bg);
+  color: var(--dp-counter-badge-fg);
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  font-size: 12px; /* Figma label-sm/size */
+  line-height: 14px; /* Figma label-sm/line-height */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dp-counter-badge--blue {
+  --dp-counter-badge-bg: var(--color-precision-blue-100); /* Figma color/precision-blue/100 */
+}
+
+.dp-counter-badge--green {
+  --dp-counter-badge-bg: var(--color-wellness-green-100); /* Figma color/wellness-green/100 */
+}
+
+/* Figma defines disabled for green only; the same muted treatment is used for every colour. */
+.dp-counter-badge--disabled {
+  /* Figma bg/brand/disabled-subtle and text/brand/disabled-subtle resolve to #f2f2f2 / #adadad in this file
+     (the token export's semantic tokens are #dbdbdb / #969696), so the matching primitives are used. */
+  --dp-counter-badge-bg: var(--color-cool-neutral-50); /* #f2f2f2 */
+  --dp-counter-badge-fg: var(--color-cool-neutral-300); /* #adadad */
+}
