@@ -514,7 +514,7 @@ import { Header } from './components';
 
 ### When to use
 
-- Any time you need an icon that's in the library: `bestseller`, `check`, `chevron-right`, `close`, `info`, `star`.
+- Any time you need an icon that's in the library: `bestseller`, `check`, `chevron-right`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`.
 - When you need the same icon in different colours: one file, coloured with `color`.
 
 ### When not to use
@@ -526,7 +526,7 @@ import { Header } from './components';
 
 | Prop | Required | Default | Values |
 | --- | --- | --- | --- |
-| `name` | **yes** | — | `bestseller`, `check`, `chevron-right`, `close`, `info`, `star` |
+| `name` | **yes** | — | `bestseller`, `check`, `chevron-right`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star` |
 | `size` | no | Figma size (14, 24) | px |
 | `color` | no | Figma colour | CSS colour or token, or `currentColor` |
 | `label` | no | — (decorative) | accessible name |
@@ -582,12 +582,12 @@ import { Icon } from './components';
 | `large` | no | `true` | |
 | `orientation` | no | `'vertical'` | small only |
 | `added` | no | `false` | |
-| `tag` | no | `true` | bestseller badge, large only |
+| `tag` | no | `true` | image tag, large only: `true` (Bestseller), a `Tag` type, or `false` |
 | `quantity`, `imageSrc`, `imageAlt`, `deliveryTime`, `mrp`, `discount` | no | — | |
 | `rating`, `ratingCount`, `offerPrice`, `offerText`, `offerCode`, `addedQuantity` | no | — (`offerText` “Use Code on cart”, `addedQuantity` 1) | large only |
 | `onAdd`, `onAddedClick` | no | — | |
 
-> `tag` defaults to `true` (as in Figma), so the Bestseller badge shows unless you pass `tag={false}`. Only show it for products that really are bestsellers.
+> `tag` defaults to `true` (as in Figma), so the Bestseller tag shows unless you pass `tag={false}`. Pass the tag that fits the product: `tag="previously-bought"`, `"promoted"`, `"sold-out"`, or `false` for none.
 
 ### Behaviour
 
@@ -598,7 +598,7 @@ import { Icon } from './components';
 
 ### Dependencies
 
-- `Icon` (bestseller, check).
+- `Icon` (check), `Tag` (image tag).
 
 ### Examples
 
@@ -619,7 +619,7 @@ const qty = cart.quantityOf(p.id);
   ratingCount={`(${p.ratingCountLabel})`}
   offerPrice={formatINR(p.couponPrice)}
   offerCode={p.couponCode}
-  tag={p.isBestseller}
+  tag={p.soldOut ? 'sold-out' : p.isBestseller ? 'bestseller' : p.boughtBefore ? 'previously-bought' : false}
   added={qty > 0}
   addedQuantity={qty}
   onAdd={async () => { await cart.add(p.id); }}
@@ -655,7 +655,7 @@ const qty = cart.quantityOf(p.id);
 
 ### Common mistakes
 
-- ❌ Leaving `tag` on for every product.
+- ❌ Leaving `tag` on (Bestseller) for every product.
 - ❌ Setting `added` optimistically before the cart call succeeds.
 - ❌ Passing raw numbers for prices (`price={93}` renders “93”, without the ₹).
 - ❌ Using `orientation="horizontal"` with `large`: it's ignored, since Figma has no large horizontal card.
@@ -944,3 +944,205 @@ import { ListItem, Icon } from './components';
 
 - ❌ Leaving the default placeholder media in production.
 - ❌ Chevron on a row that doesn't go anywhere.
+
+---
+
+## Tag
+
+**Purpose:** a short product label, such as Bestseller or Sold out.
+
+### When to use
+
+| Type | Text | Use for |
+| --- | --- | --- |
+| `bestseller` | Bestseller | Products that are bestsellers by your product's definition. |
+| `previously-bought` | Previously bought | Items the user has ordered before. |
+| `promoted` | 1mg’s choice | Products recommended or promoted by 1mg. |
+| `sold-out` | Sold out | Items that can't be ordered right now. |
+
+### When not to use
+
+- **Interactive filters or chips:** Tag is display only.
+- **Long text:** it's a single short line.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `type` | no | `'bestseller'` | `bestseller`, `previously-bought`, `promoted`, `sold-out` |
+| `label` | no | Figma text | custom text |
+
+### Examples
+
+```tsx
+import { Tag, SkuCard } from './components';
+
+<Tag type="sold-out" />
+<Tag type="previously-bought" />
+<SkuCard tag="promoted" name="…" price="₹93" />   // on a product card
+```
+
+### Accessibility
+
+- The text is read as-is; icons are decorative.
+- If an item is sold out, also disable or hide its add action; the tag alone isn't enough.
+
+### Common mistakes
+
+- ❌ Showing “Sold out” but leaving the Add button active.
+- ❌ More than one tag on the same image.
+
+---
+
+## Search
+
+**Purpose:** a search bar, optionally with a Labs AI button.
+
+### When to use
+
+- At the top of home or listing screens to search products, tests or doctors.
+- `labsAi` when the screen offers the Labs AI assistant.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `placeholder` | no | — | e.g. “Search ‘crocin’...” |
+| `labsAi` | no | `false` | AI button |
+| `onAiClick` | no | — | |
+| `aiLabel` | no | `'Ask Labs AI'` | |
+| `value` / `onChange` / `readOnly` / `onClick` … | no | — | native input props |
+
+### Behaviour
+
+- It's a real `type="search"` input: typing works in place.
+- For a search **entry point** that opens a full search screen, pass `readOnly` and `onClick`.
+
+### Examples
+
+```tsx
+import { Search } from './components';
+
+// In-place search
+<Search placeholder="Search ‘crocin’..." value={q} onChange={(e) => setQ(e.target.value)} />
+
+// Entry point on the home screen
+<Search placeholder="Search ‘crocin’..." readOnly onClick={() => navigate('/search')} labsAi onAiClick={openLabsAi} />
+```
+
+### Accessibility
+
+- The input is named “Search” (change it with `aria-label`). The AI button is named “Ask Labs AI”.
+- Figma's placeholder uses the same dark colour as typed text, so make sure the example text reads as a hint (“Search ‘crocin’...”).
+
+### Common mistakes
+
+- ❌ Putting a real default search term in `placeholder`. Use `value` for that.
+
+---
+
+## Grid / GridItem
+
+**Purpose:** a row of shortcut tiles (e.g. Reorder Medicines, Health Plans).
+
+### When to use
+
+- Quick links to the main sections of the app, usually 4 per row.
+
+### Properties
+
+| Prop | Component | Required | Notes |
+| --- | --- | --- | --- |
+| `title` | GridItem | **yes** | 2 lines max |
+| `children` | GridItem | no | icon or illustration for the 40px tile |
+| `onClick` | GridItem | no | makes the tile a button |
+| children | Grid | — | the `GridItem`s |
+
+### Example
+
+```tsx
+import { Grid, GridItem, Icon } from './components';
+
+<Grid>
+  <GridItem title="Reorder Medicines" onClick={() => navigate('/reorder')}><img src={reorderArt} alt="" /></GridItem>
+  <GridItem title="Health Plans" onClick={() => navigate('/plans')}><img src={plansArt} alt="" /></GridItem>
+  <GridItem title="Health Insights" onClick={() => navigate('/insights')}><img src={insightsArt} alt="" /></GridItem>
+  <GridItem title="Care Plan" onClick={() => navigate('/care')}><img src={careArt} alt="" /></GridItem>
+</Grid>
+```
+
+### Responsive
+
+- Tiles are fixed at 70×76 with 16px gaps (4 tiles = 328px). For more tiles, wrap `Grid` in a horizontal scroller.
+
+### Common mistakes
+
+- ❌ Long titles: they're cut after 2 lines.
+- ❌ Shipping empty grey slots; put real artwork in `children`.
+
+---
+
+## BottomSheet
+
+**Purpose:** a modal panel that slides up from the bottom for a short, focused task (choose an address, confirm an action, pick an option).
+
+### When to use
+
+- Short tasks or choices that relate to the current screen.
+- Use the header (`heading`) to say what the sheet is for, and actions for the decision (`primaryAction`) and its alternative (`secondaryAction`).
+
+### When not to use
+
+- **Long flows:** use a full screen.
+- **Non-blocking messages:** use `Toast`.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `open` | no | `true` | show / hide |
+| `onClose` | no | — | ×, Escape, backdrop tap |
+| `heading` / `subheading` | no | — | header text |
+| `secondaryAction` / `primaryAction` | no | — | `Button` props (`children`, `onClick`, `disabled`, `leftIcon`…) |
+| `closeLabel` | no | `'Close'` | |
+| `children` | no | — | sheet content |
+
+### Behaviour
+
+- Covers the viewport (`position: fixed`) with a dimmed backdrop.
+- Opening moves focus to ×; closing returns focus to where it was.
+- Content scrolls when it's taller than the available space.
+
+### Dependencies
+
+- `Button` (actions), `Icon` (close-filled).
+
+### Example
+
+```tsx
+import { BottomSheet, ListItem } from './components';
+
+<BottomSheet
+  open={open}
+  onClose={() => setOpen(false)}
+  heading="Select delivery address"
+  subheading="Where should we deliver?"
+  secondaryAction={{ children: 'Add new', leftIcon: false, rightIcon: false, onClick: addAddress }}
+  primaryAction={{ children: 'Deliver here', leftIcon: false, rightIcon: false, onClick: confirm, disabled: !selected }}
+>
+  <div style={{ display: 'grid', gap: 'var(--gap-12)', padding: 'var(--gap-16)' }}>
+    {addresses.map((a) => <ListItem key={a.id} title={a.label} subtitle={a.line1} media={false} onClick={() => setSelected(a.id)} />)}
+  </div>
+</BottomSheet>
+```
+
+### Accessibility
+
+- `role="dialog"` with `aria-modal`, named by `heading` (pass a `heading` whenever you can).
+- Focus isn't trapped inside the sheet yet, and the page behind can still scroll. Add both in the app if needed (see MASTER.md).
+
+### Common mistakes
+
+- ❌ Forgetting `onClose`: then ×, Escape and the backdrop do nothing.
+- ❌ Leaving the default arrows on the action buttons; pass `leftIcon: false, rightIcon: false`.
+- ❌ Two primary-looking actions: the sheet always renders secondary as outline and primary as brand.

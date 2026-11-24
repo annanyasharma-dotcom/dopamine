@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 import { Icon } from '../Icon';
+import { Tag, type TagType } from '../Tag';
 import './SkuCard.css';
 
 /** Figma `orientation`. Horizontal exists only for the small card. */
@@ -12,8 +13,12 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
   orientation?: SkuCardOrientation;
   /** Figma `added?`. Shows the added state. Set it only after the cart confirms. @default false */
   added?: boolean;
-  /** Figma `tag`. Shows the “Bestseller” badge on the image (large only). @default true */
-  tag?: boolean;
+  /**
+   * Figma `tag`: the tag on the image (large only). `true` shows “Bestseller” (as before);
+   * pass a tag type to show another (Figma .Tags: previously-bought, promoted, sold-out); `false` hides it.
+   * @default true
+   */
+  tag?: boolean | TagType;
 
   /** Product name; clamped to 2 lines. */
   name: ReactNode;
@@ -123,12 +128,7 @@ export function SkuCard({
       <article {...rest} className={classes}>
         <div className="dp-sku__media">
           {image}
-          {tag && (
-            <span className="dp-sku__tag">
-              <Icon name="bestseller" />
-              Bestseller
-            </span>
-          )}
+          {tag && <Tag className="dp-sku__tag" type={tag === true ? 'bestseller' : tag} />}
         </div>
 
         <button type="button" className="dp-sku__add-bar" onClick={handleAction}>

@@ -1,0 +1,79 @@
+/* Search — Figma: "Search" component set (node 40002760:27283). Values match Figma variables. */
+.dp-search {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  width: 100%;
+  height: 44px;
+  padding: var(--gap-12) var(--gap-16);
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-primary);
+  /* Inside stroke (keeps 44px): Figma border/neutrals/secondary = #c4c4c4 in this file */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-200);
+  font-family: var(--font-family-base);
+}
+
+.dp-search__input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text-brand-primary);
+  font: inherit;
+  font-weight: 500;
+  font-size: 16px; /* Figma label-lg */
+  line-height: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Figma shows the placeholder in the primary text colour */
+.dp-search__input::placeholder {
+  color: var(--text-brand-primary);
+  opacity: 1;
+}
+
+.dp-search__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.dp-search:focus-within {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+/* Labs AI button: 20px circle, Figma gradient + 1.333px border */
+.dp-search__ai {
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1.333px solid var(--color-precision-blue-300); /* Figma Colours/Precision Blue/10 #00233f */
+  border-radius: var(--radius-full);
+  background-image: linear-gradient(
+    -28.87deg,
+    var(--color-precision-blue-300) 9.2244%, /* Figma Precision Blue/10 #00233f */
+    var(--color-precision-blue-100) 49.529%, /* Figma Precision Blue/50 #1772bb */
+    #9cd3ff 89.528% /* Figma Precision Blue/90 (no token) */
+  );
+  cursor: pointer;
+}
+
+.dp-search__ai-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13.333px;
+  height: 13.333px;
+  transform: translate(-50%, -50%);
+  background-color: #e8eaed; /* Figma raw icon colour (no token) */
+  mask: url('./assets/ai-arrow.svg') center / contain no-repeat;
+}

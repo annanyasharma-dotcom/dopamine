@@ -188,22 +188,12 @@
   height: 64px;
 }
 
+/* Tag (Figma .Tags instance) centred at the top of the image; its look comes from Tag.css */
 .dp-sku__tag {
   position: absolute;
   top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: var(--gap-2);
-  padding: var(--gap-none) var(--gap-4);
-  border-radius: var(--radius-xs);
-  background: var(--color-sunshine-yellow-50); /* Figma color/sunshine-yellow/50 */
-  color: var(--color-sunshine-yellow-300); /* Figma color/sunshine-yellow/300 */
-  font-weight: 500;
-  font-size: 10px; /* Figma caption-sm */
-  line-height: 14px;
-  white-space: nowrap;
 }
 
 .dp-sku__add-bar {

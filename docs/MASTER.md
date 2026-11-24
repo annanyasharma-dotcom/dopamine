@@ -25,9 +25,11 @@ docs/                  MASTER.md (this file), COMPONENT_USE_CASES.md
 scripts/build-tokens.mjs   Figma export → tokens.css / tokens.json
 src/
   components/          One folder per component; index.ts re-exports all
+    BottomSheet/       BottomSheet.tsx, BottomSheet.css, BottomSheet.stories.tsx, index.ts
     Button/            Button.tsx, Button.css, Button.stories.tsx, index.ts, assets/
     CounterBadge/      CounterBadge.tsx, CounterBadge.css, CounterBadge.stories.tsx, index.ts
     Footer/            Footer.tsx, Footer.css, Footer.stories.tsx, index.ts
+    Grid/              Grid.tsx (Grid + GridItem), Grid.css, Grid.stories.tsx, index.ts
     Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
     Icon/              Icon.tsx, Icon.css, icons.ts (registry), Icon.stories.tsx, index.ts, svg/ (library SVGs)
     InputField/        InputField.tsx, InputField.css, InputField.stories.tsx, index.ts, assets/
@@ -35,7 +37,9 @@ src/
     Logo/              Logo.tsx, Logo.css, Logo.stories.tsx, index.ts, assets/
     OtpField/          OtpField.tsx, OtpField.css, OtpField.stories.tsx, index.ts, assets/
     Rating/            Rating.tsx, Rating.css, Rating.stories.tsx, index.ts
+    Search/            Search.tsx, Search.css, Search.stories.tsx, index.ts, assets/
     SkuCard/           SkuCard.tsx, SkuCard.css, SkuCard.stories.tsx, index.ts, assets/
+    Tag/               Tag.tsx, Tag.css, Tag.stories.tsx, index.ts
     Toast/             Toast.tsx, Toast.css, Toast.stories.tsx, index.ts
     Widget/            Widget.tsx, Widget.css, Widget.stories.tsx, index.ts
   foundations/         Storybook pages documenting tokens (not shipped components)
@@ -68,15 +72,19 @@ src/
 | CounterBadge | Data display | `src/components/CounterBadge/CounterBadge.tsx` | `CounterBadge` (named + default), types `CounterBadgeProps`, `CounterBadgeColour` | tokens.css, fonts.css | `40002686:16677` |
 | Header | Navigation | `src/components/Header/Header.tsx` | `Header` (named + default), type `HeaderProps` | **CounterBadge**, tokens.css, fonts.css, `assets/*.svg` (8 icons) | `40002686:16180` |
 | Icon | Foundations / media | `src/components/Icon/Icon.tsx` | `Icon` (named + default), `icons`, `iconNames`, types `IconProps`, `IconName`, `IconDefinition` | `svg/*.svg`, tokens.css | icons from node `40002750:10762` |
-| SkuCard | Commerce | `src/components/SkuCard/SkuCard.tsx` | `SkuCard` (named + default), types `SkuCardProps`, `SkuCardOrientation` | **Icon** (bestseller, check), tokens.css, fonts.css, `assets/*.svg` (5 icons) | `40002750:10762` |
+| SkuCard | Commerce | `src/components/SkuCard/SkuCard.tsx` | `SkuCard` (named + default), types `SkuCardProps`, `SkuCardOrientation` | **Icon** (check), **Tag**, tokens.css, fonts.css, `assets/*.svg` (5 icons) | `40002750:10762` |
 | Toast | Feedback | `src/components/Toast/Toast.tsx` | `Toast` (named + default), types `ToastProps`, `ToastType` | **Icon** (info, close), tokens.css | `40002646:31695` |
 | Rating | Data display | `src/components/Rating/Rating.tsx` | `Rating` (named + default), types `RatingProps`, `RatingType` | **Icon** (star), tokens.css | `40002801:2398` |
 | Logo | Brand | `src/components/Logo/Logo.tsx` | `Logo` (named + default), types `LogoProps`, `LogoColour` | tokens.css, `assets/tata.svg`, `assets/1mg.svg` | `40002759:4201` |
 | Footer | Brand | `src/components/Footer/Footer.tsx` | `Footer` (named + default), type `FooterProps` | **Logo**, tokens.css | `40002759:4265` |
 | Widget | Layout | `src/components/Widget/Widget.tsx` | `Widget` (named + default), type `WidgetProps` | **Icon** (chevron-right), tokens.css | `40002760:26923` |
 | ListItem | Lists | `src/components/ListItem/ListItem.tsx` | `ListItem` (named + default), type `ListItemProps` | **Icon** (chevron-right), tokens.css | `40002759:4984` (Figma name “list”) |
+| Tag | Data display | `src/components/Tag/Tag.tsx` | `Tag` (named + default), types `TagProps`, `TagType` | **Icon** (bestseller, restart, good-experience), tokens.css | `40002741:3631` (Figma “.Tags”) |
+| Search | Forms | `src/components/Search/Search.tsx` | `Search` (named + default), type `SearchProps` | **Icon** (search), `assets/ai-arrow.svg`, tokens.css | `40002760:27283` |
+| Grid / GridItem | Navigation | `src/components/Grid/Grid.tsx` | `Grid` (named + default), `GridItem`, types `GridProps`, `GridItemProps` | tokens.css | `40002762:29288` (“grid”), item “.grid” |
+| BottomSheet | Overlays | `src/components/BottomSheet/BottomSheet.tsx` | `BottomSheet` (named + default), types `BottomSheetProps`, `BottomSheetAction` | **Button**, **Icon** (close-filled), tokens.css | `40002694:17186` |
 
-Import: `import { Button, CounterBadge, Footer, Header, Icon, InputField, ListItem, Logo, OtpField, Rating, SkuCard, Toast, Widget } from './components';` (or each component's folder).
+Import: `import { BottomSheet, Button, CounterBadge, Footer, Grid, GridItem, Header, Icon, InputField, ListItem, Logo, OtpField, Rating, Search, SkuCard, Tag, Toast, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -362,7 +370,7 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 Renders an icon from the library. Each icon is the original Figma SVG export, used as a CSS mask, so its colour comes from CSS and one file serves every colour.
 
 ```ts
-export type IconName = 'bestseller' | 'check' | 'chevron-right' | 'close' | 'info' | 'star';
+export type IconName = 'bestseller' | 'check' | 'chevron-right' | 'close' | 'close-filled' | 'good-experience' | 'info' | 'restart' | 'search' | 'star';
 
 export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
   name: IconName;
@@ -390,6 +398,10 @@ export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children
 | `close` | 24×24 | #181a1f (Figma Color/Icons/Primary, no token) | Toast › Dismiss Icon |
 | `info` | 20.5×20.5 | `--icon-brand-primary` | Toast › Status Information Icon (drawn at 20.5px in a 24px box) |
 | `star` | 14×14 | `--icon-brand-primary-inverse` white | Rating › rating-star |
+| `close-filled` | 24×24 | `--color-base-black` (raw Figma fill) | Bottom Sheet › Close Button (Figma “close”, bold=false; a different shape from `close`) |
+| `restart` | 14×14 | `--text-info-base` #1772bb | .Tags › Previously Bought |
+| `good-experience` | 14×14 | `--color-sunrise-glow-200` #6f2305 | .Tags › Promoted |
+| `search` | 18×18 | `--icon-brand-coral` | Search |
 
 Also exported: `icons` (registry with `src`, `width`, `height`, `defaultColor`, `figma` per icon) and `iconNames`.
 
@@ -406,7 +418,7 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
   large?: boolean;
   orientation?: SkuCardOrientation;
   added?: boolean;
-  tag?: boolean;
+  tag?: boolean | TagType;
   name: ReactNode;
   quantity?: ReactNode;
   imageSrc?: string;
@@ -431,7 +443,7 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
 | `large` | `boolean` | no | `true` | `large` | Large: 132px card, full-width Add bar, ratings, offer. Small: 76px thumbnail with floating + / ✓ button. |
 | `orientation` | `'vertical' \| 'horizontal'` | no | `'vertical'` | `orientation` | Small only. Horizontal = 328px bordered row. Ignored when `large` (no large horizontal in Figma). |
 | `added` | `boolean` | no | `false` | `added?` | Added state: large shows “{n} added ⌄” on coral; small shows a coral ✓ button. |
-| `tag` | `boolean` | no | `true` | `tag` | Bestseller badge on the image (large only). |
+| `tag` | `boolean \| TagType` | no | `true` | `tag` (a .Tags instance) | Tag on the image (large only): `true` = Bestseller, or a `TagType` (`'bestseller' \| 'previously-bought' \| 'promoted' \| 'sold-out'`), `false` hides it. Rendered with `Tag`. |
 | `name` | `ReactNode` | yes | — | product name | Bold 14/18, clamped to 2 lines (39px). |
 | `quantity` | `ReactNode` | no | — | “250gm powder” | |
 | `imageSrc` / `imageAlt` | `string` | no | — / `''` | Product Image | 64×64 (large) or 76×76 (small), `object-fit: contain`. Without it, an empty white box as in Figma. |
@@ -452,7 +464,7 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
 | --- | --- |
 | Card | radius `--radius-lg`; large: 132px, padding-bottom `--gap-12`; small vertical: 76px content, padding `--gap-12` 0; horizontal: 328px, padding `--gap-12`, inside stroke `--stroke-regular` #dbdbdb |
 | Image box | `--bg-brand-primary`, border `--stroke-regular` `--color-cool-neutral-100` #dbdbdb, radius `--radius-md`; large 132×100, padding `--gap-24` `--gap-16` |
-| Bestseller tag | `--color-sunshine-yellow-50` bg, `--color-sunshine-yellow-300` text + `Icon bestseller`, radius `--radius-xs`, 10/14 medium |
+| Tag | `Tag` component, centred 2px from the top of the image |
 | Add bar (large) | 44px, radius `--radius-md`, `--shadow-md`; add: `--bg-brand-primary`, border `--color-cool-neutral-200` #c4c4c4, `--text-brand-brand` 14/18 bold; added: `--bg-brand-coral`, white text, 20px white circle with coral chevron |
 | + / ✓ button (small) | 36×36 at (48, −11) over the image, radius `--radius-md`, `--shadow-md`; add: white, border #c4c4c4, coral plus; added: `--bg-brand-coral`, `Icon check` white |
 | Name / quantity | `--text-brand-primary` 14/18 bold / `--text-brand-tertiary` 12/14 medium |
@@ -615,6 +627,113 @@ Styling: 100% wide (328 in Figma), 76px tall, padding `--gap-16`, gap `--gap-16`
 
 ---
 
+
+### Tag
+
+Small product tag. Implements the Figma “.Tags” component set (4 states).
+
+```ts
+export type TagType = 'bestseller' | 'previously-bought' | 'promoted' | 'sold-out';
+export interface TagProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
+  type?: TagType;
+  label?: ReactNode;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `type` | `TagType` | no | `'bestseller'` | `State` | See table below. |
+| `label` | `ReactNode` | no | Figma copy | text | Overrides the text. |
+
+| Type | Figma State | Text | Icon | Background | Text / icon colour |
+| --- | --- | --- | --- | --- | --- |
+| `bestseller` | Bestseller | Bestseller | `bestseller` | `--color-sunshine-yellow-50` | `--color-sunshine-yellow-300` |
+| `previously-bought` | Previously Bought | Previously bought | `restart` | `--bg-info-subtler` | `--text-info-base` |
+| `promoted` | Promoted | 1mg’s choice | `good-experience` | `--color-sunrise-glow-25` | `--color-sunrise-glow-200` |
+| `sold-out` | Sold Out | Sold out | — | `--bg-error-subtler` | `--text-error-base` |
+
+14px tall, padding 0 `--gap-4`, gap `--gap-2` (1px for promoted, as in Figma), radius `--radius-xs`, 10/14 medium. Icons are 14px and follow the text colour.
+
+### Search
+
+Search bar. Implements the Figma “Search” component set (`labs AI` false / true).
+
+```ts
+export interface SearchProps extends Omit<ComponentPropsWithRef<'input'>, 'size' | 'type'> {
+  labsAi?: boolean;
+  onAiClick?: () => void;
+  aiLabel?: string;
+  wrapperClassName?: string;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `labsAi` | `boolean` | no | `false` | `labs AI` | Shows the Labs AI button. |
+| `onAiClick` | `() => void` | no | — | — | Labs AI button handler. |
+| `aiLabel` | `string` | no | `'Ask Labs AI'` | — | Its accessible name. |
+| `placeholder` | `string` | no | — | “Search ‘crocin’...” | Shown in the primary text colour, as in Figma. |
+| `aria-label` | `string` | no | `'Search'` | — | Input name. |
+| `wrapperClassName` | `string` | no | — | — | Class on the pill. |
+| …rest | native `<input>` props | no | — | — | `value`, `onChange`, `readOnly`, `onClick`, `ref`, … (`type` is always `search`). |
+
+Styling: pill 100% wide (328 in Figma), 44px, padding `--gap-12` `--gap-16`, gap `--gap-4`, radius `--radius-full`, `--bg-brand-primary`, inside stroke `--color-cool-neutral-200` #c4c4c4. `Icon search` 18px coral. Text 16/20 medium. AI button: 20px circle, border 1.333px `--color-precision-blue-300`, gradient −28.87°: `--color-precision-blue-300` 9.22% → `--color-precision-blue-100` 49.53% → #9cd3ff 89.53%, arrow 13.33px #e8eaed. Focus ring on the pill (`:focus-within`).
+
+### Grid / GridItem
+
+Shortcut tiles. Implements Figma “grid” (row) and “.grid” (item).
+
+```ts
+export interface GridItemProps extends Omit<ComponentPropsWithRef<'div'>, 'title' | 'onClick'> {
+  title: ReactNode;
+  children?: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+}
+export type GridProps = ComponentPropsWithRef<'div'>;
+```
+
+| Prop | Component | Required | Behaviour |
+| --- | --- | --- | --- |
+| `title` | GridItem | yes | Label, 12/14 medium, centred, 2 lines max. |
+| `children` | GridItem | no | Content of the 40px tile (Figma “Slot”): icon or illustration. |
+| `onClick` | GridItem | no | Makes the tile a button. |
+| children | Grid | — | `GridItem`s, laid out in a row 16px apart. |
+
+Styling: item 70×76, gap 4px; slot 40px tall, padding 0 16px, radius `--radius-s`, `--bg-brand-tertiary`. The 16px/4px gaps are raw values in Figma (no variable).
+
+### BottomSheet
+
+Modal bottom sheet. Implements the Figma “Bottom Sheet”.
+
+```ts
+export type BottomSheetAction = Omit<ButtonProps, 'variant'>;
+export interface BottomSheetProps extends Omit<ComponentPropsWithRef<'div'>, 'title'> {
+  open?: boolean;
+  onClose?: () => void;
+  heading?: ReactNode;
+  subheading?: ReactNode;
+  secondaryAction?: BottomSheetAction;
+  primaryAction?: BottomSheetAction;
+  closeLabel?: string;
+  children?: ReactNode;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `open` | `boolean` | no | `true` | — | Renders nothing when false. |
+| `onClose` | `() => void` | no | — | — | Called by ×, Escape, and a tap on the backdrop. |
+| `heading` / `subheading` | `ReactNode` | no | — | `header` (“Heading” / “Sub heading”) | Header shows when `heading` is set; heading is the dialog's name. |
+| `secondaryAction` / `primaryAction` | `BottomSheetAction` | no | — | `cta` (Secondary / Primary Action Button) | Any `Button` props; rendered as outline (left) / brand (right), equal width. Footer shows when either is set. |
+| `closeLabel` | `string` | no | `'Close'` | — | × button name. |
+| `children` | `ReactNode` | no | — | “Content Container Slot” | Scrolls when taller than the space. |
+
+Behaviour: `position: fixed` over the viewport; focus moves to × on open and back to the previously focused element on close; `role="dialog"` + `aria-modal`. Focus is not trapped inside the sheet.
+
+Styling: backdrop `--alpha-black-60`; close button 40px white circle with `Icon close-filled`, in a 10px-padded row; sheet top radius `--radius-xl`, `--bg-brand-primary`; header padding `--gap-8` `--gap-16`, gap `--gap-4`, bottom divider; heading 16/20 bold, subheading 14/18 regular `--text-brand-tertiary`; actions padding `--gap-16`, gap `--gap-8`, top divider. Dividers and the outline button border use #c4c4c4 (`--color-cool-neutral-200`, Figma border/neutrals/secondary here).
+
+---
+
 ## 4. Architecture and dependencies
 
 - **Button** has no child components. Internal `IconSlot` (not exported) renders the 24px icon slots.
@@ -625,6 +744,7 @@ Styling: 100% wide (328 in Figma), 76px tall, padding `--gap-16`, gap `--gap-16`
 - **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders.
 - **SkuCard** has internal `Delivery` and `Pricing` parts (not exported).
 - **Toast**, **Rating**, **Widget** and **ListItem** use **Icon**; **Footer** uses **Logo**. **Widget** is a shell meant to contain `SkuCard`, `ListItem` or other compositions.
+- **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
 - The InputField clear button and OtpField resend button are plain `<button>`s, not the `Button` component: their Figma designs are icon-only / text-link treatments that `Button` has no variant for.
 - **Runtime dependencies:** `react`, `react-dom`, `@fontsource/figtree` (font files).
 - **Styles chain:** `fonts.css` (Figtree 400/500/600/700) → `tokens.css` (CSS variables) → component CSS. Apps must import `fonts.css` and `tokens.css` once (done in `src/main.tsx` and `.storybook/preview.tsx`).
@@ -674,13 +794,17 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/CounterBadge/CounterBadge.stories.tsx` | Components/CounterBadge | Playground, Brand, Blue, Green, Green disabled, Large counts\*, With accessible label\*, All variants (+ autodocs page) |
 | `src/components/Header/Header.stories.tsx` | Components/Header | Playground, Without status bar, Without profile, Without cart, Empty cart, Short address, Label only, Test: buttons\*, Test: status bar hidden from screen readers\* (+ autodocs page) |
 | `src/components/Icon/Icon.stories.tsx` | Components/Icon | Playground, Library, Bestseller, Check, Recolour, Accessible\* (+ autodocs page) |
-| `src/components/SkuCard/SkuCard.stories.tsx` | Components/SkuCard | Playground, Large, Large added, Small, Small added, Horizontal, Horizontal added, Without bestseller tag, With image, Short name no offer, Interactive\*, Test: small buttons\*, Test: small added button\*, All variants (+ autodocs page) |
+| `src/components/SkuCard/SkuCard.stories.tsx` | Components/SkuCard | Playground, Large, Large added, Small, Small added, Horizontal, Horizontal added, Without bestseller tag, Tag types, With image, Short name no offer, Interactive\*, Test: small buttons\*, Test: small added button\*, All variants (+ autodocs page) |
 | `src/components/Toast/Toast.stories.tsx` | Components/Toast | Playground, Warning, Error\*, Success, Info, White, With action (Undo), No icon no cross, Test: buttons\*, All variants (+ autodocs) |
 | `src/components/Rating/Rating.stories.tsx` | Components/Rating | Playground, Good, Average, Bad, Test: accessible text\*, All variants (+ autodocs) |
 | `src/components/Logo/Logo.stories.tsx` | Components/Logo | Playground, Black\*, Brand, Inverse, All variants (+ autodocs) |
 | `src/components/Footer/Footer.stories.tsx` | Components/Footer | Default\* (+ autodocs) |
 | `src/components/Widget/Widget.stories.tsx` | Components/Widget | Playground, Without subtitle, Without chevron, With SKU cards, With list items, Test: chevron\* (+ autodocs) |
 | `src/components/ListItem/ListItem.stories.tsx` | Components/ListItem | Playground, Without media, Without subtitle, Without chevron, With icon media, Clickable\*, In a list (+ autodocs) |
+| `src/components/Tag/Tag.stories.tsx` | Components/Tag | Playground, Bestseller, Previously bought, Promoted, Sold out\*, All types (+ autodocs) |
+| `src/components/Search/Search.stories.tsx` | Components/Search | Playground, Default, Labs AI, Test: typing\*, Test: Labs AI button\*, Tap to open (+ autodocs) |
+| `src/components/Grid/Grid.stories.tsx` | Components/Grid | Item, Row, With icons, Test: clickable tile\* (+ autodocs) |
+| `src/components/BottomSheet/BottomSheet.stories.tsx` | Components/BottomSheet | Playground, With content, Without header, Without actions, Primary action only, Interactive\*, Test: close button and actions\* (+ autodocs) |
 
 \* has a `play` interaction test.
 
@@ -703,6 +827,8 @@ Toast controls: `type` (radio), `label`, `actionLabel` (text), `icon`, `cross` (
 Rating controls: `value` (text), `type` (radio). Logo controls: `colour` (radio), `inverse` (boolean), `label` (text). Footer: none (static).
 
 Widget controls: `title`, `subtitle`, `chevronLabel` (text), `chevron` (boolean), `onChevronClick` (action spy). ListItem controls: `title`, `subtitle` (text), `media`, `chevron` (boolean).
+
+Tag controls: `type` (radio), `label` (text). Search controls: `placeholder`, `aiLabel` (text), `labsAi`, `readOnly` (boolean). Grid controls: `title` (text), `onClick` (action spy). BottomSheet controls: `open` (boolean), `heading`, `subheading`, `closeLabel` (text), `secondaryAction`, `primaryAction` (object), `onClose` (action spy). SkuCard `tag` is now a select: `true`, `false` or a tag type.
 
 All controls map to real props.
 
@@ -736,6 +862,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **CounterBadge** added (Figma node `40002686:16677`): props `count`, `colour`, `disabled`, `max` + native span props. **Header** added (Figma node `40002686:16180`): props `statusBar`, `locationLabel`, `locationAddress`, `onLocationClick`, `profile`, `onProfileClick`, `cart`, `cartCount`, `onCartClick` + native header props. Stories with interaction tests. Values follow the Figma file exactly. | `591d882` |
 | 2026-11-25 | **Icon** library added with `bestseller` and `check` (Figma SVGs). **SkuCard** added (Figma node `40002750:10762`): props `large`, `orientation`, `added`, `tag`, `name`, `quantity`, `imageSrc`, `imageAlt`, `deliveryTime`, `price`, `mrp`, `discount`, `rating`, `ratingCount`, `offerPrice`, `offerText`, `offerCode`, `addedQuantity`, `onAdd`, `onAddedClick` + native article props. Values follow the Figma file exactly. Stories with interaction tests. | `bacd77e` |
 | 2026-11-25 | **Toast**, **Rating**, **Logo**, **Footer**, **Widget**, **ListItem** added (Figma section `40002852:2455`). Icon library: added `chevron-right`, `close`, `info`, `star`. Values follow the Figma file exactly. Stories with interaction tests. | `92e249e` |
+| 2026-11-25 | **Tag** (all 4 Figma .Tags types), **Search**, **Grid** / **GridItem**, **BottomSheet** added (Figma section `40002855:2865`). Icon library: added `close-filled`, `restart`, `good-experience`, `search`. **SkuCard** `tag` now also accepts a `TagType` (backward compatible: `true` is still Bestseller) and renders through `Tag`. Values follow the Figma file exactly. Stories with interaction tests. | uncommitted |
 
 ---
 
@@ -751,6 +878,7 @@ Verified unless marked *assumption*.
   - Header: label-base 14/18
   - SkuCard: label-base 14/18, label-sm 12/14, body-sm 12/18, body-lg 16/24, caption-base 11/16, caption-sm 10/14, Tag 11/16, Body/12 12/16
   - Toast: label-base 14/18, label-sm 12/14 · Rating: label-sm 12/14 · Footer: display 40/44 (export: 40/48 mobile, 56/64 desktop) · Widget: h5 18/22 (export: 18/24), h6 16/20 · ListItem: label-lg 16/20, label-base 14/18
+  - Tag: caption-sm 10/14 · Search: label-lg 16/20 · Grid: label-sm 12/14 · BottomSheet: label-lg 16/20, label-base 14/18
 
   Re-exporting these Figma text variables into `tokens.css` would let all components share them.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
@@ -780,13 +908,19 @@ Verified unless marked *assumption*.
 - **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
 - **SkuCard added behaviour:** per Figma, “added” must be set only after the cart confirms, and the chevron / ✓ actions are product-defined; the component just calls `onAddedClick`.
 - **SkuCard large text:** the Figma “Add” label in the added state is hidden by overflow in Figma; only “{n} added” is rendered.
-- **Icon library scope:** the library has `bestseller`, `check`, `chevron-right`, `close`, `info`, `star`. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
+- **Icon library scope:** the library has `bestseller`, `check`, `chevron-right`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
 - **Toast / Icon close colour:** Figma uses `Color/Content/Primary` and `Color/Icons/Primary` #181a1f (legacy collection, no token) for the action text and × icon; kept as exact values.
 - **Toast behaviour:** timing, stacking, placement and auto-dismiss aren't defined in Figma or implemented; the app controls when a Toast is rendered.
 - **Rating `good` contrast (verified by calculation):** white on `--bg-success-subtle` #299357 is about 3.9:1 at 12px, below WCAG AA 4.5:1. `avg` (4.6:1) and `bad` pass. Token-level; follows Figma.
 - **Logo `inverse` with `colour="black"`** isn't a Figma variant; `inverse` always gives the white logo.
 - **Footer** is static by design (Figma guidance), so the message can't be changed through props.
 - **ListItem media** in Figma is a placeholder frame, not an image slot; `media` accepts any node for real images or icons.
+- **Search exact values:** the AI gradient's last stop `Colours/Precision Blue/90` #9cd3ff and the AI arrow #e8eaed (raw) have no tokens and are kept in `Search.css`. Figma shows the placeholder in the primary text colour (not grey), so it can look like a typed value.
+- **Grid spacing** (16px between tiles, 4px inside, 16px slot padding) is raw in Figma, so it's raw in CSS too.
+- **BottomSheet** doesn't trap focus or lock page scroll; add those in the app if needed. Figma's 328px content height is only a sample; the content area grows with its content and scrolls.
+- **BottomSheet close button** has no inner padding in CSS: Figma's 10px padding leaves 20px for the 24px icon and Figma centres the overflow, while CSS would push it 2px right/down. Without padding the icon is centred exactly as in Figma.
+- **BottomSheet actions** default to Button's arrows (Figma sample shows them); pass `leftIcon: false` / `rightIcon: false` in the action props to hide them.
+- **Tags** in Figma is a private set (“.Tags”); it is exported here as `Tag` because the SKU card and other screens need it.
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).

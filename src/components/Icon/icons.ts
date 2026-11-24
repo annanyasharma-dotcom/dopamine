@@ -7,7 +7,11 @@ import bestseller from './svg/bestseller.svg';
 import check from './svg/check.svg';
 import chevronRight from './svg/chevron-right.svg';
 import close from './svg/close.svg';
+import closeFilled from './svg/close-filled.svg';
+import goodExperience from './svg/good-experience.svg';
 import info from './svg/info.svg';
+import restart from './svg/restart.svg';
+import search from './svg/search.svg';
 import star from './svg/star.svg';
 
 export interface IconDefinition {
@@ -65,6 +69,34 @@ export const icons = {
     height: 14,
     defaultColor: 'var(--icon-brand-primary-inverse)', /* Figma white */
     figma: 'rating-star (Rating, node 40002796:2367)',
+  },
+  'close-filled': {
+    src: closeFilled,
+    width: 24,
+    height: 24,
+    defaultColor: 'var(--color-base-black)', /* Figma black (raw fill) */
+    figma: 'close, bold=false (Bottom Sheet › Close Button, node 40002779:992)',
+  },
+  restart: {
+    src: restart,
+    width: 14,
+    height: 14,
+    defaultColor: 'var(--text-info-base)', /* Figma #1772bb */
+    figma: 'Restart (.Tags › State=Previously Bought, node 40002741:3633)',
+  },
+  'good-experience': {
+    src: goodExperience,
+    width: 14,
+    height: 14,
+    defaultColor: 'var(--color-sunrise-glow-200)', /* Figma #6f2305 */
+    figma: 'Good experience (.Tags › State=Promoted, node 40002741:3639)',
+  },
+  search: {
+    src: search,
+    width: 18,
+    height: 18,
+    defaultColor: 'var(--icon-brand-coral)', /* Figma #ff5443 */
+    figma: 'search (Search, node 40002849:1914)',
   },
 } satisfies Record<string, IconDefinition>;
 

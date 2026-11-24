@@ -52,7 +52,12 @@ const meta = {
       table: { defaultValue: { summary: 'vertical' } },
     },
     added: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
-    tag: { control: 'boolean', description: 'Bestseller badge (large only).', table: { defaultValue: { summary: 'true' } } },
+    tag: {
+      control: 'select',
+      options: [true, false, 'bestseller', 'previously-bought', 'promoted', 'sold-out'],
+      description: 'Tag on the image (large only): `true` = Bestseller, a tag type, or `false`.',
+      table: { type: { summary: "boolean | 'bestseller' | 'previously-bought' | 'promoted' | 'sold-out'" }, defaultValue: { summary: 'true' } },
+    },
     name: { control: 'text' },
     quantity: { control: 'text' },
     imageSrc: { control: 'text' },
@@ -89,6 +94,18 @@ export const Horizontal: Story = { args: { large: false, orientation: 'horizonta
 export const HorizontalAdded: Story = { name: 'Horizontal added', args: { large: false, orientation: 'horizontal', added: true } };
 
 export const WithoutBestseller: Story = { name: 'Without bestseller tag', args: { tag: false } };
+/** Every tag type from Figma .Tags on the large card. */
+export const TagTypes: Story = {
+  name: 'Tag types',
+  parameters: { layout: 'padded', controls: { disable: true } },
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 'var(--gap-24)', alignItems: 'flex-start' }}>
+      {(['bestseller', 'previously-bought', 'promoted', 'sold-out'] as const).map((tag) => (
+        <SkuCard key={tag} {...args} tag={tag} />
+      ))}
+    </div>
+  ),
+};
 export const WithImage: Story = { name: 'With image', args: { imageSrc: sampleImage, imageAlt: '' } };
 export const ShortName: Story = { name: 'Short name, no offer', args: { name: 'Almond Milk', offerPrice: undefined, rating: undefined } };
 

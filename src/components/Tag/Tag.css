@@ -1,0 +1,35 @@
+/* Tag — Figma: ".Tags" component set (node 40002741:3631). Values match Figma variables. */
+.dp-tag {
+  --dp-tag-bg: var(--color-sunshine-yellow-50); /* Bestseller: #fee685 */
+  --dp-tag-fg: var(--color-sunshine-yellow-300); /* #722902 */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  padding: var(--gap-none) var(--gap-4);
+  border-radius: var(--radius-xs);
+  background: var(--dp-tag-bg);
+  color: var(--dp-tag-fg);
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: 10px; /* Figma caption-sm */
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.dp-tag--previously-bought {
+  --dp-tag-bg: var(--bg-info-subtler); /* #ecf8ff */
+  --dp-tag-fg: var(--text-info-base); /* #1772bb */
+}
+
+.dp-tag--promoted {
+  --dp-tag-bg: var(--color-sunrise-glow-25); /* #ffeee3 */
+  --dp-tag-fg: var(--color-sunrise-glow-200); /* #6f2305 */
+  gap: 1px; /* Figma */
+}
+
+.dp-tag--sold-out {
+  --dp-tag-bg: var(--bg-error-subtler); /* #ffe0e3 */
+  --dp-tag-fg: var(--text-error-base); /* #c50f1f */
+}

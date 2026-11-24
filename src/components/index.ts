@@ -1,6 +1,8 @@
+export * from './BottomSheet';
 export * from './Button';
 export * from './CounterBadge';
 export * from './Footer';
+export * from './Grid';
 export * from './Header';
 export * from './Icon';
 export * from './InputField';
@@ -8,6 +10,8 @@ export * from './ListItem';
 export * from './Logo';
 export * from './OtpField';
 export * from './Rating';
+export * from './Search';
 export * from './SkuCard';
+export * from './Tag';
 export * from './Toast';
 export * from './Widget';
