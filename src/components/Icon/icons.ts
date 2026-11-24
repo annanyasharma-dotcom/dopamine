@@ -9,6 +9,7 @@ import chevronDown from './svg/chevron-down.svg';
 import chevronUp from './svg/chevron-up.svg';
 import check from './svg/check.svg';
 import chevronRight from './svg/chevron-right.svg';
+import chevronRightSmall from './svg/chevron-right-small.svg';
 import close from './svg/close.svg';
 import closeFilled from './svg/close-filled.svg';
 import goodExperience from './svg/good-experience.svg';
@@ -16,6 +17,7 @@ import info from './svg/info.svg';
 import restart from './svg/restart.svg';
 import search from './svg/search.svg';
 import star from './svg/star.svg';
+import upload from './svg/upload.svg';
 
 export interface IconDefinition {
   /** URL of the SVG file. */
@@ -121,6 +123,20 @@ export const icons = {
     height: 24,
     defaultColor: 'var(--color-base-black)', /* Figma black (raw fill) */
     figma: 'chevron (Accordian expanded, node 40002779:984)',
+  },
+  'chevron-right-small': {
+    src: chevronRightSmall,
+    width: 12,
+    height: 12,
+    defaultColor: 'var(--icon-brand-primary-inverse)', /* Figma white */
+    figma: 'chevron-right (special button, node 40002779:834)',
+  },
+  upload: {
+    src: upload,
+    width: 20,
+    height: 20,
+    defaultColor: 'var(--icon-brand-primary-inverse)', /* Figma white */
+    figma: 'upload_24dp (compount button, node 40002858:3759)',
   },
 } satisfies Record<string, IconDefinition>;
 

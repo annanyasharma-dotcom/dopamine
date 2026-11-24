@@ -1,0 +1,30 @@
+/* SpecialButton — Figma: "special button" (node 40002736:23723). Values match Figma variables. */
+.dp-special-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px; /* Figma (raw) */
+  margin: 0;
+  padding: 2px 4px; /* Figma (raw) */
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-xs);
+  /* Figma: comfort-pink/200 at 0% → comfort-pink/300 at 116.67% (top to bottom) */
+  background: linear-gradient(to bottom, var(--color-comfort-pink-200) 0%, var(--color-comfort-pink-300) 116.67%);
+  color: var(--text-brand-primary-inverse);
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: 10px; /* Figma caption-sm */
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+button.dp-special-button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.dp-special-button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}

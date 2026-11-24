@@ -1394,3 +1394,71 @@ import { Chip } from './components';
 ### Accessibility
 
 - The header is a button with `aria-expanded`; the answer is a region labelled by the question.
+
+---
+
+## SpecialButton
+
+**Purpose:** highlight a coupon or coupon savings amount (e.g. “₹80 ›”) in product, cart or checkout content.
+
+### When to use
+
+- Next to a price or offer, to show coupon savings. Make the surrounding text say whether it's a possible saving, an available offer or an applied discount (Figma guidance).
+
+### When not to use
+
+- **As a general button or a normal price label** (Figma guidance).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `children` | **yes** | — | amount, e.g. “₹80” |
+| `chevron` | no | `true` | show only when details/actions exist |
+| `onClick` | no | — | makes it a button |
+
+### Example
+
+```tsx
+import { SpecialButton } from './components';
+
+<SpecialButton onClick={() => openCoupon('PILGRIM20')}>₹80</SpecialButton>
+<SpecialButton chevron={false}>₹80</SpecialButton>   // static label
+```
+
+### Common mistakes
+
+- ❌ Chevron with no `onClick`.
+- ❌ Showing an amount the user isn't eligible for.
+
+---
+
+## CompoundButton
+
+**Purpose:** a prominent two-line shortcut, such as “Upload / Prescription”.
+
+### When to use
+
+- Key entry points where a short verb + object reads well (“Upload / Prescription”, “Book / Lab test”).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `label` | **yes** | — | small first line |
+| `children` | **yes** | — | bold second line |
+| `icon` | no | upload icon | node, or `false` |
+| `onClick` … | no | — | native button props |
+
+### Example
+
+```tsx
+import { CompoundButton, Icon } from './components';
+
+<CompoundButton label="Upload" onClick={openUpload}>Prescription</CompoundButton>
+<CompoundButton label="Book" icon={<Icon name="search" size={20} color="var(--icon-brand-primary-inverse)" />} onClick={openLabs}>Lab test</CompoundButton>
+```
+
+### Accessibility
+
+- Read as one name (“Upload Prescription”). Keep both lines short so the pill stays one size.

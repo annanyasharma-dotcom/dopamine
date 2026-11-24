@@ -1,0 +1,54 @@
+/* CompoundButton — Figma: "compount button" (node 40002858:3765). Values match Figma variables. */
+.dp-compound-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-4);
+  margin: 0;
+  padding: var(--gap-6) var(--gap-10);
+  border: 0;
+  border-radius: 40px; /* Figma (raw) */
+  background: var(--bg-brand-secondary); /* #f7f7f7 */
+  /* Inside stroke, keeps 44px: Figma border/neutrals/primary = #dbdbdb in this file */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-100);
+  color: #181a1f; /* Figma raw text colour (no token) */
+  font-family: var(--font-family-base);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-compound-button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+/* Coral pill: 4px / 2px padding, 16px radius, 20px icon */
+.dp-compound-button__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px; /* Figma (raw) */
+  border-radius: 16px; /* Figma (raw) */
+  background: var(--icon-brand-coral); /* Figma Color/Icons/CTA #ff5443 */
+  color: var(--icon-brand-primary-inverse);
+}
+
+.dp-compound-button__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.dp-compound-button__label {
+  font-weight: 400;
+  font-size: 12px; /* Figma label-sm */
+  line-height: 14px;
+}
+
+.dp-compound-button__title {
+  font-weight: 700;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+}

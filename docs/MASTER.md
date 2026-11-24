@@ -31,6 +31,7 @@ src/
     Button/            Button.tsx, Button.css, Button.stories.tsx, index.ts, assets/
     Checkbox/          Checkbox.tsx, Checkbox.css, Checkbox.stories.tsx, index.ts, assets/
     Chip/              Chip.tsx, Chip.css, Chip.stories.tsx, index.ts
+    CompoundButton/    CompoundButton.tsx, CompoundButton.css, CompoundButton.stories.tsx, index.ts
     CounterBadge/      CounterBadge.tsx, CounterBadge.css, CounterBadge.stories.tsx, index.ts
     Footer/            Footer.tsx, Footer.css, Footer.stories.tsx, index.ts
     Grid/              Grid.tsx (Grid + GridItem), Grid.css, Grid.stories.tsx, index.ts
@@ -45,6 +46,7 @@ src/
     Rating/            Rating.tsx, Rating.css, Rating.stories.tsx, index.ts
     Search/            Search.tsx, Search.css, Search.stories.tsx, index.ts, assets/
     SkuCard/           SkuCard.tsx, SkuCard.css, SkuCard.stories.tsx, index.ts, assets/
+    SpecialButton/     SpecialButton.tsx, SpecialButton.css, SpecialButton.stories.tsx, index.ts
     Tag/               Tag.tsx, Tag.css, Tag.stories.tsx, index.ts
     Toast/             Toast.tsx, Toast.css, Toast.stories.tsx, index.ts
     Toggle/            Toggle.tsx, Toggle.css, Toggle.stories.tsx, index.ts, assets/
@@ -97,8 +99,10 @@ src/
 | Radio | Forms | `src/components/Radio/Radio.tsx` | `Radio` (named + default), type `RadioProps` | `assets/selected*.svg`, tokens.css | `40002696:341` (Figma “Radio Button”) |
 | Checkbox | Forms | `src/components/Checkbox/Checkbox.tsx` | `Checkbox` (named + default), type `CheckboxProps` | `assets/*-checked*.svg`, tokens.css | `40002736:23709` |
 | Accordion | Disclosure | `src/components/Accordion/Accordion.tsx` | `Accordion` (named + default), type `AccordionProps` | **Icon** (chevron-down, chevron-up), tokens.css | `40002762:30005` (Figma “Accordian”) |
+| SpecialButton | Commerce | `src/components/SpecialButton/SpecialButton.tsx` | `SpecialButton` (named + default), type `SpecialButtonProps` | **Icon** (chevron-right-small), tokens.css | `40002736:23723` (Figma “special button”) |
+| CompoundButton | Actions | `src/components/CompoundButton/CompoundButton.tsx` | `CompoundButton` (named + default), type `CompoundButtonProps` | **Icon** (upload), tokens.css | `40002858:3765` (Figma “compount button”) |
 
-Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CounterBadge, Footer, Grid, GridItem, Header, Icon, InfoBanner, InputField, ListItem, Logo, OtpField, Radio, Rating, Search, SkuCard, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
+Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Footer, Grid, GridItem, Header, Icon, InfoBanner, InputField, ListItem, Logo, OtpField, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -384,7 +388,7 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 Renders an icon from the library. Each icon is the original Figma SVG export, used as a CSS mask, so its colour comes from CSS and one file serves every colour.
 
 ```ts
-export type IconName = 'arrow-left' | 'bestseller' | 'check' | 'chevron-down' | 'chevron-right' | 'chevron-up' | 'close' | 'close-filled' | 'good-experience' | 'info' | 'restart' | 'search' | 'star';
+export type IconName = 'arrow-left' | 'bestseller' | 'check' | 'chevron-down' | 'chevron-right' | 'chevron-right-small' | 'chevron-up' | 'close' | 'close-filled' | 'good-experience' | 'info' | 'restart' | 'search' | 'star' | 'upload';
 
 export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
   name: IconName;
@@ -419,6 +423,8 @@ export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children
 | `arrow-left` | 16×16 | `--icon-brand-primary` | Chip › Leading Arrow Icon |
 | `chevron-down` | 24×24 | `--color-base-black` (raw Figma fill) | Accordian (rest) |
 | `chevron-up` | 24×24 | `--color-base-black` (raw Figma fill) | Accordian (expanded) |
+| `chevron-right-small` | 12×12 | `--icon-brand-primary-inverse` white | special button › chevron-right |
+| `upload` | 20×20 | `--icon-brand-primary-inverse` white | compount button › upload icon |
 
 Also exported: `icons` (registry with `src`, `width`, `height`, `defaultColor`, `figma` per icon) and `iconNames`.
 
@@ -915,6 +921,50 @@ Styling: 100% wide (328), inside stroke #c4c4c4; rest 64px (padding `--gap-12` `
 
 ---
 
+
+### SpecialButton
+
+Coupon highlight chip. Implements the Figma “special button”.
+
+```ts
+export interface SpecialButtonProps extends Omit<ComponentPropsWithRef<'span'>, 'children' | 'onClick'> {
+  children: ReactNode;
+  chevron?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+}
+```
+
+| Prop | Type | Required | Default | Behaviour |
+| --- | --- | --- | --- | --- |
+| `children` | `ReactNode` | yes | — | Amount, e.g. “₹80” (Figma sample). 10/14 medium white. |
+| `chevron` | `boolean` | no | `true` | `Icon chevron-right-small` (12px). |
+| `onClick` | handler | no | — | Renders a `<button>`; without it, a `<span>` label. |
+
+Styling: 18px tall, padding 2px 4px, gap 2px (raw in Figma), radius `--radius-xs`, gradient top→bottom `--color-comfort-pink-200` 0% → `--color-comfort-pink-300` 116.67% (as Figma).
+
+### CompoundButton
+
+Two-line pill button with a coral icon. Implements the Figma “compount button”.
+
+```ts
+export interface CompoundButtonProps extends Omit<ComponentPropsWithRef<'button'>, 'children'> {
+  label: ReactNode;
+  children: ReactNode;
+  icon?: ReactNode | false;
+}
+```
+
+| Prop | Type | Required | Default | Behaviour |
+| --- | --- | --- | --- | --- |
+| `label` | `ReactNode` | yes | — | Small first line (“Upload”), 12/14 regular. |
+| `children` | `ReactNode` | yes | — | Bold second line (“Prescription”), 14/18 bold. |
+| `icon` | `ReactNode \| false` | no | `Icon upload` | Content of the coral pill; `false` hides it. |
+| …rest | native `<button>` props | no | — | `onClick`, `disabled`… (`type` defaults to `button`). |
+
+Styling: 44px tall, padding `--gap-6` `--gap-10`, gap `--gap-4`, radius 40px (raw), `--bg-brand-secondary`, inside stroke `--color-cool-neutral-100` #dbdbdb (Figma border/neutrals/primary here), text #181a1f (raw, no token). Icon pill: `--icon-brand-coral`, padding 2px 4px, radius 16px, white 20px icon. Accessible name = both lines (“Upload Prescription”).
+
+---
+
 ## 4. Architecture and dependencies
 
 - **Button** has no child components. Internal `IconSlot` (not exported) renders the 24px icon slots.
@@ -927,6 +977,7 @@ Styling: 100% wide (328), inside stroke #c4c4c4; rest 64px (padding `--gap-12` `
 - **Toast**, **Rating**, **Widget** and **ListItem** use **Icon**; **Footer** uses **Logo**. **Widget** is a shell meant to contain `SkuCard`, `ListItem` or other compositions.
 - **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
 - **Chip** uses **CounterBadge** (restyled 11/16 medium) and **Icon**; **Accordion** uses **Icon**. **Toggle**, **Radio** and **Checkbox** are native inputs styled with Figma's artwork (no shared base yet).
+- **SpecialButton** and **CompoundButton** use **Icon**. SpecialButton is visually close to SkuCard's offer badge but smaller (10/14 text, different chevron); they are separate in Figma and in code.
 - The InputField clear button and OtpField resend button are plain `<button>`s, not the `Button` component: their Figma designs are icon-only / text-link treatments that `Button` has no variant for.
 - **Runtime dependencies:** `react`, `react-dom`, `@fontsource/figtree` (font files).
 - **Styles chain:** `fonts.css` (Figtree 400/500/600/700) → `tokens.css` (CSS variables) → component CSS. Apps must import `fonts.css` and `tokens.css` once (done in `src/main.tsx` and `.storybook/preview.tsx`).
@@ -994,6 +1045,8 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/Radio/Radio.stories.tsx` | Components/Radio | Playground, Unselected, Selected, Disabled (Figma artwork), Disabled unselected (assumption), Group\*, All variants (+ autodocs) |
 | `src/components/Checkbox/Checkbox.stories.tsx` | Components/Checkbox | Playground, Circle, Square, Circle disabled, Square disabled, Unchecked (assumption), With label, Test: toggling\*, All variants (+ autodocs) |
 | `src/components/Accordion/Accordion.stories.tsx` | Components/Accordion | Rest, Expanded, More expanded\*, Short answer, Test: open/see more/close\*, All states (+ autodocs) |
+| `src/components/SpecialButton/SpecialButton.stories.tsx` | Components/SpecialButton | Playground, Without chevron, Test: clickable\*, In context (+ autodocs) |
+| `src/components/CompoundButton/CompoundButton.stories.tsx` | Components/CompoundButton | Playground, Other icon, Without icon, Test: click\* (+ autodocs) |
 
 \* has a `play` interaction test.
 
@@ -1019,7 +1072,7 @@ Widget controls: `title`, `subtitle`, `chevronLabel` (text), `chevron` (boolean)
 
 Tag controls: `type` (radio), `label` (text). Search controls: `placeholder`, `aiLabel` (text), `labsAi`, `readOnly` (boolean). Grid controls: `title` (text), `onClick` (action spy). BottomSheet controls: `open` (boolean), `heading`, `subheading`, `closeLabel` (text), `secondaryAction`, `primaryAction` (object), `onClose` (action spy). SkuCard `tag` is now a select: `true`, `false` or a tag type.
 
-InfoBanner: `children` (text), `icon`, `chevron` (boolean). Badge: `children` (text), `colour` (select). Chip: `children` (text), `inverse`, `disabled`, `leftIcon` (boolean), `count` (number). Toggle / Radio / Checkbox: `defaultChecked`, `disabled` (+ `circle` for Checkbox) (boolean), `children` (text). Accordion: `title`, `children`, `seeMoreLabel` (text), `defaultExpanded` (boolean), `lines` (number).
+InfoBanner: `children` (text), `icon`, `chevron` (boolean). Badge: `children` (text), `colour` (select). Chip: `children` (text), `inverse`, `disabled`, `leftIcon` (boolean), `count` (number). Toggle / Radio / Checkbox: `defaultChecked`, `disabled` (+ `circle` for Checkbox) (boolean), `children` (text). Accordion: `title`, `children`, `seeMoreLabel` (text), `defaultExpanded` (boolean), `lines` (number). SpecialButton: `children` (text), `chevron` (boolean). CompoundButton: `label`, `children` (text), `onClick` (action spy).
 
 All controls map to real props.
 
@@ -1055,6 +1108,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **Toast**, **Rating**, **Logo**, **Footer**, **Widget**, **ListItem** added (Figma section `40002852:2455`). Icon library: added `chevron-right`, `close`, `info`, `star`. Values follow the Figma file exactly. Stories with interaction tests. | `92e249e` |
 | 2026-11-25 | **Tag** (all 4 Figma .Tags types), **Search**, **Grid** / **GridItem**, **BottomSheet** added (Figma section `40002855:2865`). Icon library: added `close-filled`, `restart`, `good-experience`, `search`. **SkuCard** `tag` now also accepts a `TagType` (backward compatible: `true` is still Bestseller) and renders through `Tag`. Values follow the Figma file exactly. Stories with interaction tests. | `2a7e9b9` |
 | 2026-11-25 | **InfoBanner**, **Badge**, **Chip**, **Toggle**, **Radio**, **Checkbox**, **Accordion** added (Figma section `40002855:2873`). Icon library: added `arrow-left`, `chevron-down`, `chevron-up`. Values follow the Figma file exactly. Stories with interaction tests. | `e62b041` |
+| 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | uncommitted |
 
 ---
 
@@ -1072,6 +1126,7 @@ Verified unless marked *assumption*.
   - Toast: label-base 14/18, label-sm 12/14 · Rating: label-sm 12/14 · Footer: display 40/44 (export: 40/48 mobile, 56/64 desktop) · Widget: h5 18/22 (export: 18/24), h6 16/20 · ListItem: label-lg 16/20, label-base 14/18
   - Tag: caption-sm 10/14 · Search: label-lg 16/20 · Grid: label-sm 12/14 · BottomSheet: label-lg 16/20, label-base 14/18
   - InfoBanner: Body/12 bold 12/16 · Badge: label-sm 12/14 · Chip: label-base 14/18, Tag 11/16 · Accordion: label-lg 16/20, body-base 14/20
+  - SpecialButton: caption-sm 10/14 · CompoundButton: label-sm 12/14, label-base 14/18
 
   Re-exporting these Figma text variables into `tokens.css` would let all components share them.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
@@ -1101,7 +1156,7 @@ Verified unless marked *assumption*.
 - **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
 - **SkuCard added behaviour:** per Figma, “added” must be set only after the cart confirms, and the chevron / ✓ actions are product-defined; the component just calls `onAddedClick`.
 - **SkuCard large text:** the Figma “Add” label in the added state is hidden by overflow in Figma; only “{n} added” is rendered.
-- **Icon library scope:** the library has `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
+- **Icon library scope:** the library has `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-right-small`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`, `upload`. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
 - **Toast / Icon close colour:** Figma uses `Color/Content/Primary` and `Color/Icons/Primary` #181a1f (legacy collection, no token) for the action text and × icon; kept as exact values.
 - **Toast behaviour:** timing, stacking, placement and auto-dismiss aren't defined in Figma or implemented; the app controls when a Toast is rendered.
 - **Rating `good` contrast (verified by calculation):** white on `--bg-success-subtle` #299357 is about 3.9:1 at 12px, below WCAG AA 4.5:1. `avg` (4.6:1) and `bad` pass. Token-level; follows Figma.
@@ -1122,6 +1177,8 @@ Verified unless marked *assumption*.
 - **InfoBanner** background #eef1f5 (`Color/Background/Subtle`, legacy) has no token; its leading artwork and chevron are multi-colour Figma images.
 - **Badge** “turquise” is spelled `turquoise` in code.
 - **Accordion** clamps by line count with “see more”; Figma's expanded sample shows 6 lines, so `lines` defaults to 6.
+- **SpecialButton** behaviour (open details, copy or apply a code) is product-defined (Figma guidance); the component only calls `onClick`. Its 2px/4px spacing is raw in Figma.
+- **CompoundButton** is named “compount button” in Figma; its text colour #181a1f and 40px radius are raw values with no token. It has no disabled or pressed design.
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).
