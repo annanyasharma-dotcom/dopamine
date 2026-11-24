@@ -464,7 +464,7 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
 | Prop | Type | Required | Default | Figma property | Behaviour |
 | --- | --- | --- | --- | --- | --- |
 | `large` | `boolean` | no | `true` | `large` | Large: 132px card, full-width Add bar, ratings, offer. Small: 76px thumbnail with floating + / ✓ button. |
-| `orientation` | `'vertical' \| 'horizontal'` | no | `'vertical'` | `orientation` | Small only. Horizontal = 328px bordered row. Ignored when `large` (no large horizontal in Figma). |
+| `orientation` | `'vertical' \| 'horizontal'` | no | `'vertical'` | `orientation` | Small only. Horizontal = 328px row (no border). Ignored when `large` (no large horizontal in Figma). |
 | `added` | `boolean` | no | `false` | `added?` | Added state: large shows “{n} added ⌄” on coral; small shows a coral ✓ button. |
 | `tag` | `boolean \| TagType` | no | `true` | `tag` (a .Tags instance) | Tag on the image (large only): `true` = Bestseller, or a `TagType` (`'bestseller' \| 'previously-bought' \| 'promoted' \| 'sold-out'`), `false` hides it. Rendered with `Tag`. |
 | `name` | `ReactNode` | yes | — | product name | Bold 14/18, clamped to 2 lines (39px). |
@@ -485,7 +485,7 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
 
 | Part | Values |
 | --- | --- |
-| Card | radius `--radius-lg`; large: 132px, padding-bottom `--gap-12`; small vertical: 76px content, padding `--gap-12` 0; horizontal: 328px, padding `--gap-12`, inside stroke `--stroke-regular` #dbdbdb |
+| Card | radius `--radius-lg`; large: 132px, padding-bottom `--gap-12`; small vertical: 76px content, padding `--gap-12` 0; horizontal: 328px, padding `--gap-12`, no stroke (removed on request; Figma has a 1px #dbdbdb inside stroke) |
 | Image box | `--bg-brand-primary`, border `--stroke-regular` `--color-cool-neutral-100` #dbdbdb, radius `--radius-md`; large 132×100, padding `--gap-24` `--gap-16` |
 | Tag | `Tag` component, centred 2px from the top of the image |
 | Add bar (large) | 44px, radius `--radius-md`, `--shadow-md`; add: `--bg-brand-primary`, border `--color-cool-neutral-200` #c4c4c4, `--text-brand-brand` 14/18 bold; added: `--bg-brand-coral`, white text, 20px white circle with coral chevron |
@@ -1109,6 +1109,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **Tag** (all 4 Figma .Tags types), **Search**, **Grid** / **GridItem**, **BottomSheet** added (Figma section `40002855:2865`). Icon library: added `close-filled`, `restart`, `good-experience`, `search`. **SkuCard** `tag` now also accepts a `TagType` (backward compatible: `true` is still Bestseller) and renders through `Tag`. Values follow the Figma file exactly. Stories with interaction tests. | `2a7e9b9` |
 | 2026-11-25 | **InfoBanner**, **Badge**, **Chip**, **Toggle**, **Radio**, **Checkbox**, **Accordion** added (Figma section `40002855:2873`). Icon library: added `arrow-left`, `chevron-down`, `chevron-up`. Values follow the Figma file exactly. Stories with interaction tests. | `e62b041` |
 | 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | `ab915f1` |
+| 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | uncommitted |
 
 ---
 
@@ -1152,6 +1153,7 @@ Verified unless marked *assumption*.
 - **CounterBadge disabled for brand/blue** — *assumption:* Figma defines disabled for green only (and says it doesn't imply others); the same muted look is applied to any colour.
 - **CounterBadge `max`** is not a Figma property; added so large counts don't overflow the 16px design.
 - **SkuCard exact Figma values:** this Figma page resolves `border/neutrals/primary` to #dbdbdb (export: #f2f2f2) and `border/neutrals/secondary` to #c4c4c4 (export: #dbdbdb), so SkuCard uses `--color-cool-neutral-100` / `-200`. Colours with no token are kept in `SkuCard.css`: `Colour Usage/Text/Secondary` #414752 (rating count) and the delivery icon gradient `Colours/Healing Mauve/99` #fefbff → `/90` #f9d4ff. `tokens.css` is unchanged.
+- **SkuCard horizontal has no card stroke** — removed on request (2026-11-25); Figma still shows a 1px #dbdbdb inside stroke on `large=false, orientation=horizontal`. Size is unchanged (328×149).
 - **SkuCard product image:** the Figma frame has no actual image (empty white box); `imageSrc` fills it with `object-fit: contain`. The small card's image fit/padding isn't specified in Figma — *assumption:* full box, contain.
 - **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
 - **SkuCard added behaviour:** per Figma, “added” must be set only after the cart confirms, and the chevron / ✓ actions are product-defined; the component just calls `onAddedClick`.
