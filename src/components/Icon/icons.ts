@@ -5,6 +5,10 @@
  */
 import bestseller from './svg/bestseller.svg';
 import check from './svg/check.svg';
+import chevronRight from './svg/chevron-right.svg';
+import close from './svg/close.svg';
+import info from './svg/info.svg';
+import star from './svg/star.svg';
 
 export interface IconDefinition {
   /** URL of the SVG file. */
@@ -33,6 +37,34 @@ export const icons = {
     height: 24,
     defaultColor: 'var(--icon-brand-primary-inverse)', /* Figma white */
     figma: 'check (SKU › Add Action Button, node I40002756:2810;40002779:756)',
+  },
+  'chevron-right': {
+    src: chevronRight,
+    width: 24,
+    height: 24,
+    defaultColor: 'var(--color-base-black)', /* Figma black (raw fill) */
+    figma: 'chevron-right (Widget node 40002852:2412, list node 40002852:2423)',
+  },
+  close: {
+    src: close,
+    width: 24,
+    height: 24,
+    defaultColor: '#181a1f', /* Figma Color/Icons/Primary (no token) */
+    figma: 'Dismiss Icon (Toast, node 40002646:31676)',
+  },
+  info: {
+    src: info,
+    width: 20.5,
+    height: 20.5,
+    defaultColor: 'var(--icon-brand-primary)', /* Figma #0d0d0d (white toast); toasts recolour it per type */
+    figma: 'Information Icon Shapes (Toast › Status Information Icon, drawn at 20.5px inside a 24px box)',
+  },
+  star: {
+    src: star,
+    width: 14,
+    height: 14,
+    defaultColor: 'var(--icon-brand-primary-inverse)', /* Figma white */
+    figma: 'rating-star (Rating, node 40002796:2367)',
   },
 } satisfies Record<string, IconDefinition>;
 

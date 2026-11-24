@@ -1,0 +1,37 @@
+/* Rating — Figma: "Rating" component set (node 40002801:2398). Values match Figma variables. */
+.dp-rating {
+  --dp-rating-bg: var(--bg-success-subtle); /* type=good: #299357 */
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  padding: var(--gap-2) var(--gap-6) var(--gap-2) var(--gap-4);
+  border-radius: var(--radius-full);
+  background: var(--dp-rating-bg);
+  color: var(--text-brand-primary-inverse);
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: 12px; /* Figma label-sm */
+  line-height: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dp-rating--avg {
+  --dp-rating-bg: var(--bg-warning-base); /* #d54101 */
+}
+
+.dp-rating--bad {
+  --dp-rating-bg: var(--bg-error-base); /* #c50f1f */
+}
+
+.dp-rating__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -1,0 +1,29 @@
+/* Footer — Figma: "Footer" (node 40002759:4265). Values match Figma variables. */
+.dp-footer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--gap-24);
+  width: 100%;
+  padding: var(--gap-24) var(--gap-16);
+  overflow: hidden;
+  background: var(--bg-brand-primary); /* Figma white */
+  font-family: var(--font-family-base);
+}
+
+.dp-footer__message {
+  width: 267px; /* Figma: fixed text width, gives the 3-line break */
+  max-width: 100%;
+  margin: 0;
+  font-weight: 700;
+  font-size: 40px; /* Figma display/size */
+  line-height: 44px; /* Figma display/line-height (token export: 48px) */
+  letter-spacing: -0.8px; /* Figma display/letter-spacing */
+  /* Figma gradient text: color/flame-coral/100 26.544% → color/healing-mauve/200 107.42% */
+  background-image: linear-gradient(221.17deg, var(--color-flame-coral-100) 26.544%, var(--color-healing-mauve-200) 107.42%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

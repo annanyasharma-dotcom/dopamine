@@ -514,7 +514,7 @@ import { Header } from './components';
 
 ### When to use
 
-- Any time you need `bestseller` or `check` (more icons will be added to the library over time).
+- Any time you need an icon that's in the library: `bestseller`, `check`, `chevron-right`, `close`, `info`, `star`.
 - When you need the same icon in different colours: one file, coloured with `color`.
 
 ### When not to use
@@ -526,7 +526,7 @@ import { Header } from './components';
 
 | Prop | Required | Default | Values |
 | --- | --- | --- | --- |
-| `name` | **yes** | — | `bestseller`, `check` |
+| `name` | **yes** | — | `bestseller`, `check`, `chevron-right`, `close`, `info`, `star` |
 | `size` | no | Figma size (14, 24) | px |
 | `color` | no | Figma colour | CSS colour or token, or `currentColor` |
 | `label` | no | — (decorative) | accessible name |
@@ -665,3 +665,282 @@ const qty = cart.quantityOf(p.id);
 - Names longer than 2 lines are cut with “…”.
 - No quantity stepper or remove control; `onAddedClick` is where your flow handles that.
 - Some colours are exact Figma values without tokens yet (see MASTER.md → Known issues).
+
+---
+
+## Toast
+
+**Purpose:** a brief, non-blocking message about something that just happened.
+
+### When to use (Figma guidance)
+
+| Type | Use for |
+| --- | --- |
+| `success` | Confirming an action the user took, when the result isn't otherwise obvious. |
+| `error` | An operation failed; say what failed and how to recover. |
+| `warning` | A non-blocking caution about a possible issue. |
+| `info` | A neutral update with no success/failure meaning. |
+| `white` | A neutral, low-emphasis message where semantic colour isn't needed. |
+
+Add `actionLabel` only for one relevant follow-up. Use “Undo” only when the change can really be reversed; for retries use a matching label such as “Retry”.
+
+### When not to use
+
+- **Decisions the user must make before continuing:** use a dialog.
+- **Critical or unresolved errors:** keep them visible in context, not only in a toast.
+- **Routine changes that are already visible:** don't add a redundant toast.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `label` | **yes** | — | message |
+| `type` | no | `'warning'` | `warning`, `error`, `success`, `info`, `white` |
+| `icon` | no | `true` | status icon |
+| `cross` | no | `true` | × button |
+| `onDismiss` | no | — | × handler |
+| `actionLabel` / `onAction` | no | — | action button |
+
+### Behaviour
+
+- The Toast is just the message bar. Your app decides when to show it, where (e.g. bottom of the screen), how many to stack, and when to hide it.
+- `error` is announced immediately (`role="alert"`); other types politely (`role="status"`).
+
+### Example
+
+```tsx
+import { Toast } from './components';
+
+{toast && (
+  <div style={{ position: 'fixed', left: 16, right: 16, bottom: 16 }}>
+    <Toast
+      type="success"
+      label="Item archived."
+      actionLabel="Undo"
+      onAction={() => restore(item.id)}
+      onDismiss={() => setToast(null)}
+    />
+  </div>
+)}
+```
+
+### Accessibility
+
+- Messages should make sense without colour (“Payment failed”, not just a red bar).
+- Don't auto-hide a toast that has an action too quickly; users need time to reach it.
+
+### Common mistakes
+
+- ❌ “Undo” on something that can't be undone.
+- ❌ Using `white` to soften a real error.
+- ❌ More than one action. The design has room for one.
+
+---
+
+## Rating
+
+**Purpose:** show a product's average rating with a colour band.
+
+### When to use
+
+- Next to products or services that have a user rating. Pick `type` from your product's banding rules (Figma doesn't define the thresholds).
+
+### When not to use
+
+- **No ratings yet:** don't show a badge (and don't use `bad` for “no data”).
+- **Rating input:** this is display only.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `value` | **yes** | — | e.g. `4.5` |
+| `type` | no | `'good'` | `good`, `avg`, `bad` |
+
+### Example
+
+```tsx
+import { Rating } from './components';
+
+const band = (r: number) => (r >= 4 ? 'good' : r >= 3 ? 'avg' : 'bad'); // your product's rules
+<Rating value={product.rating} type={band(product.rating)} />
+```
+
+### Accessibility
+
+- Read as “Rated 4.5”.
+- The `good` green with white text is about 3.9:1 contrast, below WCAG AA (token issue; see MASTER.md).
+
+### Common mistakes
+
+- ❌ Treating a low rating as a safety or error signal (Figma guidance).
+
+---
+
+## Logo
+
+**Purpose:** the TATA 1mg logo.
+
+### When to use
+
+| Props | Use on |
+| --- | --- |
+| `colour="black"` (default) | White or light backgrounds. |
+| `colour="brand"` | Light backgrounds where the brand colour is wanted. |
+| `inverse` | Dark or coloured backgrounds (white logo). |
+
+### Properties
+
+| Prop | Required | Default |
+| --- | --- | --- |
+| `colour` | no | `'black'` |
+| `inverse` | no | `false` |
+| `label` | no | `'TATA 1mg'` |
+
+### Example
+
+```tsx
+import { Logo } from './components';
+
+<Logo />
+<Logo colour="brand" />
+<div style={{ background: 'var(--bg-brand-coral)' }}><Logo colour="brand" inverse /></div>
+```
+
+### Common mistakes
+
+- ❌ Stretching or recolouring the logo with custom CSS. Use the props.
+- ❌ Hiding it from screen readers when it's the only brand name on the page.
+
+---
+
+## Footer
+
+**Purpose:** brand sign-off at the end of a page: TATA 1mg logo with “Adding some sunshine to your life”.
+
+### When to use
+
+- After the main content of a page or flow.
+
+### When not to use
+
+- As a sticky action bar, navigation or legal footer (Figma guidance). Add links and legal text with a separate pattern.
+
+### Properties
+
+None besides native `<footer>` props. It's static: the logo, wording and gradient are approved brand elements.
+
+### Example
+
+```tsx
+import { Footer } from './components';
+
+<main>{/* page content */}</main>
+<Footer />
+```
+
+---
+
+## Widget
+
+**Purpose:** a titled section on a page that holds a group of content (SKUs, list items, grids).
+
+### When to use
+
+- Home and listing pages, for each content section (“Previously ordered”, “Your account”…).
+- Show the chevron only when there's a real “see all” destination (Figma guidance).
+
+### When not to use
+
+- **Single items:** use the item directly (e.g. `ListItem`).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `title` | **yes** | — | section title |
+| `subtitle` | no | — | supporting line |
+| `chevron` | no | `true` | |
+| `onChevronClick` | no | — | makes the chevron a button |
+| `chevronLabel` | no | `'See all'` | accessible name |
+| `children` | no | — | the section's content |
+
+### Dependencies
+
+- `Icon` (chevron-right). Designed to hold `SkuCard`, `ListItem` and similar.
+
+### Examples
+
+```tsx
+import { Widget, SkuCard, ListItem } from './components';
+
+<Widget title="Previously ordered" subtitle="Reorder in one tap" onChevronClick={() => navigate('/orders')}>
+  <div style={{ display: 'flex', gap: 'var(--gap-16)', overflowX: 'auto' }}>
+    {items.map((p) => <SkuCard key={p.id} large={false} {...toSkuProps(p)} />)}
+  </div>
+</Widget>
+
+<Widget title="Your account" chevron={false}>
+  <div style={{ display: 'grid', gap: 'var(--gap-12)' }}>
+    <ListItem title="My orders" subtitle="Track, return or reorder" onClick={openOrders} />
+  </div>
+</Widget>
+```
+
+### Accessibility
+
+- The title is an `<h2>`, so sections show up in screen-reader heading navigation.
+- Give the chevron a specific `chevronLabel` (e.g. “See all previously ordered items”) when several widgets are on one page.
+
+### Common mistakes
+
+- ❌ Leaving the chevron on without `onChevronClick`. It then shows but does nothing.
+- ❌ Shipping Figma's pink placeholder slot.
+
+---
+
+## ListItem
+
+**Purpose:** one row in a list: optional leading media, a title, an optional subtitle and a chevron.
+
+### When to use
+
+- Menus, settings, account pages, any list of destinations.
+- Inside a `Widget`, or stacked on its own.
+
+### When not to use
+
+- **Products:** use `SkuCard`.
+- **Long text:** title and subtitle are one line each and get cut with “…”.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `title` | no | — | main text (Figma `t1`) |
+| `subtitle` | no | — | supporting text (Figma `t2`) |
+| `media` | no | `true` (placeholder) | `true`, `false`, or a node (image, `Icon`) |
+| `chevron` | no | `true` | |
+| `onClick` | no | — | makes the row a button |
+
+> `media` defaults to `true`, which shows Figma's pink placeholder. Pass a real image/icon, or `media={false}`.
+
+### Examples
+
+```tsx
+import { ListItem, Icon } from './components';
+
+<ListItem title="Lab tests" subtitle="Book at home" media={<img src={labIcon} alt="" />} onClick={openLabs} />
+<ListItem title="Saved addresses" media={false} onClick={openAddresses} />
+<ListItem title="App version 4.2.0" media={false} chevron={false} />
+```
+
+### Accessibility
+
+- With `onClick`, the whole row is one button whose name is its text.
+- Without `onClick`, it's static content; don't show the chevron then.
+
+### Common mistakes
+
+- ❌ Leaving the default placeholder media in production.
+- ❌ Chevron on a row that doesn't go anywhere.

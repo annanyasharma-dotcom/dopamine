@@ -1,0 +1,87 @@
+/* ListItem — Figma: "list" (node 40002759:4984). Values match Figma variables. */
+.dp-list-item {
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+  /* Inside stroke (keeps the 76px height): Figma border/neutrals/primary = #dbdbdb in this file */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-100);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+}
+
+.dp-list-item__body {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-16);
+  width: 100%;
+  padding: var(--gap-16);
+  text-align: left;
+}
+
+:where(button.dp-list-item__body) {
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.dp-list-item__body:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: calc(-1 * var(--stroke-thick));
+}
+
+.dp-list-item__media {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: var(--radius-xs);
+}
+
+.dp-list-item__media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dp-list-item__media--placeholder {
+  background: var(--color-comfort-pink-25); /* Figma color/comfort-pink/25 */
+}
+
+.dp-list-item__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-6);
+  height: 44px;
+  white-space: nowrap;
+}
+
+.dp-list-item__title,
+.dp-list-item__subtitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dp-list-item__title {
+  font-weight: 600;
+  font-size: 16px; /* Figma label-lg */
+  line-height: 20px;
+}
+
+.dp-list-item__subtitle {
+  font-weight: 500;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+}

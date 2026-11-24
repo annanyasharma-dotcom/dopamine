@@ -1,0 +1,103 @@
+/*
+ * Toast — Figma: "Toast" component set (node 40002646:31695), 5 types × action text.
+ * Figma is the source of truth; every value is labelled with its Figma variable.
+ */
+.dp-toast {
+  --dp-toast-bg: var(--bg-warning-subtler); /* #ffeee3 */
+  --dp-toast-border: var(--border-warning-subtle); /* #fa8e63 */
+  --dp-toast-icon: var(--icon-warning-base); /* #d54101 */
+  --dp-toast-action: #181a1f; /* Figma Color/Content/Primary (no token) */
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  width: 100%;
+  padding: var(--gap-12);
+  border-radius: var(--radius-md);
+  background: var(--dp-toast-bg);
+  /* Inside stroke (keeps the 48px height) + Figma effect "md" */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--dp-toast-border), var(--shadow-md);
+  font-family: var(--font-family-base);
+}
+
+.dp-toast--error {
+  --dp-toast-bg: var(--bg-error-subtler); /* #ffe0e3 */
+  --dp-toast-border: var(--border-error-subtle); /* #ff9ea7 */
+  --dp-toast-icon: var(--icon-error-base); /* #c50f1f */
+}
+
+.dp-toast--success {
+  --dp-toast-bg: var(--bg-success-subtler); /* #e0f6e9 */
+  --dp-toast-border: var(--border-success-subtle); /* #299357 */
+  --dp-toast-icon: var(--icon-success-base); /* #013e1c */
+}
+
+.dp-toast--info {
+  --dp-toast-bg: var(--bg-info-subtler); /* #ecf8ff */
+  --dp-toast-border: var(--border-info-subtle); /* #6bbdff */
+  --dp-toast-icon: var(--icon-info-base); /* #1772bb */
+}
+
+.dp-toast--white {
+  --dp-toast-bg: var(--bg-brand-primary); /* white */
+  --dp-toast-border: var(--color-cool-neutral-100); /* Figma border/neutrals/primary = #dbdbdb in this file */
+  --dp-toast-icon: var(--icon-brand-primary); /* #0d0d0d */
+}
+
+/* Status icon: 20.5px Figma shape centred in a 24px box */
+.dp-toast__icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.dp-toast__label {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: var(--text-brand-primary);
+  font-weight: 500;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+}
+
+.dp-toast__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+}
+
+:where(.dp-toast button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-toast button:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-toast__action {
+  color: var(--dp-toast-action);
+  font-weight: 500;
+  font-size: 12px; /* Figma label-sm */
+  line-height: 14px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dp-toast__dismiss {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}

@@ -1,0 +1,67 @@
+/* Widget — Figma: "Widget" (node 40002760:26923). Values match Figma variables. */
+.dp-widget {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-12);
+  width: 100%;
+  padding: var(--gap-16);
+  background: var(--bg-brand-primary);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+}
+
+.dp-widget__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dp-widget__titles {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dp-widget__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px; /* Figma h5/size */
+  line-height: 22px; /* Figma h5/line-height (token export: 24px) */
+}
+
+.dp-widget__subtitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px; /* Figma h6/size */
+  line-height: 20px; /* Figma h6/line-height */
+}
+
+.dp-widget__chevron {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+:where(button.dp-widget__chevron) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+button.dp-widget__chevron:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-widget__content {
+  width: 100%;
+}

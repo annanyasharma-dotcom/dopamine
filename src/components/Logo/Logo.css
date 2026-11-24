@@ -1,0 +1,48 @@
+/*
+ * Logo — Figma: "TATA 1mg logo" (node 40002759:4201), 120×40.
+ * Both word-marks are positioned exactly as in Figma; the SVG shapes are unmodified and
+ * coloured through a mask. Figma ships 3 colour copies of identical shapes; one file each is used.
+ */
+.dp-logo {
+  --dp-logo-color: var(--icon-brand-primary); /* Figma colour=black: #0d0d0d */
+
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 120px;
+  height: 40px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.dp-logo--brand {
+  --dp-logo-color: var(--icon-brand-coral); /* Figma colour=brand: #ff5443 */
+}
+
+.dp-logo--inverse {
+  --dp-logo-color: var(--icon-brand-primary-inverse); /* Figma inverse: white */
+}
+
+.dp-logo__part {
+  position: absolute;
+  background-color: var(--dp-logo-color);
+  mask: var(--dp-logo-src) center / 100% 100% no-repeat;
+}
+
+/* Figma inset 29.11% 44.9% 31.42% 3.33% */
+.dp-logo__part--tata {
+  --dp-logo-src: url('./assets/tata.svg');
+  top: 29.11%;
+  right: 44.9%;
+  bottom: 31.42%;
+  left: 3.33%;
+}
+
+/* Figma inset 17.5% 3.33% 19.75% 59.39% */
+.dp-logo__part--1mg {
+  --dp-logo-src: url('./assets/1mg.svg');
+  top: 17.5%;
+  right: 3.33%;
+  bottom: 19.75%;
+  left: 59.39%;
+}
