@@ -1,0 +1,63 @@
+/* Radio — Figma: "Radio Button" component set (node 40002696:341). Values match Figma variables. */
+.dp-radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-8);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+  cursor: pointer;
+}
+
+.dp-radio--disabled {
+  cursor: not-allowed;
+}
+
+.dp-radio__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+/* Unselected: white circle with a 1px Figma border/neutrals/tertiary (#adadad in this file) */
+.dp-radio__control {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: var(--stroke-regular) solid var(--color-cool-neutral-300);
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-primary);
+}
+
+/* Selected: Figma artwork (coral circle, white dot) */
+.dp-radio__input:checked + .dp-radio__control {
+  border: 0;
+  background: url('./assets/selected.svg') center / 24px 24px no-repeat;
+}
+
+/* Disabled + selected: Figma's grey artwork */
+.dp-radio__input:disabled:checked + .dp-radio__control {
+  background-image: url('./assets/selected-disabled.svg');
+}
+
+/* Disabled + unselected: not designed in Figma — assumption: grey fill, no dot */
+.dp-radio__input:disabled:not(:checked) + .dp-radio__control {
+  border-color: var(--bg-brand-quinary);
+  background: var(--color-cool-neutral-50);
+}
+
+.dp-radio__input:focus-visible + .dp-radio__control {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-radio__label {
+  font-size: 14px;
+  line-height: 18px;
+}

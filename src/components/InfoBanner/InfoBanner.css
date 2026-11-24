@@ -1,0 +1,64 @@
+/*
+ * InfoBanner — Figma: "Info banner" (node 40002687:16724).
+ * The leading artwork and chevron are multi-colour Figma SVGs, used as images.
+ */
+.dp-info-banner {
+  width: 100%;
+  border-radius: var(--radius-md);
+  background: #eef1f5; /* Figma Color/Background/Subtle (no token) */
+  font-family: var(--font-family-base);
+}
+
+.dp-info-banner__body {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-12);
+  width: 100%;
+  /* Figma height (6 + 40px icon slot + 6), kept even when the icon is hidden */
+  min-height: 52px;
+  padding: var(--gap-6) var(--gap-12);
+  text-align: left;
+}
+
+:where(button.dp-info-banner__body) {
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.dp-info-banner__body:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-info-banner__icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.dp-info-banner__icon > img {
+  display: block;
+}
+
+.dp-info-banner__text {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-brand-primary);
+  font-weight: 700;
+  font-size: 12px; /* Figma Body/12/700 */
+  line-height: 16px;
+}
+
+.dp-info-banner__chevron {
+  flex-shrink: 0;
+  display: block;
+}

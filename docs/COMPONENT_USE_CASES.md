@@ -514,7 +514,7 @@ import { Header } from './components';
 
 ### When to use
 
-- Any time you need an icon that's in the library: `bestseller`, `check`, `chevron-right`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`.
+- Any time you need an icon that's in the library (see MASTER.md → Icon for the full list with sizes).
 - When you need the same icon in different colours: one file, coloured with `color`.
 
 ### When not to use
@@ -526,7 +526,7 @@ import { Header } from './components';
 
 | Prop | Required | Default | Values |
 | --- | --- | --- | --- |
-| `name` | **yes** | — | `bestseller`, `check`, `chevron-right`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star` |
+| `name` | **yes** | — | `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star` |
 | `size` | no | Figma size (14, 24) | px |
 | `color` | no | Figma colour | CSS colour or token, or `currentColor` |
 | `label` | no | — (decorative) | accessible name |
@@ -1146,3 +1146,251 @@ import { BottomSheet, ListItem } from './components';
 - ❌ Forgetting `onClose`: then ×, Escape and the backdrop do nothing.
 - ❌ Leaving the default arrows on the action buttons; pass `leftIcon: false, rightIcon: false`.
 - ❌ Two primary-looking actions: the sheet always renders secondary as outline and primary as brand.
+
+---
+
+## InfoBanner
+
+**Purpose:** a short, in-page service update or promo (e.g. “Get medicines in under 30mins”), optionally leading somewhere.
+
+### When to use
+
+- Contextual service messages or promos inside a page.
+- Show the chevron (and pass `onClick`) only when the banner leads to a real destination (Figma guidance).
+
+### When not to use
+
+- **Transient feedback:** use `Toast`.
+- **Critical alerts, form errors or required decisions** (Figma guidance).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `children` | **yes** | — | message |
+| `icon` | no | `true` (Figma artwork) | `true`, `false`, or a 40px node |
+| `chevron` | no | `true` | |
+| `onClick` | no | — | makes the banner a button |
+
+### Layout
+
+- Always at least 52px tall, with or without the icon, so banners line up. Text longer than 2 lines makes it taller rather than being cut.
+
+### Example
+
+```tsx
+import { InfoBanner } from './components';
+
+<InfoBanner onClick={() => navigate('/express')}>Get medicines in under 30mins. Now in your locality</InfoBanner>
+<InfoBanner chevron={false}>Free delivery on orders above ₹199</InfoBanner>
+```
+
+### Common mistakes
+
+- ❌ Chevron with no `onClick`.
+- ❌ Showing a delivery promise you haven't verified for the user's location (Figma guidance).
+
+---
+
+## Badge
+
+**Purpose:** a short decorative label for a category or descriptor.
+
+### When to use
+
+- Category labels (“New”, “Ayurveda”, “Lab test”) where colour helps tell groups apart. Keep the same colour for the same category everywhere.
+
+### When not to use
+
+- **Status** (success, error, warning): colours here have no meaning (Figma guidance). Use `Toast`, `Tag` or text.
+- **Counts:** use `CounterBadge`. **Product tags** (Bestseller, Sold out): use `Tag`.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `children` | **yes** | — | label |
+| `colour` | no | `'pink'` | `pink`, `mauve`, `yellow`, `red`, `green`, `orange`, `blue`, `turquoise`, `gold` |
+
+### Example
+
+```tsx
+<Badge colour="mauve">Ayurveda</Badge>
+<Badge colour="blue">Lab test</Badge>
+```
+
+---
+
+## Chip
+
+**Purpose:** a compact action or filter, optionally with a leading icon and a count.
+
+### When to use
+
+| Props | Use for |
+| --- | --- |
+| `inverse` (default, light) | Standard chips on white or light surfaces. |
+| `inverse={false}` (dark) | Chips that need stronger emphasis. |
+| `disabled` | A temporarily unavailable option; explain why nearby. |
+
+### When not to use
+
+- **Selected / unselected filters:** there's no selected state in the design. Define one before using chips as toggles (Figma guidance).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `children` | **yes** | — | label |
+| `inverse` | no | `true` | light / dark |
+| `disabled` | no | `false` | |
+| `leftIcon` | no | `true` (arrow) | `true`, `false`, node |
+| `count` | no | — | number bubble |
+| `onClick` … | no | — | native button props |
+
+### Example
+
+```tsx
+import { Chip } from './components';
+
+<Chip leftIcon={false} count={3} onClick={openFilters}>Filters</Chip>
+<Chip inverse={false} leftIcon={false} onClick={() => setSort('price')}>Sort by price</Chip>
+```
+
+### Common mistakes
+
+- ❌ Leaving the default arrow when it doesn't mean anything; pass `leftIcon={false}`.
+- ❌ Reading `inverse={false}` (dark) as “selected”.
+
+---
+
+## Toggle
+
+**Purpose:** turn a setting on or off immediately.
+
+### When to use
+
+- Settings that take effect right away (notifications, WhatsApp updates).
+
+### When not to use
+
+- **Choices submitted with a form:** use `Checkbox`.
+- **Picking one of several options:** use `Radio`.
+
+### Properties
+
+| Prop | Required | Default |
+| --- | --- | --- |
+| `checked` / `defaultChecked` | no | — |
+| `disabled` | no | `false` |
+| `children` (label) or `aria-label` | one of them | — |
+| `onChange` … | no | — |
+
+### Example
+
+```tsx
+<Toggle checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)}>Order updates on WhatsApp</Toggle>
+```
+
+### Accessibility
+
+- It's a real switch (`role="switch"`): Space toggles it and screen readers announce on/off.
+- The label should name the setting (“Order updates”), not the action (“Turn on”).
+- Disabled-off looks like enabled-off (Figma note), so explain unavailability in text.
+
+---
+
+## Radio
+
+**Purpose:** choose exactly one option from a group.
+
+### Properties
+
+| Prop | Required | Default |
+| --- | --- | --- |
+| `name` | **yes** (to group) | — |
+| `value`, `checked` / `defaultChecked`, `onChange` | no | — |
+| `disabled` | no | `false` |
+| `children` (label) or `aria-label` | one of them | — |
+
+### Example
+
+```tsx
+<fieldset>
+  <legend>Sample collection slot</legend>
+  {slots.map((s) => (
+    <Radio key={s.id} name="slot" value={s.id} checked={slot === s.id} onChange={() => setSlot(s.id)}>{s.label}</Radio>
+  ))}
+</fieldset>
+```
+
+### Accessibility
+
+- Wrap a group in `<fieldset>` + `<legend>`. Arrow keys move between options in the same `name` group.
+
+### Common mistakes
+
+- ❌ A single radio on its own (use `Checkbox`).
+- ❌ Different `name`s inside one group (they won't be exclusive).
+
+---
+
+## Checkbox
+
+**Purpose:** turn independent options on or off.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `checked` / `defaultChecked`, `onChange` | no | — | |
+| `circle` | no | `true` | round / rounded square |
+| `disabled` | no | `false` | |
+| `children` (label) or `aria-label` | one of them | — | |
+
+### Example
+
+```tsx
+<Checkbox circle={false} checked={save} onChange={(e) => setSave(e.target.checked)}>Save this address</Checkbox>
+```
+
+### Edge cases
+
+- Figma has no unchecked design; the unchecked look here is an assumption (see MASTER.md).
+- `circle` is only a shape: it's still a checkbox, not a radio (Figma guidance).
+
+---
+
+## Accordion
+
+**Purpose:** a question that expands to show its answer (FAQs, test details).
+
+### When to use
+
+- Lists of questions and answers where people only need some answers.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `title` | **yes** | — | question |
+| `children` | **yes** | — | answer |
+| `expanded` / `defaultExpanded` / `onExpandedChange` | no | `false` | |
+| `lines` | no | `6` | lines shown before “see more”; `0` = all |
+| `seeMoreLabel` | no | `'see more'` | |
+
+### Behaviour
+
+- Header press opens/closes it. When open, long answers are cut to `lines` with “see more”, which shows the rest (Figma: expanded → more expanded).
+
+### Example
+
+```tsx
+<div style={{ display: 'grid', gap: 'var(--gap-12)' }}>
+  {faqs.map((f) => <Accordion key={f.id} title={f.q}>{f.a}</Accordion>)}
+</div>
+```
+
+### Accessibility
+
+- The header is a button with `aria-expanded`; the answer is a region labelled by the question.

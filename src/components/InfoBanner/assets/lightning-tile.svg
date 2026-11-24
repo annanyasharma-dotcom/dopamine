@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Leading Icon Content Slot">
+<rect width="40" height="40" rx="8" fill="url(#paint0_linear_0_6)"/>
+<path id="Delivery Lightning Icon Path" d="M25.1079 7.8393C25.4679 7.83562 25.6963 8.22456 25.5181 8.53754L20.8355 16.7611L28.4038 16.3021C28.8024 16.2779 29.0452 16.7335 28.8032 17.0511L17.4342 31.9738C17.1148 32.3932 16.4536 32.0442 16.6198 31.5442L19.9098 21.6653L11.5886 22.0433C11.2168 22.06 10.9761 21.6564 11.1677 21.3372L13.6481 17.2064L13.6491 17.2054L19.0924 8.12934C19.1757 7.99034 19.3249 7.90466 19.4869 7.90278L25.1079 7.8393Z" fill="#FAE5FD"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_6" x1="20" y1="0" x2="20" y2="40" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1BAFA"/>
+<stop offset="1" stop-color="#864291"/>
+</linearGradient>
+</defs>
+</svg>

@@ -3,7 +3,10 @@
  * with its native size from Figma. To add an icon: export the SVG from Figma into ./svg,
  * add an entry here, and document it in docs/MASTER.md.
  */
+import arrowLeft from './svg/arrow-left.svg';
 import bestseller from './svg/bestseller.svg';
+import chevronDown from './svg/chevron-down.svg';
+import chevronUp from './svg/chevron-up.svg';
 import check from './svg/check.svg';
 import chevronRight from './svg/chevron-right.svg';
 import close from './svg/close.svg';
@@ -97,6 +100,27 @@ export const icons = {
     height: 18,
     defaultColor: 'var(--icon-brand-coral)', /* Figma #ff5443 */
     figma: 'search (Search, node 40002849:1914)',
+  },
+  'arrow-left': {
+    src: arrowLeft,
+    width: 16,
+    height: 16,
+    defaultColor: 'var(--icon-brand-primary)', /* Figma #0d0d0d (light chip) */
+    figma: 'Leading Arrow Icon (Chip, node 40002646:32582)',
+  },
+  'chevron-down': {
+    src: chevronDown,
+    width: 24,
+    height: 24,
+    defaultColor: 'var(--color-base-black)', /* Figma black (raw fill) */
+    figma: 'chevron-down, bold=false (Accordian rest, node 40002779:962)',
+  },
+  'chevron-up': {
+    src: chevronUp,
+    width: 24,
+    height: 24,
+    defaultColor: 'var(--color-base-black)', /* Figma black (raw fill) */
+    figma: 'chevron (Accordian expanded, node 40002779:984)',
   },
 } satisfies Record<string, IconDefinition>;
 

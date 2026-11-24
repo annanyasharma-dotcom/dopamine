@@ -1,0 +1,72 @@
+/*
+ * Checkbox — Figma: "Checkbox" component set (node 40002736:23709).
+ * Figma only defines CHECKED artwork (enabled/disabled × circle/square). The unchecked look is an
+ * assumption: the same shape outlined like the unselected Radio (1px #adadad on white).
+ */
+.dp-checkbox {
+  --dp-checkbox-radius: var(--radius-full);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-8);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+  cursor: pointer;
+}
+
+.dp-checkbox--square {
+  --dp-checkbox-radius: var(--radius-xs); /* Figma artwork corner: 4px */
+}
+
+.dp-checkbox--disabled {
+  cursor: not-allowed;
+}
+
+.dp-checkbox__input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+/* Unchecked (assumption, not in Figma) */
+.dp-checkbox__control {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: var(--stroke-regular) solid var(--color-cool-neutral-300); /* #adadad */
+  border-radius: var(--dp-checkbox-radius);
+  background: var(--bg-brand-primary);
+}
+
+.dp-checkbox__input:disabled:not(:checked) + .dp-checkbox__control {
+  border-color: var(--bg-brand-quinary);
+  background: var(--color-cool-neutral-50);
+}
+
+/* Checked: Figma artwork */
+.dp-checkbox__input:checked + .dp-checkbox__control {
+  border: 0;
+  background: var(--dp-checkbox-art) center / 24px 24px no-repeat;
+}
+
+.dp-checkbox--circle { --dp-checkbox-art: url('./assets/circle-checked.svg'); }
+.dp-checkbox--square { --dp-checkbox-art: url('./assets/square-checked.svg'); }
+.dp-checkbox--circle.dp-checkbox--disabled { --dp-checkbox-art: url('./assets/circle-checked-disabled.svg'); }
+.dp-checkbox--square.dp-checkbox--disabled { --dp-checkbox-art: url('./assets/square-checked-disabled.svg'); }
+
+.dp-checkbox__input:focus-visible + .dp-checkbox__control {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-checkbox__label {
+  font-size: 14px;
+  line-height: 18px;
+}

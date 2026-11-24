@@ -1,0 +1,25 @@
+/* Badge — Figma: "Badge" component set (node 40002646:32743). Values match Figma variables. */
+.dp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gap-4) var(--gap-8);
+  border-radius: var(--radius-s);
+  background: var(--dp-badge-bg);
+  color: var(--dp-badge-fg);
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  font-size: 12px; /* Figma label-sm */
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.dp-badge--pink { --dp-badge-bg: var(--color-comfort-pink-25); --dp-badge-fg: var(--color-comfort-pink-200); }
+.dp-badge--mauve { --dp-badge-bg: var(--color-healing-mauve-25); --dp-badge-fg: var(--color-healing-mauve-200); }
+.dp-badge--yellow { --dp-badge-bg: var(--color-sunshine-yellow-25); --dp-badge-fg: var(--color-sunshine-yellow-200); }
+.dp-badge--red { --dp-badge-bg: var(--color-vital-red-25); --dp-badge-fg: var(--color-vital-red-100); }
+.dp-badge--green { --dp-badge-bg: var(--color-wellness-green-25); --dp-badge-fg: var(--color-wellness-green-100); }
+.dp-badge--orange { --dp-badge-bg: var(--color-flame-coral-25); --dp-badge-fg: var(--color-flame-coral-200); }
+.dp-badge--blue { --dp-badge-bg: var(--color-precision-blue-25); --dp-badge-fg: var(--color-precision-blue-100); }
+.dp-badge--turquoise { --dp-badge-bg: var(--color-horizon-blue-25); --dp-badge-fg: var(--color-horizon-blue-200); }
+.dp-badge--gold { --dp-badge-bg: var(--color-golden-25); --dp-badge-fg: var(--color-golden-300); }

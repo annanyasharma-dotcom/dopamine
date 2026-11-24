@@ -1,0 +1,81 @@
+/* Toggle — Figma: "Toggle" component set (node 40002696:100). Values match Figma variables. */
+.dp-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-8);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary);
+  cursor: pointer;
+}
+
+.dp-toggle--disabled {
+  cursor: not-allowed;
+}
+
+/* Native input kept for keyboard + screen readers, visually hidden over the track */
+.dp-toggle__input {
+  position: absolute;
+  inset: 0;
+  width: 40px;
+  height: 24px;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.dp-toggle__track {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 40px;
+  min-width: 40px;
+  height: 24px;
+  padding: var(--gap-2);
+  overflow: hidden;
+  border-radius: 12px; /* Figma */
+  background: var(--bg-brand-quinary); /* off: #c4c4c4 */
+}
+
+.dp-toggle__thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--bg-brand-primary); /* off: white circle */
+  transition: transform 120ms ease;
+}
+
+.dp-toggle__input:checked + .dp-toggle__track {
+  background: var(--bg-brand-coral);
+}
+
+/* On: Figma thumb artwork (white circle + coral check), moved to the right */
+.dp-toggle__input:checked + .dp-toggle__track .dp-toggle__thumb {
+  transform: translateX(16px);
+  background: url('./assets/thumb-on.svg') center / 20px 20px no-repeat;
+}
+
+.dp-toggle__input:disabled + .dp-toggle__track {
+  background: var(--bg-brand-disabled); /* #c4c4c4 */
+}
+
+.dp-toggle__input:disabled:checked + .dp-toggle__track .dp-toggle__thumb {
+  background-image: url('./assets/thumb-on-disabled.svg');
+}
+
+.dp-toggle__input:focus-visible + .dp-toggle__track {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-toggle__label {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dp-toggle__thumb {
+    transition: none;
+  }
+}

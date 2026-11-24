@@ -1,0 +1,60 @@
+/* Chip — Figma: "Chip" component set (node 40002646:32601). Values match Figma variables. */
+.dp-chip {
+  --dp-chip-bg: var(--bg-brand-primary);
+  --dp-chip-fg: var(--text-brand-primary);
+  --dp-chip-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-chip-count-bg: var(--icon-brand-coral); /* Figma Color/Icons/CTA #ff5443 */
+  --dp-chip-count-fg: var(--text-brand-primary-inverse);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-6);
+  min-width: 89px;
+  min-height: 32px;
+  margin: 0;
+  padding: var(--gap-8) var(--gap-12);
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--dp-chip-bg);
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--dp-chip-border); /* inside stroke, keeps 34px */
+  color: var(--dp-chip-fg);
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-chip:focus-visible {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-chip--dark {
+  --dp-chip-bg: var(--bg-brand-primary-inverse); /* #0d0d0d */
+  --dp-chip-fg: var(--text-brand-primary-inverse);
+  --dp-chip-border: transparent;
+}
+
+.dp-chip--disabled {
+  --dp-chip-bg: var(--color-cool-neutral-50); /* Figma bg/brand/disabled-subtle = #f2f2f2 in this file */
+  --dp-chip-fg: var(--color-cool-neutral-300); /* Figma text/brand/disabled-subtle = #adadad in this file */
+  --dp-chip-border: transparent;
+  --dp-chip-count-bg: var(--bg-brand-quinary); /* #c4c4c4 */
+  --dp-chip-count-fg: var(--color-cool-neutral-300);
+  cursor: not-allowed;
+}
+
+/* Figma's count bubble: CounterBadge with the chip's 11/16 medium text */
+.dp-chip .dp-chip__count {
+  background: var(--dp-chip-count-bg);
+  color: var(--dp-chip-count-fg);
+  font-weight: 500;
+  font-size: 11px; /* Figma Tag */
+  line-height: 16px;
+}
