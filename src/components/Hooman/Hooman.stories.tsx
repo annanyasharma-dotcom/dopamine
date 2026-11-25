@@ -57,13 +57,12 @@ function CharacterLibrary({ character }: { character: HoomanCharacter }) {
 }
 
 const library = (character: HoomanCharacter): Story => ({
-  name: characterLabels[character],
   parameters: { layout: 'padded', controls: { disable: true } },
   render: () => <CharacterLibrary character={character} />,
 });
 
 /** Every delivery-partner pose with its Figma usage guidance. */
-export const Delivery = library('delivery');
+export const DeliveryPartner = library('delivery');
 /** Every doctor pose with its Figma usage guidance. */
 export const Doctor = library('doctor');
 /** Every pharmacist pose with its Figma usage guidance. */
