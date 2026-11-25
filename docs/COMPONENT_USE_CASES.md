@@ -516,6 +516,7 @@ import { Header } from './components';
 
 - Any time you need an icon that's in the library (see MASTER.md → Icon for the full list with sizes).
 - When you need the same icon in different colours: one file, coloured with `color`.
+- **For new UI, prefer the Icon repo icons** (`<icon>-regular` / `<icon>-bold`): the general-purpose 24px set from Figma's Icon repo. Use `-regular` by default and `-bold` where Figma uses the bold weight (for example on small or emphasised controls). Phone has `phone-telephone-filled` instead of bold.
 
 ### When not to use
 
@@ -526,8 +527,8 @@ import { Header } from './components';
 
 | Prop | Required | Default | Values |
 | --- | --- | --- | --- |
-| `name` | **yes** | — | `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star` |
-| `size` | no | Figma size (14, 24) | px |
+| `name` | **yes** | — | Icon repo: `arrow-up`, `arrow-down`, `arrow-left`, `arrow-right`, `check`, `chevron-up`, `chevron-down`, `chevron-left`, `chevron-right`, `close`, `plus`, `search`, each as `-regular` / `-bold`; `phone-telephone-regular` / `phone-telephone-filled`. Component icons: `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-right-small`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`, `upload` |
+| `size` | no | Figma size (12–24; Icon repo: 24) | px |
 | `color` | no | Figma colour | CSS colour or token, or `currentColor` |
 | `label` | no | — (decorative) | accessible name |
 
@@ -537,6 +538,9 @@ import { Header } from './components';
 import { Icon } from './components';
 
 <Icon name="bestseller" />                                  // 14px, #722902 as in Figma
+<Icon name="arrow-right-regular" />                         // Icon repo, 24px black
+<Icon name="plus-bold" size={16} color="var(--icon-brand-coral)" />
+<Icon name="phone-telephone-filled" label="Call pharmacist" />
 <Icon name="check" color="var(--icon-brand-primary-inverse)" /> // white check on a coral button
 <Icon name="check" color="var(--icon-success-base)" label="Verified" /> // meaningful icon
 <span style={{ color: 'var(--text-brand-brand)' }}>
@@ -553,6 +557,7 @@ import { Icon } from './components';
 
 - ❌ Hardcoding a hex in `color`. Use a token.
 - ❌ Giving a decorative icon a `label`, so screen readers say it twice.
+- ❌ Mixing `check` (SKU card artwork) with `check-regular` (Icon repo) on one screen: they're drawn differently. Same for `close`, `search`, `chevron-*` and `arrow-left`.
 
 ---
 
@@ -1595,3 +1600,90 @@ import { Illustration, InfoBanner } from './components';
 
 - Designed at 120px; images are sharp up to 3× (360 physical px). Use `size` ≤ 120 on phones.
 - `testubes` overflows its frame by a few px, as in Figma; leave a little space around it.
+---
+
+## Hooman
+
+**Purpose:** TATA 1mg character illustrations (delivery partner, doctor, pharmacist, phlebotomist) for empty states, status screens, onboarding and service banners, with when-to-use guidance written in Figma.
+
+### When to use (Figma guidance, summary)
+
+| Name | Use for |
+| --- | --- |
+| `delivery-with-box` | Parcel handover, delivery arrival, receiving an order, pickup instructions |
+| `delivery-running` | Express-delivery promotions, priority fulfilment. A speed metaphor, not a delivery-time promise |
+| `delivery-bike` | Order dispatched, out for delivery, tracking. Doesn't mean “arrived” |
+| `delivery-store` | Packing completed, ready for pickup, handover to the delivery team |
+| `delivery-concerned` | Delays, failed delivery attempts, service unavailable. Add a recovery action; never for success |
+| `delivery-bike-side` | In-transit updates, journey banners, tracking timelines; suits wide layouts |
+| `delivery-thumbs-up` | Order confirmation, successful delivery, completed actions |
+| `delivery-confused` | Empty cart, no orders yet, no results, missing item. Offer a next step |
+| `doctor-arms-folded` | Doctor-service intros, healthcare onboarding, appointment entry points |
+| `doctor-with-meds` | Prescribed-treatment and medication guidance. Not a product endorsement |
+| `doctor-with-stethoscope` | Consultations, routine checkups, appointment booking |
+| `doctor-in-lab` | Diagnostic testing, lab services, sample analysis. Doesn't mean results are ready |
+| `doctor-with-patient` | Clinic appointments, care-plan explanations, report reviews |
+| `pharmacist-with-coupon` | Pharmacy offers, coupons, checkout promotions. State the real discount and terms |
+| `pharmacist-verifying-prescription` | Prescription verification, preparing a medicine order, refills |
+| `pharmacist-standing-with-medicine` | Prescription review, medicine information, refill reminders |
+| `pharmacist-on-call` | Call-a-pharmacist, order assistance, callback requests, support |
+| `phlebotomist-thumbs-up` | Confirmed test bookings, completed sample collection. Doesn't mean normal results |
+| `phlebotomist-with-syringe` | Phlebotomist intros, sample-collection service overviews |
+| `phlebotomist-home-visit-senior` | At-home blood tests, senior-friendly collection, home-visit booking |
+| `phlebotomist-home-visit` | Home sample collection, what to expect at a collector visit |
+| `phlebotomist-vaccination` | Vaccination and injection appointments. Not for blood tests |
+
+The full Figma text for each pose is in `hoomans[name].usage` and in Storybook (Components › Hooman › each character).
+
+### When not to use
+
+- **Small objects** (meds, coins, boxes, discount badges): use `Illustration`.
+- **UI icons:** use `Icon`.
+- **As the only way to say something** (a status, an offer, a result). Always pair with text that states it.
+- **As a real person's profile**, credential or clinical instruction: these are generic illustrated characters.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `name` | **yes** | — | see table above (`<character>-<pose>`) |
+| `height` | no | `240` | px; width follows the aspect ratio |
+| `label` | no | — (decorative) | accessible name |
+
+### Examples
+
+```tsx
+import { Button, Hooman } from './components';
+
+// Empty cart
+<div style={{ textAlign: 'center' }}>
+  <Hooman name="delivery-confused" height={160} />
+  <p>Your cart is empty.</p>
+  <Button>Browse medicines</Button>
+</div>
+
+// Delivery delay
+<Hooman name="delivery-concerned" height={180} />
+<p>Your order is delayed by about 2 hours. You can reschedule or contact support.</p>
+
+// Pick by data
+import { hoomans, hoomanNames } from './components';
+const phlebo = hoomanNames.filter((n) => hoomans[n].character === 'phlebotomist');
+```
+
+### Sizing and layout
+
+- Poses have different aspect ratios (tall standing poses, wide counter and scooter scenes). Set `height`; the width follows. In a fixed box, cap the width with `style={{ maxWidth: '100%' }}`.
+- Images are ~1000–1500px, so they stay sharp at normal sizes. `doctor-with-stethoscope` is lower resolution: keep it under ~380px tall.
+- Transparent background: place on any surface colour.
+
+### Accessibility
+
+- Decorative by default (`aria-hidden`), since the copy next to it should carry the meaning. Pass `label` only when the image is the only thing carrying meaning.
+
+### Common mistakes
+
+- ❌ Using `delivery-thumbs-up` or `phlebotomist-thumbs-up` to suggest an outcome (delivered, normal results) without text saying so.
+- ❌ Using `doctor-in-lab` for consultations, or `phlebotomist-vaccination` for blood tests.
+- ❌ Stretching with both `width` and `height` in `style`: set `height` only.
+

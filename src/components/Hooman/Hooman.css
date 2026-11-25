@@ -1,0 +1,13 @@
+/* Hooman — TATA 1mg character illustrations (Figma page “3d icons”). */
+.dp-hooman {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.dp-hooman__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

@@ -10,6 +10,7 @@ export * from './Divider';
 export * from './Footer';
 export * from './Grid';
 export * from './Header';
+export * from './Hooman';
 export * from './Icon';
 export * from './Illustration';
 export * from './InfoBanner';
