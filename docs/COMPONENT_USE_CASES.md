@@ -1462,3 +1462,82 @@ import { CompoundButton, Icon } from './components';
 ### Accessibility
 
 - Read as one name (“Upload Prescription”). Keep both lines short so the pill stays one size.
+
+---
+
+## Divider
+
+**Purpose:** a thin line that separates content.
+
+### When to use (Figma guidance)
+
+| Variant | Use between |
+| --- | --- |
+| `plain` (default) | Sections: distinct content areas. |
+| `dash` | Individual SKUs in a list or group. |
+
+### When not to use
+
+- Don't use `plain` between SKUs or `dash` between sections.
+- Not for decoration or spacing alone; use layout gaps.
+
+### Example
+
+```tsx
+import { Divider, SkuCard } from './components';
+
+<section>…</section>
+<Divider />
+<div>
+  <SkuCard large={false} orientation="horizontal" {...a} />
+  <Divider variant="dash" />
+  <SkuCard large={false} orientation="horizontal" {...b} />
+</div>
+```
+
+---
+
+## QuantityDropdown
+
+**Purpose:** show and change the quantity of a cart item.
+
+### When to use
+
+- Next to each item on the cart page (Figma guidance).
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `value` / `defaultValue` | no | first option | number |
+| `onChange` | no | — | `(quantity: number) => void` |
+| `options` | no | 1–10 | allowed quantities |
+| `disabled` | no | `false` | |
+| `aria-label` | no | `'Quantity'` | |
+
+### Behaviour
+
+- Tapping opens the phone's native picker (it's a real `<select>`).
+- `onChange` receives the number directly.
+
+### Example
+
+```tsx
+import { QuantityDropdown } from './components';
+
+<QuantityDropdown
+  value={item.qty}
+  onChange={(qty) => cart.setQuantity(item.id, qty)}
+  options={range(1, Math.min(item.stock, item.maxPerOrder))}
+  aria-label={`Quantity of ${item.name}`}
+/>
+```
+
+### Accessibility
+
+- Give each dropdown a specific `aria-label` (“Quantity of RiteBite bar”) when there are several on a page.
+
+### Common mistakes
+
+- ❌ Offering more than the user can buy; set `options` from stock and purchase limits.
+- ❌ Removing an item by choosing 0. Add 0 to `options` only if your cart treats it as remove, and say so.

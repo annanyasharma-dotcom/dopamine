@@ -1,0 +1,16 @@
+/* Divider — Figma: "divider" component set (node 40002686:15759). Values match Figma variables. */
+.dp-divider {
+  --dp-divider-color: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--stroke-regular);
+  margin: 0;
+  border: 0;
+  background: var(--dp-divider-color);
+}
+
+/* Figma dash: 1px stroke, 2px dash, 2px gap */
+.dp-divider--dash {
+  background: repeating-linear-gradient(to right, var(--dp-divider-color) 0 2px, transparent 2px 4px);
+}

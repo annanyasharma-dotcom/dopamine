@@ -1,0 +1,69 @@
+/* QuantityDropdown — Figma: "dropdown" (node 40002723:20300). Values match Figma variables. */
+.dp-quantity {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  height: 30px;
+  padding: var(--gap-6) var(--gap-8);
+  border-radius: var(--radius-md);
+  background: var(--bg-brand-primary);
+  /* Inside stroke (keeps 30px; Figma border/neutrals/primary = #dbdbdb in this file) + Figma effect "md" */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-100), var(--shadow-md);
+  font-family: var(--font-family-base);
+}
+
+.dp-quantity__value {
+  width: 20px; /* Figma */
+  color: var(--text-brand-brand);
+  font-weight: 600;
+  font-size: 14px; /* Figma label-base */
+  line-height: 18px;
+  text-align: center;
+}
+
+/* Figma caret: 5.13×8.51 vector rotated 90° → 8.51×5.13, coral */
+.dp-quantity__caret {
+  width: 8.511px;
+  height: 5.129px;
+  overflow: visible;
+  position: relative;
+}
+
+.dp-quantity__caret::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5.129px;
+  height: 8.511px;
+  transform: translate(-50%, -50%) rotate(90deg);
+  background-color: var(--icon-brand-coral);
+  mask: url('./assets/caret.svg') center / contain no-repeat;
+}
+
+/* Native select covers the control: invisible, but it receives taps, clicks and keys */
+.dp-quantity__select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  font-size: 16px; /* avoids iOS zoom on focus */
+  cursor: pointer;
+}
+
+.dp-quantity:has(.dp-quantity__select:focus-visible) {
+  outline: var(--stroke-thick) solid var(--border-info-moderate);
+  outline-offset: var(--gap-2);
+}
+
+.dp-quantity--disabled {
+  opacity: 0.5; /* not designed in Figma */
+}
+
+.dp-quantity--disabled .dp-quantity__select {
+  cursor: not-allowed;
+}

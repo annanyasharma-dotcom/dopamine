@@ -33,6 +33,7 @@ src/
     Chip/              Chip.tsx, Chip.css, Chip.stories.tsx, index.ts
     CompoundButton/    CompoundButton.tsx, CompoundButton.css, CompoundButton.stories.tsx, index.ts
     CounterBadge/      CounterBadge.tsx, CounterBadge.css, CounterBadge.stories.tsx, index.ts
+    Divider/           Divider.tsx, Divider.css, Divider.stories.tsx, index.ts
     Footer/            Footer.tsx, Footer.css, Footer.stories.tsx, index.ts
     Grid/              Grid.tsx (Grid + GridItem), Grid.css, Grid.stories.tsx, index.ts
     Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
@@ -42,6 +43,7 @@ src/
     ListItem/          ListItem.tsx, ListItem.css, ListItem.stories.tsx, index.ts
     Logo/              Logo.tsx, Logo.css, Logo.stories.tsx, index.ts, assets/
     OtpField/          OtpField.tsx, OtpField.css, OtpField.stories.tsx, index.ts, assets/
+    QuantityDropdown/  QuantityDropdown.tsx, QuantityDropdown.css, QuantityDropdown.stories.tsx, index.ts, assets/
     Radio/             Radio.tsx, Radio.css, Radio.stories.tsx, index.ts, assets/
     Rating/            Rating.tsx, Rating.css, Rating.stories.tsx, index.ts
     Search/            Search.tsx, Search.css, Search.stories.tsx, index.ts, assets/
@@ -101,8 +103,10 @@ src/
 | Accordion | Disclosure | `src/components/Accordion/Accordion.tsx` | `Accordion` (named + default), type `AccordionProps` | **Icon** (chevron-down, chevron-up), tokens.css | `40002762:30005` (Figma “Accordian”) |
 | SpecialButton | Commerce | `src/components/SpecialButton/SpecialButton.tsx` | `SpecialButton` (named + default), type `SpecialButtonProps` | **Icon** (chevron-right-small), tokens.css | `40002736:23723` (Figma “special button”) |
 | CompoundButton | Actions | `src/components/CompoundButton/CompoundButton.tsx` | `CompoundButton` (named + default), type `CompoundButtonProps` | **Icon** (upload), tokens.css | `40002858:3765` (Figma “compount button”) |
+| Divider | Layout | `src/components/Divider/Divider.tsx` | `Divider` (named + default), types `DividerProps`, `DividerVariant` | tokens.css | `40002686:15759` (Figma “divider”) |
+| QuantityDropdown | Commerce | `src/components/QuantityDropdown/QuantityDropdown.tsx` | `QuantityDropdown` (named + default), type `QuantityDropdownProps` | `assets/caret.svg`, tokens.css | `40002723:20300` (Figma “dropdown”) |
 
-Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Footer, Grid, GridItem, Header, Icon, InfoBanner, InputField, ListItem, Logo, OtpField, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
+Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Icon, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -965,6 +969,53 @@ Styling: 44px tall, padding `--gap-6` `--gap-10`, gap `--gap-4`, radius 40px (ra
 
 ---
 
+
+### Divider
+
+1px separator. Implements the Figma “divider” component set (plain / dash).
+
+```ts
+export type DividerVariant = 'plain' | 'dash';
+export interface DividerProps extends Omit<ComponentPropsWithRef<'hr'>, 'children'> {
+  variant?: DividerVariant;
+}
+```
+
+| Prop | Type | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- |
+| `variant` | `'plain' \| 'dash'` | `'plain'` | `style` (renamed: `style` is React's inline-style prop) | `plain` between sections; `dash` (2px dash, 2px gap) between individual SKUs. |
+| …rest | native `<hr>` props | — | — | `className`, `aria-*`… |
+
+Styling: 100% wide (328 in Figma), height `--stroke-regular`, colour `--color-cool-neutral-200` #c4c4c4 (Figma border/neutrals/secondary here). The dash is a repeating gradient, so the 2px/2px rhythm is exact.
+
+### QuantityDropdown
+
+Cart quantity picker. Implements the Figma “dropdown”.
+
+```ts
+export interface QuantityDropdownProps extends Omit<ComponentPropsWithRef<'select'>, 'value' | 'defaultValue' | 'onChange' | 'size' | 'multiple' | 'children'> {
+  value?: number;
+  defaultValue?: number;
+  onChange?: (quantity: number) => void;
+  options?: number[];
+  'aria-label'?: string;
+  wrapperClassName?: string;
+}
+```
+
+| Prop | Type | Default | Behaviour |
+| --- | --- | --- | --- |
+| `value` / `defaultValue` | `number` | first option | Controlled / uncontrolled quantity. |
+| `onChange` | `(quantity: number) => void` | — | Called with the new number (not an event). |
+| `options` | `number[]` | 1–10 | Quantities offered; set from cart rules (stock, limits). |
+| `aria-label` | `string` | `'Quantity'` | Name of the select. |
+| `disabled` | `boolean` | `false` | 50% opacity (*assumption*, not designed). |
+| `wrapperClassName` | `string` | — | Class on the visible control. |
+
+A native `<select>` sits invisibly over the Figma control, so phones open their own picker and keyboards work. Styling: 46.5×30, padding `--gap-6` `--gap-8`, gap `--gap-2`, radius `--radius-md`, `--bg-brand-primary`, inside stroke `--color-cool-neutral-100` #dbdbdb + `--shadow-md`; number 14/18 semibold `--text-brand-brand`, 20px wide; Figma caret (5.13×8.51 rotated 90°) in `--icon-brand-coral`. Focus ring on the control.
+
+---
+
 ## 4. Architecture and dependencies
 
 - **Button** has no child components. Internal `IconSlot` (not exported) renders the 24px icon slots.
@@ -978,6 +1029,7 @@ Styling: 44px tall, padding `--gap-6` `--gap-10`, gap `--gap-4`, radius 40px (ra
 - **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
 - **Chip** uses **CounterBadge** (restyled 11/16 medium) and **Icon**; **Accordion** uses **Icon**. **Toggle**, **Radio** and **Checkbox** are native inputs styled with Figma's artwork (no shared base yet).
 - **SpecialButton** and **CompoundButton** use **Icon**. SpecialButton is visually close to SkuCard's offer badge but smaller (10/14 text, different chevron); they are separate in Figma and in code.
+- **Divider** and **QuantityDropdown** have no dependencies. Use `Divider variant="dash"` between SKUs and `variant="plain"` between sections (Figma guidance).
 - The InputField clear button and OtpField resend button are plain `<button>`s, not the `Button` component: their Figma designs are icon-only / text-link treatments that `Button` has no variant for.
 - **Runtime dependencies:** `react`, `react-dom`, `@fontsource/figtree` (font files).
 - **Styles chain:** `fonts.css` (Figtree 400/500/600/700) → `tokens.css` (CSS variables) → component CSS. Apps must import `fonts.css` and `tokens.css` once (done in `src/main.tsx` and `.storybook/preview.tsx`).
@@ -1047,6 +1099,8 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/Accordion/Accordion.stories.tsx` | Components/Accordion | Rest, Expanded, More expanded\*, Short answer, Test: open/see more/close\*, All states (+ autodocs) |
 | `src/components/SpecialButton/SpecialButton.stories.tsx` | Components/SpecialButton | Playground, Without chevron, Test: clickable\*, In context (+ autodocs) |
 | `src/components/CompoundButton/CompoundButton.stories.tsx` | Components/CompoundButton | Playground, Other icon, Without icon, Test: click\* (+ autodocs) |
+| `src/components/Divider/Divider.stories.tsx` | Components/Divider | Plain\*, Dash, Both styles (+ autodocs) |
+| `src/components/QuantityDropdown/QuantityDropdown.stories.tsx` | Components/QuantityDropdown | Default, Limited options, Disabled, Test: change quantity\*, In a cart line (+ autodocs) |
 
 \* has a `play` interaction test.
 
@@ -1072,7 +1126,7 @@ Widget controls: `title`, `subtitle`, `chevronLabel` (text), `chevron` (boolean)
 
 Tag controls: `type` (radio), `label` (text). Search controls: `placeholder`, `aiLabel` (text), `labsAi`, `readOnly` (boolean). Grid controls: `title` (text), `onClick` (action spy). BottomSheet controls: `open` (boolean), `heading`, `subheading`, `closeLabel` (text), `secondaryAction`, `primaryAction` (object), `onClose` (action spy). SkuCard `tag` is now a select: `true`, `false` or a tag type.
 
-InfoBanner: `children` (text), `icon`, `chevron` (boolean). Badge: `children` (text), `colour` (select). Chip: `children` (text), `inverse`, `disabled`, `leftIcon` (boolean), `count` (number). Toggle / Radio / Checkbox: `defaultChecked`, `disabled` (+ `circle` for Checkbox) (boolean), `children` (text). Accordion: `title`, `children`, `seeMoreLabel` (text), `defaultExpanded` (boolean), `lines` (number). SpecialButton: `children` (text), `chevron` (boolean). CompoundButton: `label`, `children` (text), `onClick` (action spy).
+InfoBanner: `children` (text), `icon`, `chevron` (boolean). Badge: `children` (text), `colour` (select). Chip: `children` (text), `inverse`, `disabled`, `leftIcon` (boolean), `count` (number). Toggle / Radio / Checkbox: `defaultChecked`, `disabled` (+ `circle` for Checkbox) (boolean), `children` (text). Accordion: `title`, `children`, `seeMoreLabel` (text), `defaultExpanded` (boolean), `lines` (number). SpecialButton: `children` (text), `chevron` (boolean). CompoundButton: `label`, `children` (text), `onClick` (action spy). Divider: `variant` (radio). QuantityDropdown: `defaultValue` (number), `options` (object), `disabled` (boolean), `onChange` (action spy).
 
 All controls map to real props.
 
@@ -1110,6 +1164,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **InfoBanner**, **Badge**, **Chip**, **Toggle**, **Radio**, **Checkbox**, **Accordion** added (Figma section `40002855:2873`). Icon library: added `arrow-left`, `chevron-down`, `chevron-up`. Values follow the Figma file exactly. Stories with interaction tests. | `e62b041` |
 | 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | `ab915f1` |
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
+| 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | uncommitted |
 
 ---
 
@@ -1128,6 +1183,7 @@ Verified unless marked *assumption*.
   - Tag: caption-sm 10/14 · Search: label-lg 16/20 · Grid: label-sm 12/14 · BottomSheet: label-lg 16/20, label-base 14/18
   - InfoBanner: Body/12 bold 12/16 · Badge: label-sm 12/14 · Chip: label-base 14/18, Tag 11/16 · Accordion: label-lg 16/20, body-base 14/20
   - SpecialButton: caption-sm 10/14 · CompoundButton: label-sm 12/14, label-base 14/18
+  - QuantityDropdown: label-base 14/18
 
   Re-exporting these Figma text variables into `tokens.css` would let all components share them.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
@@ -1181,6 +1237,8 @@ Verified unless marked *assumption*.
 - **Accordion** clamps by line count with “see more”; Figma's expanded sample shows 6 lines, so `lines` defaults to 6.
 - **SpecialButton** behaviour (open details, copy or apply a code) is product-defined (Figma guidance); the component only calls `onClick`. Its 2px/4px spacing is raw in Figma.
 - **CompoundButton** is named “compount button” in Figma; its text colour #181a1f and 40px radius are raw values with no token. It has no disabled or pressed design.
+- **QuantityDropdown** options, purchase limits and states beyond the default aren't designed (Figma guidance): `options` defaults to 1–10 and the disabled look (50% opacity) is an *assumption*. Figma names it just “dropdown”.
+- **Divider** `style` is called `variant` in code because `style` is reserved for inline styles in React.
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).
