@@ -41,7 +41,7 @@
 
 .dp-toast--white {
   --dp-toast-bg: var(--bg-brand-primary); /* white */
-  --dp-toast-border: var(--color-cool-neutral-100); /* Figma border/neutrals/primary = #dbdbdb in this file */
+  --dp-toast-border: var(--border-neutrals-primary); /* #dbdbdb */
   --dp-toast-icon: var(--icon-brand-primary); /* #0d0d0d */
 }
 

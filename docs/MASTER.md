@@ -27,6 +27,7 @@ src/
   components/          One folder per component; index.ts re-exports all
     Accordion/         Accordion.tsx, Accordion.css, Accordion.stories.tsx, index.ts
     Badge/             Badge.tsx, Badge.css, Badge.stories.tsx, index.ts
+    Banner/            Banner.tsx, Banner.css, Banner.stories.tsx, index.ts
     BottomSheet/       BottomSheet.tsx, BottomSheet.css, BottomSheet.stories.tsx, index.ts
     Button/            Button.tsx, Button.css, Button.stories.tsx, index.ts, assets/
     Checkbox/          Checkbox.tsx, Checkbox.css, Checkbox.stories.tsx, index.ts, assets/
@@ -100,6 +101,7 @@ src/
 | BottomSheet | Overlays | `src/components/BottomSheet/BottomSheet.tsx` | `BottomSheet` (named + default), types `BottomSheetProps`, `BottomSheetAction` | **Button**, **Icon** (close-filled), tokens.css | `40002694:17186` |
 | InfoBanner | Feedback | `src/components/InfoBanner/InfoBanner.tsx` | `InfoBanner` (named + default), type `InfoBannerProps` | `assets/lightning-tile.svg`, `assets/chevron.svg`, tokens.css | `40002687:16724` |
 | Badge | Data display | `src/components/Badge/Badge.tsx` | `Badge` (named + default), types `BadgeProps`, `BadgeColour` | tokens.css | `40002646:32743` |
+| Banner | Marketing / feedback | `src/components/Banner/Banner.tsx` | `Banner` (named + default), types `BannerProps`, `BannerColour` | **Button**, tokens.css | `40002869:8638` (section `40002872:9859`) |
 | Chip | Actions | `src/components/Chip/Chip.tsx` | `Chip` (named + default), type `ChipProps` | **CounterBadge**, **Icon** (arrow-left), tokens.css | `40002646:32601` |
 | Toggle | Forms | `src/components/Toggle/Toggle.tsx` | `Toggle` (named + default), type `ToggleProps` | `assets/thumb-on*.svg`, tokens.css | `40002696:100` |
 | Radio | Forms | `src/components/Radio/Radio.tsx` | `Radio` (named + default), type `RadioProps` | `assets/selected*.svg`, tokens.css | `40002696:341` (Figma “Radio Button”) |
@@ -110,7 +112,7 @@ src/
 | Divider | Layout | `src/components/Divider/Divider.tsx` | `Divider` (named + default), types `DividerProps`, `DividerVariant` | tokens.css | `40002686:15759` (Figma “divider”) |
 | QuantityDropdown | Commerce | `src/components/QuantityDropdown/QuantityDropdown.tsx` | `QuantityDropdown` (named + default), type `QuantityDropdownProps` | `assets/caret.svg`, tokens.css | `40002723:20300` (Figma “dropdown”) |
 
-Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Hooman, Icon, Illustration, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
+Import: `import { Accordion, Badge, Banner, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Hooman, Icon, Illustration, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -337,7 +339,7 @@ export interface CounterBadgeProps extends Omit<ComponentPropsWithRef<'span'>, '
 | brand | `--bg-brand-coral` | `--bg-brand-primary` (Figma uses this bg token, white, for the number) |
 | blue | `--color-precision-blue-100` (primitive; Figma uses the primitive too) | same |
 | green | `--color-wellness-green-100` (primitive; as Figma) | same |
-| disabled (any colour) | `--color-cool-neutral-50` #f2f2f2 | `--color-cool-neutral-300` #adadad |
+| disabled (any colour) | `--bg-brand-disabled-subtle` #f2f2f2 | `--text-brand-disabled-subtle` #adadad |
 
 Size: min-width 16px, height 16px, horizontal padding `--gap-4`, radius `--radius-full`. Text 12/14 bold (Figma label-sm, component values), tabular numbers. Two-digit counts widen into a pill.
 
@@ -381,7 +383,7 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 | Location pill | background #fffbfa (Figma Color/Sunrise Glow/99), inside stroke `--stroke-regular` #fee9e1 (Figma Color/Sunrise Glow/97), radius `--radius-full`, padding `--gap-10` `--gap-8`, gap `--gap-4`, 40px tall |
 | Location icon / chevron | `--icon-brand-coral` / `--icon-brand-primary` (20px) |
 | Name / address | `--text-brand-primary` bold / #262b34 regular (Figma raw colour), 14/18 |
-| Profile circle | 40px, background `--icon-brand-primary-inverse`, border `--stroke-regular` `--color-cool-neutral-200` #c4c4c4 (Figma border/neutrals/secondary in this file), person icon `--icon-brand-primary` |
+| Profile circle | 40px, background `--icon-brand-primary-inverse`, border `--stroke-regular` `--border-neutrals-secondary` #c4c4c4, person icon `--icon-brand-primary` |
 | Cart circle | 40px, background `--bg-brand-primary`, border #dde2eb (Figma Color/Stroke/Subtle), bag icon `--icon-brand-primary`, `CounterBadge` at the top-right with Figma's header sizing: 10/12 bold text, `--radius-md` |
 | Status bar | 44px, padding `--gap-16`, time 15px semibold (SF Pro / system font), Figma icons as images |
 | Focus ring | `--stroke-thick` `--border-info-moderate` on the pill and circle buttons |
@@ -521,9 +523,9 @@ export interface SkuCardProps extends Omit<ComponentPropsWithRef<'article'>, 'ch
 | Part | Values |
 | --- | --- |
 | Card | radius `--radius-lg`; large: 132px, padding-bottom `--gap-12`; small vertical: 76px content, padding `--gap-12` 0; horizontal: 328px, padding `--gap-12`, no stroke (removed on request; Figma has a 1px #dbdbdb inside stroke) |
-| Image box | `--bg-brand-primary`, border `--stroke-regular` `--color-cool-neutral-100` #dbdbdb, radius `--radius-md`; large 132×100, padding `--gap-24` `--gap-16` |
+| Image box | `--bg-brand-primary`, border `--stroke-regular` `--border-neutrals-primary` #dbdbdb, radius `--radius-md`; large 132×100, padding `--gap-24` `--gap-16` |
 | Tag | `Tag` component, centred 2px from the top of the image |
-| Add bar (large) | 44px, radius `--radius-md`, `--shadow-md`; add: `--bg-brand-primary`, border `--color-cool-neutral-200` #c4c4c4, `--text-brand-brand` 14/18 bold; added: `--bg-brand-coral`, white text, 20px white circle with coral chevron |
+| Add bar (large) | 44px, radius `--radius-md`, `--shadow-md`; add: `--bg-brand-primary`, border `--border-neutrals-secondary` #c4c4c4, `--text-brand-brand` 14/18 bold; added: `--bg-brand-coral`, white text, 20px white circle with coral chevron |
 | + / ✓ button (small) | 36×36 at (48, −11) over the image, radius `--radius-md`, `--shadow-md`; add: white, border #c4c4c4, coral plus; added: `--bg-brand-coral`, `Icon check` white |
 | Name / quantity | `--text-brand-primary` 14/18 bold / `--text-brand-tertiary` 12/14 medium |
 | Rating | badge `--color-wellness-green-100`, white 11/16 + star, radius `--radius-xs`; count #414752 12/16 |
@@ -577,7 +579,7 @@ export interface ToastProps extends Omit<ComponentPropsWithRef<'div'>, 'children
 | error | `--bg-error-subtler` | `--border-error-subtle` | `--icon-error-base` |
 | success | `--bg-success-subtler` | `--border-success-subtle` | `--icon-success-base` |
 | info | `--bg-info-subtler` | `--border-info-subtle` | `--icon-info-base` |
-| white | `--bg-brand-primary` | `--color-cool-neutral-100` #dbdbdb (Figma border/neutrals/primary in this file) | `--icon-brand-primary` |
+| white | `--bg-brand-primary` | `--border-neutrals-primary` #dbdbdb | `--icon-brand-primary` |
 
 Shared: 100% wide (328 in Figma), 48px tall, padding `--gap-12`, gap `--gap-4`, radius `--radius-md`, `--shadow-md`. Action text 12/14 medium and × icon #181a1f (Figma `Color/Content/Primary` / `Color/Icons/Primary`, no token). Showing, stacking and auto-hiding toasts is up to the app.
 
@@ -681,7 +683,7 @@ export interface ListItemProps extends Omit<ComponentPropsWithRef<'div'>, 'title
 | `chevron` | `boolean` | no | `true` | `icon` | `Icon chevron-right`. |
 | `onClick` | `MouseEventHandler` | no | — | — | Wraps the row content in one `<button>`. |
 
-Styling: 100% wide (328 in Figma), 76px tall, padding `--gap-16`, gap `--gap-16`, radius `--radius-md`, `--bg-brand-primary`, inside stroke `--stroke-regular` `--color-cool-neutral-100` #dbdbdb.
+Styling: 100% wide (328 in Figma), 76px tall, padding `--gap-16`, gap `--gap-16`, radius `--radius-md`, `--bg-brand-primary`, inside stroke `--stroke-regular` `--border-neutrals-primary` #dbdbdb.
 
 ---
 
@@ -839,7 +841,7 @@ export interface SearchProps extends Omit<ComponentPropsWithRef<'input'>, 'size'
 | `wrapperClassName` | `string` | no | — | — | Class on the pill. |
 | …rest | native `<input>` props | no | — | — | `value`, `onChange`, `readOnly`, `onClick`, `ref`, … (`type` is always `search`). |
 
-Styling: pill 100% wide (328 in Figma), 44px, padding `--gap-12` `--gap-16`, gap `--gap-4`, radius `--radius-full`, `--bg-brand-primary`, inside stroke `--color-cool-neutral-200` #c4c4c4. `Icon search` 18px coral. Text 16/20 medium. AI button: 20px circle, border 1.333px `--color-precision-blue-300`, gradient −28.87°: `--color-precision-blue-300` 9.22% → `--color-precision-blue-100` 49.53% → #9cd3ff 89.53%, arrow 13.33px #e8eaed. Focus ring on the pill (`:focus-within`).
+Styling: pill 100% wide (328 in Figma), 44px, padding `--gap-12` `--gap-16`, gap `--gap-4`, radius `--radius-full`, `--bg-brand-primary`, inside stroke `--border-neutrals-secondary` #c4c4c4. `Icon search` 18px coral. Text 16/20 medium. AI button: 20px circle, border 1.333px `--color-precision-blue-300`, gradient −28.87°: `--color-precision-blue-300` 9.22% → `--color-precision-blue-100` 49.53% → #9cd3ff 89.53%, arrow 13.33px #e8eaed. Focus ring on the pill (`:focus-within`).
 
 ### Grid / GridItem
 
@@ -892,7 +894,7 @@ export interface BottomSheetProps extends Omit<ComponentPropsWithRef<'div'>, 'ti
 
 Behaviour: `position: fixed` over the viewport; focus moves to × on open and back to the previously focused element on close; `role="dialog"` + `aria-modal`. Focus is not trapped inside the sheet.
 
-Styling: backdrop `--alpha-black-60`; close button 40px white circle with `Icon close-filled`, in a 10px-padded row; sheet top radius `--radius-xl`, `--bg-brand-primary`; header padding `--gap-8` `--gap-16`, gap `--gap-4`, bottom divider; heading 16/20 bold, subheading 14/18 regular `--text-brand-tertiary`; actions padding `--gap-16`, gap `--gap-8`, top divider. Dividers and the outline button border use #c4c4c4 (`--color-cool-neutral-200`, Figma border/neutrals/secondary here).
+Styling: backdrop `--alpha-black-60`; close button 40px white circle with `Icon close-filled`, in a 10px-padded row; sheet top radius `--radius-xl`, `--bg-brand-primary`; header padding `--gap-8` `--gap-16`, gap `--gap-4`, bottom divider; heading 16/20 bold, subheading 14/18 regular `--text-brand-tertiary`; actions padding `--gap-16`, gap `--gap-8`, top divider. Dividers and the outline button border use `--border-neutrals-secondary` #c4c4c4.
 
 ---
 
@@ -918,6 +920,53 @@ export interface InfoBannerProps extends Omit<ComponentPropsWithRef<'div'>, 'chi
 | `onClick` | handler | no | — | — | Makes the whole banner one button. |
 
 Styling: 100% wide (328), min-height 52px (Figma height, kept when the icon is hidden; grows only if the text needs more than 2 lines), padding `--gap-6` `--gap-12`, gap `--gap-12`, radius `--radius-md`, background #eef1f5 (Figma `Color/Background/Subtle`, no token). Artwork and chevron are multi-colour Figma SVGs used as images.
+
+### Banner
+
+Promo banner. Implements the Figma “banner” component set (8 colours, node `40002869:8638`): a 328 × 164 px banner pairing a title, subtitle and CTA with a dedicated imagery slot.
+
+```ts
+export type BannerColour = 'brand' | 'blue' | 'green' | 'brown' | 'pink' | 'mauve' | 'purple' | 'mint-green';
+
+export interface BannerProps extends Omit<ComponentPropsWithRef<'div'>, 'title' | 'children'> {
+  title: ReactNode;
+  subtitle?: ReactNode;
+  colour?: BannerColour;
+  cta?: ReactNode;
+  onCtaClick?: MouseEventHandler<HTMLButtonElement>;
+  image?: ReactNode;
+}
+```
+
+| Prop | Type | Required | Default | Figma property | Behaviour |
+| --- | --- | --- | --- | --- | --- |
+| `title` | `ReactNode` | yes | — | “List Heading Text” | h5 bold, white. |
+| `subtitle` | `ReactNode` | no | — | `subtitle` (bool, default on) | Omit to hide. h6 semibold, `--text-brand-secondary-inverse` (white 90%). |
+| `colour` | `BannerColour` | no | `'brand'` | `colour` | Background fill (table below). Figma's `mint-greene` is `mint-green` here. |
+| `cta` | `ReactNode` | no | — | `cta` (bool, default on) | CTA label; omit to hide. Rendered as `Button` size sm, no icons, 125px wide: `black` on brand, `inverse` on every other colour. |
+| `onCtaClick` | `MouseEventHandler<HTMLButtonElement>` | no | — | — | Called when the CTA is pressed. |
+| `image` | `ReactNode` | no | — | “img slot” | Imagery slot content (3D icon, `Hooman`, `Illustration`, image). The slot is always rendered. |
+| …rest | native `<div>` props | no | — | — | `className`, `style`, `ref`, `aria-*`, … |
+
+| Colour | Fill |
+| --- | --- |
+| `brand` | `--bg-brand-coral` #ff5443 |
+| `blue` | `--color-precision-blue-200` #003e6f |
+| `green` | `--color-wellness-green-100` #156437 |
+| `brown` | `--color-sunshine-yellow-200` #bb4d00 |
+| `pink` | `--color-comfort-pink-200` #b1527f |
+| `mauve` | `--color-healing-mauve-200` #864291 |
+| `purple` | `--color-jovial-purple-200` #6350ba |
+| `mint-green` | `--color-horizon-blue-200` #086e78 |
+
+Styling: 328 × 164 (min width 269, max 100%), padding `--gap-12`, radius `--radius-md`, content clipped. Text column fills the remaining width: gap `--gap-12` between text and CTA, `--gap-4` between title (18/22 bold) and subtitle (16/20 semibold). Imagery slot: 140px high, 115–151px wide (hugs its content), radius `--radius-md`, centred, clipped.
+
+Figma guidance: 3D icons / imagery sit inside the slot. Fit artwork proportionally; keep its silhouette and shadows within the inset to avoid clipping (Figma's notes: 12px inset, 91 × 116 px usable area).
+
+#### Accessibility
+
+- Title and subtitle are paragraphs (no heading level is imposed); wrap the banner in a heading structure if it introduces a section.
+- The CTA is a native `<button>` with its label as the name. Imagery is whatever you pass: use decorative `Hooman` / `Illustration` (default) when the text already says it.
 
 ### Badge
 
@@ -1006,7 +1055,7 @@ export interface RadioProps extends Omit<ComponentPropsWithRef<'input'>, 'type' 
 }
 ```
 
-Same prop pattern as Toggle (`checked`/`defaultChecked`, `disabled`, `children` label, native props; group with `name`). Native `<input type="radio">`, 24px: unselected = white with 1px `--color-cool-neutral-300` (#adadad, Figma border/neutrals/tertiary here); selected = Figma artwork (coral circle, white dot); disabled+selected = Figma's grey artwork; disabled+unselected = *assumption* (grey fill, no dot).
+Same prop pattern as Toggle (`checked`/`defaultChecked`, `disabled`, `children` label, native props; group with `name`). Native `<input type="radio">`, 24px: unselected = white with 1px `--border-neutrals-tertiary` #adadad; selected = Figma artwork (coral circle, white dot); disabled+selected = Figma's grey artwork; disabled+unselected = *assumption* (grey fill, no dot).
 
 ### Checkbox
 
@@ -1100,7 +1149,7 @@ export interface CompoundButtonProps extends Omit<ComponentPropsWithRef<'button'
 | `icon` | `ReactNode \| false` | no | `Icon upload` | Content of the coral pill; `false` hides it. |
 | …rest | native `<button>` props | no | — | `onClick`, `disabled`… (`type` defaults to `button`). |
 
-Styling: 44px tall, padding `--gap-6` `--gap-10`, gap `--gap-4`, radius 40px (raw), `--bg-brand-secondary`, inside stroke `--color-cool-neutral-100` #dbdbdb (Figma border/neutrals/primary here), text #181a1f (raw, no token). Icon pill: `--icon-brand-coral`, padding 2px 4px, radius 16px, white 20px icon. Accessible name = both lines (“Upload Prescription”).
+Styling: 44px tall, padding `--gap-6` `--gap-10`, gap `--gap-4`, radius 40px (raw), `--bg-brand-secondary`, inside stroke `--border-neutrals-primary` #dbdbdb, text #181a1f (raw, no token). Icon pill: `--icon-brand-coral`, padding 2px 4px, radius 16px, white 20px icon. Accessible name = both lines (“Upload Prescription”).
 
 ---
 
@@ -1121,7 +1170,7 @@ export interface DividerProps extends Omit<ComponentPropsWithRef<'hr'>, 'childre
 | `variant` | `'plain' \| 'dash'` | `'plain'` | `style` (renamed: `style` is React's inline-style prop) | `plain` between sections; `dash` (2px dash, 2px gap) between individual SKUs. |
 | …rest | native `<hr>` props | — | — | `className`, `aria-*`… |
 
-Styling: 100% wide (328 in Figma), height `--stroke-regular`, colour `--color-cool-neutral-200` #c4c4c4 (Figma border/neutrals/secondary here). The dash is a repeating gradient, so the 2px/2px rhythm is exact.
+Styling: 100% wide (328 in Figma), height `--stroke-regular`, colour `--border-neutrals-secondary` #c4c4c4. The dash is a repeating gradient, so the 2px/2px rhythm is exact.
 
 ### QuantityDropdown
 
@@ -1147,7 +1196,7 @@ export interface QuantityDropdownProps extends Omit<ComponentPropsWithRef<'selec
 | `disabled` | `boolean` | `false` | 50% opacity (*assumption*, not designed). |
 | `wrapperClassName` | `string` | — | Class on the visible control. |
 
-A native `<select>` sits invisibly over the Figma control, so phones open their own picker and keyboards work. Styling: 46.5×30, padding `--gap-6` `--gap-8`, gap `--gap-2`, radius `--radius-md`, `--bg-brand-primary`, inside stroke `--color-cool-neutral-100` #dbdbdb + `--shadow-md`; number 14/18 semibold `--text-brand-brand`, 20px wide; Figma caret (5.13×8.51 rotated 90°) in `--icon-brand-coral`. Focus ring on the control.
+A native `<select>` sits invisibly over the Figma control, so phones open their own picker and keyboards work. Styling: 46.5×30, padding `--gap-6` `--gap-8`, gap `--gap-2`, radius `--radius-md`, `--bg-brand-primary`, inside stroke `--border-neutrals-primary` #dbdbdb + `--shadow-md`; number 14/18 semibold `--text-brand-brand`, 20px wide; Figma caret (5.13×8.51 rotated 90°) in `--icon-brand-coral`. Focus ring on the control.
 
 ---
 
@@ -1160,8 +1209,9 @@ A native `<select>` sits invisibly over the Figma control, so phones open their 
 - **Header** uses **CounterBadge** for the cart count. Internal `StatusBar` (not exported) renders the illustrative status bar.
 - **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders. **Illustration** is the separate full-colour illustration set and **Hooman** the character illustrations (no dependencies).
 - **SkuCard** has internal `Delivery` and `Pricing` parts (not exported).
+- **Banner** uses **Button** for its CTA (`black` on brand, `inverse` elsewhere); its image slot is meant for **Hooman**, **Illustration** or other 3D artwork.
 - **Toast**, **Rating**, **Widget** and **ListItem** use **Icon**; **Footer** uses **Logo**. **Widget** is a shell meant to contain `SkuCard`, `ListItem` or other compositions.
-- **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
+- **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (pointing the outline border at its divider colour, `--border-neutrals-secondary`, via `--dp-button-border`; since the 2026-11-26 token update that equals Button's own outline border) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
 - **Chip** uses **CounterBadge** (restyled 11/16 medium) and **Icon**; **Accordion** uses **Icon**. **Toggle**, **Radio** and **Checkbox** are native inputs styled with Figma's artwork (no shared base yet).
 - **SpecialButton** and **CompoundButton** use **Icon**. SpecialButton is visually close to SkuCard's offer badge but smaller (10/14 text, different chevron); they are separate in Figma and in code.
 - **Divider** and **QuantityDropdown** have no dependencies. Use `Divider variant="dash"` between SKUs and `variant="plain"` between sections (Figma guidance).
@@ -1180,7 +1230,7 @@ Tokens are generated from Figma by `npm run tokens` (`scripts/build-tokens.mjs`)
 | --- | --- | --- |
 | Primitives | `--color-{palette}-{step}` (73) | cool-neutral, flame-coral, wellness-green, vital-red, precision-blue, sunrise-glow, sunshine-yellow, comfort-pink, healing-mauve, jovial-purple, horizon-blue, golden, brown, base |
 | Brand | `--c-p--{brown,gold,gold-2,gold-3,cream-1..3}` | From Figma colour styles |
-| Semantic (Light only) | `--bg-*`, `--text-*`, `--icon-*`, `--border-*` (78) | Alias primitives |
+| Semantic (Light only) | `--bg-*`, `--text-*`, `--icon-*`, `--border-*` (79) | Alias primitives (`text/brand/secondary-inverse` aliases the Utility `--alpha-white-90`) |
 | Utility | `--alpha-{white,black}-{10..97}`, `--hih-*`, `--category-*` | |
 | Typography | `--font-{display,h1..h6,body-md,body-sm,caption-*}-{size,line-height,letter-spacing}` | Mobile default; Desktop at ≥1024px |
 | Text styles | `.text-{family}-{weight}` classes (37) | |
@@ -1229,6 +1279,7 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/BottomSheet/BottomSheet.stories.tsx` | Components/BottomSheet | Playground, With content, Without header, Without actions, Primary action only, Interactive\*, Test: close button and actions\* (+ autodocs) |
 | `src/components/InfoBanner/InfoBanner.stories.tsx` | Components/InfoBanner | Playground, Information only, Without icon, Custom icon, Test: clickable\* (+ autodocs) |
 | `src/components/Badge/Badge.stories.tsx` | Components/Badge | Playground, All colours (+ autodocs) |
+| `src/components/Banner/Banner.stories.tsx` | Components/Banner | Playground, Home Sample Collection (Figma example), All Colours, Without Subtitle, Without Cta, With Illustration, Test: CTA click\*, Test: brand CTA is black\* (+ autodocs) |
 | `src/components/Chip/Chip.stories.tsx` | Components/Chip | Playground, Light, Dark, Disabled\*, Label only, Test: click\*, All variants (+ autodocs) |
 | `src/components/Toggle/Toggle.stories.tsx` | Components/Toggle | Playground, Off, On, Off disabled, On disabled, With label, Test: switching\*, All variants (+ autodocs) |
 | `src/components/Radio/Radio.stories.tsx` | Components/Radio | Playground, Unselected, Selected, Disabled (Figma artwork), Disabled unselected (assumption), Group\*, All variants (+ autodocs) |
@@ -1252,6 +1303,8 @@ CounterBadge controls: `count`, `max` (number), `colour` (radio), `disabled` (bo
 Header controls: `statusBar`, `profile`, `cart` (boolean), `locationLabel`, `locationAddress` (text), `cartCount` (number), `onLocationClick`, `onProfileClick`, `onCartClick` (action spies).
 
 Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text). Illustration controls: `name` (select), `size` (number), `label` (text). Hooman controls: `name` (select), `height` (number), `label` (text).
+
+Banner controls: `colour` (select), `title`, `subtitle`, `cta` (text), `image` (select of sample Hooman / Illustration nodes), `onCtaClick` (action spy).
 
 SkuCard controls: `large`, `added`, `tag` (boolean), `orientation` (radio), all content props (text / number), `onAdd`, `onAddedClick` (action spies).
 
@@ -1304,6 +1357,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
 | 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | `1509632` |
 | 2026-11-26 | Icon library: added the Figma **Icon repo** (section `40002796:1640`), 13 icons × regular/bold (`phone-telephone`: regular/filled) as `<icon>-regular` / `<icon>-bold`; existing icon names unchanged. New **Icon Repo** story. **Hooman** added: 22 TATA 1mg character illustrations (delivery, doctor, pharmacist, phlebotomist) with their Figma usage guidance; props `name`, `height`, `label`. Stories with interaction tests. | `8f1e3f7` |
+| 2026-11-26 | **Semantic tokens updated from Figma**: `bg/brand/disabled-subtle` → cool-neutral 50, `text/brand/disabled-subtle` and `icon/brand/disabled-subtle` → 300, `border/neutrals/primary` → 100, `secondary` → 200, `tertiary` → 300, `disabled` → 100; new `text/brand/secondary-inverse` (→ Utility `alpha/white/90`). `build-tokens.mjs` resolves aliases to Utility values. Visible changes: Button (outline/inverse borders, disabled), InputField and OtpField (borders, disabled, placeholder). 13 components that used primitives to match Figma now use the semantic tokens (no visual change). **Banner** added (Figma `40002869:8638`): props `title`, `subtitle`, `colour`, `cta`, `onCtaClick`, `image`. Stories with interaction tests. | this branch |
 | 2026-11-26 | Storybook deployment: GitHub Actions workflow builds Storybook on PRs and publishes it to GitHub Pages from `main`. No component changes. | this branch |
 
 ---
@@ -1336,19 +1390,13 @@ Verified unless marked *assumption*.
 - **InputField clear button is always shown** when `clearable` (as in Figma), including on an empty field.
 - **InputField `required` defaults to false**, while the Figma component always shows the asterisk. Pass `required` to match.
 - **OtpField is digits-only** and fills left to right; deleting a middle digit shifts later digits left.
-- **Figma is the source of truth for CounterBadge and Header.** This Figma page resolves some semantic variables differently from the token export, and the Header uses colours with no token. These two components use Figma's exact values, without changing `tokens.css` or other components:
-  - `bg/brand/disabled-subtle` #f2f2f2 → `--color-cool-neutral-50` (export's semantic token is #dbdbdb)
-  - `text/brand/disabled-subtle` #adadad → `--color-cool-neutral-300` (export: #969696)
-  - `border/neutrals/secondary` #c4c4c4 → `--color-cool-neutral-200` (export: #dbdbdb)
-  - `Color/Sunrise Glow/99` #fffbfa, `Color/Sunrise Glow/97` #fee9e1, `Color/Stroke/Subtle` #dde2eb and the raw address colour #262b34 have no token, so they're kept as `--dp-header-*` variables in `Header.css`.
-
-  Re-exporting the tokens from this Figma file (and adding the missing colours) would let these move back to semantic tokens.
+- **Header colours with no token:** `Color/Sunrise Glow/99` #fffbfa, `Color/Sunrise Glow/97` #fee9e1, `Color/Stroke/Subtle` #dde2eb and the raw address colour #262b34 are kept as `--dp-header-*` variables in `Header.css`. (The earlier semantic mismatches — `bg/brand/disabled-subtle`, `text/brand/disabled-subtle`, `border/neutrals/*` — were fixed by the 2026-11-26 token update; CounterBadge, Header, Chip, SkuCard, Toast, ListItem, Search, Divider, Accordion, Radio, CompoundButton, QuantityDropdown and BottomSheet now use the semantic tokens.)
 - **Header cart badge** in Figma is a detached frame (10/12 text, radius md) rather than a Counter badge instance. The code reuses `CounterBadge` and applies Figma's header sizing to it.
 - **Header `statusBar` defaults to false** in code (Figma default true), per Figma's own guidance that the OS should draw the status bar. Its values (5:13, battery 76) are fixed samples.
 - **Header variants not built:** the private `.header` section also has Pageheader layouts `location`, `cart`, `PDP`, `HIH` and an `HIH` set (default / HIH PDP × filled), plus Statusbar `filled?=false`. The published Header only uses `usage=brand`, so only that is implemented.
 - **CounterBadge disabled for brand/blue** — *assumption:* Figma defines disabled for green only (and says it doesn't imply others); the same muted look is applied to any colour.
 - **CounterBadge `max`** is not a Figma property; added so large counts don't overflow the 16px design.
-- **SkuCard exact Figma values:** this Figma page resolves `border/neutrals/primary` to #dbdbdb (export: #f2f2f2) and `border/neutrals/secondary` to #c4c4c4 (export: #dbdbdb), so SkuCard uses `--color-cool-neutral-100` / `-200`. Colours with no token are kept in `SkuCard.css`: `Colour Usage/Text/Secondary` #414752 (rating count) and the delivery icon gradient `Colours/Healing Mauve/99` #fefbff → `/90` #f9d4ff. `tokens.css` is unchanged.
+- **SkuCard colours with no token** are kept in `SkuCard.css`: `Colour Usage/Text/Secondary` #414752 (rating count) and the delivery icon gradient `Colours/Healing Mauve/99` #fefbff → `/90` #f9d4ff. Its borders use `--border-neutrals-primary` / `-secondary` since the 2026-11-26 token update.
 - **SkuCard horizontal has no card stroke** — removed on request (2026-11-25); Figma still shows a 1px #dbdbdb inside stroke on `large=false, orientation=horizontal`. Size is unchanged (328×149).
 - **SkuCard product image:** the Figma frame has no actual image (empty white box); `imageSrc` fills it with `object-fit: contain`. The small card's image fit/padding isn't specified in Figma — *assumption:* full box, contain.
 - **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
@@ -1388,8 +1436,13 @@ Verified unless marked *assumption*.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).
 - **Button hover, pressed and loading states** are not defined in Figma and not implemented.
 - **Colour contrast (verified with the Storybook a11y addon):** white on `--bg-brand-coral` (#ff5443) is about 3.2:1, and coral text on white (outline, ghost) is the same. Both are below WCAG AA 4.5:1 for 14–16px text. This comes from the design tokens; the Button follows Figma and has not been changed. The same coral is used for the OtpField “Resend OTP” action (3.18:1 at 12px, flagged by the a11y addon).
-- **InputField helper and placeholder contrast (verified):** default helper text `--text-brand-quartenary` (#808080) on white is 3.94:1 at 11px (flagged by the a11y addon); placeholder `--text-brand-disabled-subtle` (#969696) is about 2.96:1 (not checked by the addon). Both below WCAG AA 4.5:1. Token-level; follows Figma.
+- **InputField helper and placeholder contrast (verified):** default helper text `--text-brand-quartenary` (#808080) on white is 3.94:1 at 11px (flagged by the a11y addon); placeholder `--text-brand-disabled-subtle` (#adadad since the 2026-11-26 token update) is about 2.24:1 (not checked by the addon). Both below WCAG AA 4.5:1. Token-level; follows Figma.
 - **Focus ring** — *assumption:* not in Figma; uses `--border-info-moderate` for visibility (Button, InputField clear button, OtpField resend button).
+- **Banner text gap (Figma inconsistency):** the brand variant and the published example (mint-green) have 4px between title and subtitle; the other seven variants in the component set have none. 4px is used for every colour.
+- **Banner title line-height** is 22px, as in the Figma component (the h5 token is 24px), same as Widget.
+- **Banner `mint-greene`** is spelled `mint-green` in code.
+- **Banner contrast (calculated):** white title on brand coral is 3.18:1 and the 90% white subtitle 2.83:1, below WCAG AA 4.5:1 (token-level, follows Figma). Brown (5.03 / 4.37:1) and pink (4.79 / 4.21:1) subtitles are just under 4.5:1 at 16px semibold; the other colours pass.
+- **Banner imagery** isn't padded by the component; Figma's notes ask for a 12px inset (91 × 116 px usable), so size the artwork for that.
 - **Light theme only:** semantic tokens exist only for Light mode.
 - **Lint warnings (pre-existing, Foundations pages):** missing `key` props in `Typography.stories.tsx` and `Dimensions.stories.tsx` table rows, and a fast-refresh warning in `doc-blocks.tsx`. Docs-only pages; not shipped.
 - **Starter app:** `src/App.tsx` and `src/index.css` are the unmodified Vite starter, not part of the library.

@@ -2,7 +2,7 @@
 .dp-chip {
   --dp-chip-bg: var(--bg-brand-primary);
   --dp-chip-fg: var(--text-brand-primary);
-  --dp-chip-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-chip-border: var(--border-neutrals-secondary); /* #c4c4c4 */
   --dp-chip-count-bg: var(--icon-brand-coral); /* Figma Color/Icons/CTA #ff5443 */
   --dp-chip-count-fg: var(--text-brand-primary-inverse);
 
@@ -42,8 +42,8 @@
 }
 
 .dp-chip--disabled {
-  --dp-chip-bg: var(--color-cool-neutral-50); /* Figma bg/brand/disabled-subtle = #f2f2f2 in this file */
-  --dp-chip-fg: var(--color-cool-neutral-300); /* Figma text/brand/disabled-subtle = #adadad in this file */
+  --dp-chip-bg: var(--bg-brand-disabled-subtle); /* #f2f2f2 */
+  --dp-chip-fg: var(--text-brand-disabled-subtle); /* #adadad */
   --dp-chip-border: transparent;
   --dp-chip-count-bg: var(--bg-brand-quinary); /* #c4c4c4 */
   --dp-chip-count-fg: var(--color-cool-neutral-300);

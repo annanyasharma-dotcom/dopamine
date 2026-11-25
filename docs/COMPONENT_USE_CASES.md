@@ -1197,6 +1197,79 @@ import { InfoBanner } from './components';
 
 ---
 
+## Banner
+
+**Purpose:** a colourful promo card (328 × 164) with a title, optional subtitle, optional CTA and a 3D image: service intros, offers, campaigns and cross-sell on home or category pages.
+
+### When to use
+
+- Promoting a service or offer with one clear action: “Get at-home sample collection — Book test now”.
+- In carousels or feeds of promos, where the 8 colours tell campaigns apart.
+
+### When not to use
+
+- **Service or status strips** inside a flow (“Get medicines in under 30 mins”): use `InfoBanner`.
+- **Feedback after an action** (saved, failed): use `Toast`.
+- **More than one action**, or long copy: the banner fits about two lines of title and one of subtitle.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `title` | **yes** | — | text / node |
+| `subtitle` | no | — (hidden) | text / node |
+| `colour` | no | `'brand'` | `brand`, `blue`, `green`, `brown`, `pink`, `mauve`, `purple`, `mint-green` |
+| `cta` | no | — (hidden) | CTA label |
+| `onCtaClick` | no | — | `(event) => void` |
+| `image` | no | — (empty slot) | any node: `Hooman`, `Illustration`, `<img>` |
+
+### Behaviour
+
+- The CTA is a `Button` (size sm, no icons, 125px wide): black on `brand`, white `inverse` on every other colour. It calls `onCtaClick`.
+- The image slot is 140px high and 115–151px wide; content is centred and clipped. It's always there, so text wraps at the same width with or without an image.
+- The banner is 328px wide but shrinks to its container (min 269px).
+
+### Examples
+
+```tsx
+import { Banner, Hooman, Illustration } from './components';
+
+// Figma example
+<Banner
+  colour="mint-green"
+  title="Get at-home sample collection"
+  subtitle="for FREE"
+  cta="Book test now"
+  onCtaClick={() => navigate('/lab-tests/home-collection')}
+  image={<Hooman name="phlebotomist-home-visit" height={100} />}
+/>
+
+// Offer with an illustration, no subtitle
+<Banner colour="green" title="Flat 20% off on medicines" cta="Shop now" image={<Illustration name="discount-green" size={100} />} />
+
+// Information only (no CTA)
+<Banner colour="purple" title="Your reports are ready" subtitle="View them in My Reports" />
+```
+
+### Imagery (Figma guidance)
+
+- Fit artwork proportionally; keep its silhouette and shadows within the slot to avoid clipping. Figma's notes ask for a 12px inset: about 91 × 116 px of usable area.
+- Good fits: `Hooman` at `height` 100–120, `Illustration` at `size` ~100.
+
+### Accessibility
+
+- Title and subtitle are plain text (no heading level). If the banner introduces a section, put it under a heading.
+- Keep the CTA label specific (“Book test now”, not “Click here”).
+- Contrast: white text on `brand` coral is 3.2:1 (below AA for small text); prefer the darker colours for long or important copy.
+
+### Common mistakes
+
+- ❌ Putting more than ~2 lines in `title`: the banner is a fixed 164px high and clips.
+- ❌ Passing artwork larger than the slot without sizing it: it gets cut off.
+- ❌ Using a banner as the only way to state an offer's terms. Put terms on the page it leads to.
+
+---
+
 ## Badge
 
 **Purpose:** a short decorative label for a category or descriptor.

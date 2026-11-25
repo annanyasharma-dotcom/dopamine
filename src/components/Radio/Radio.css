@@ -24,13 +24,13 @@
   cursor: inherit;
 }
 
-/* Unselected: white circle with a 1px Figma border/neutrals/tertiary (#adadad in this file) */
+/* Unselected: white circle with a 1px Figma border/neutrals/tertiary (#adadad) */
 .dp-radio__control {
   box-sizing: border-box;
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  border: var(--stroke-regular) solid var(--color-cool-neutral-300);
+  border: var(--stroke-regular) solid var(--border-neutrals-tertiary);
   border-radius: var(--radius-full);
   background: var(--bg-brand-primary);
 }

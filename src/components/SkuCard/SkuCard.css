@@ -5,8 +5,8 @@
  * Text sizes are Figma variables not in the token export (see docs/MASTER.md → Known issues).
  */
 .dp-sku {
-  --dp-sku-border: var(--color-cool-neutral-100); /* Figma border/neutrals/primary = #dbdbdb in this file */
-  --dp-sku-control-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-sku-border: var(--border-neutrals-primary); /* #dbdbdb */
+  --dp-sku-control-border: var(--border-neutrals-secondary); /* #c4c4c4 */
   --dp-sku-rating-count: #414752; /* Figma Colour Usage/Text/Secondary (no token) */
   --dp-sku-delivery-bg: linear-gradient(to bottom, #fefbff, #f9d4ff); /* Figma Colours/Healing Mauve/99 → /90 (no tokens) */
 

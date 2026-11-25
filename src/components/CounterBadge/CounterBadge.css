@@ -35,8 +35,6 @@
 
 /* Figma defines disabled for green only; the same muted treatment is used for every colour. */
 .dp-counter-badge--disabled {
-  /* Figma bg/brand/disabled-subtle and text/brand/disabled-subtle resolve to #f2f2f2 / #adadad in this file
-     (the token export's semantic tokens are #dbdbdb / #969696), so the matching primitives are used. */
-  --dp-counter-badge-bg: var(--color-cool-neutral-50); /* #f2f2f2 */
-  --dp-counter-badge-fg: var(--color-cool-neutral-300); /* #adadad */
+  --dp-counter-badge-bg: var(--bg-brand-disabled-subtle); /* #f2f2f2 */
+  --dp-counter-badge-fg: var(--text-brand-disabled-subtle); /* #adadad */
 }

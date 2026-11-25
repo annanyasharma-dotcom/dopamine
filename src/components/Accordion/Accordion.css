@@ -1,6 +1,6 @@
 /* Accordion — Figma: "Accordian" component set (node 40002762:30005). Values match Figma variables. */
 .dp-accordion {
-  --dp-accordion-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-accordion-border: var(--border-neutrals-secondary); /* #c4c4c4 */
 
   box-sizing: border-box;
   display: flex;

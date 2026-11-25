@@ -919,7 +919,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.100}"
+                "$value": "{color.cool-neutral.50}"
               },
               "disabled": {
                 "$scopes": [
@@ -1086,6 +1086,15 @@
                 "$collectionName": "Primitives",
                 "$value": "{color.cool-neutral.700}"
               },
+              "secondary-inverse": {
+                "$scopes": [
+                  "TEXT_FILL"
+                ],
+                "$type": "color",
+                "$libraryName": "",
+                "$collectionName": "Utility",
+                "$value": "{alpha.white.90}"
+              },
               "tertiary": {
                 "$scopes": [
                   "TEXT_FILL"
@@ -1111,7 +1120,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.400}"
+                "$value": "{color.cool-neutral.300}"
               },
               "disabled": {
                 "$scopes": [
@@ -1303,7 +1312,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.400}"
+                "$value": "{color.cool-neutral.300}"
               },
               "disabled": {
                 "$scopes": [
@@ -1450,7 +1459,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.50}"
+                "$value": "{color.cool-neutral.100}"
               },
               "secondary": {
                 "$scopes": [
@@ -1459,7 +1468,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.100}"
+                "$value": "{color.cool-neutral.200}"
               },
               "tertiary": {
                 "$scopes": [
@@ -1468,7 +1477,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.200}"
+                "$value": "{color.cool-neutral.300}"
               },
               "quartenary": {
                 "$scopes": [
@@ -1486,7 +1495,7 @@
                 "$type": "color",
                 "$libraryName": "",
                 "$collectionName": "Primitives",
-                "$value": "{color.cool-neutral.300}"
+                "$value": "{color.cool-neutral.100}"
               }
             },
             "success": {

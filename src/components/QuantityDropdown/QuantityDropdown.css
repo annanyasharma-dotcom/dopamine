@@ -9,8 +9,8 @@
   padding: var(--gap-6) var(--gap-8);
   border-radius: var(--radius-md);
   background: var(--bg-brand-primary);
-  /* Inside stroke (keeps 30px; Figma border/neutrals/primary = #dbdbdb in this file) + Figma effect "md" */
-  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-100), var(--shadow-md);
+  /* Inside stroke (keeps 30px; Figma border/neutrals/primary, #dbdbdb) + Figma effect "md" */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--border-neutrals-primary), var(--shadow-md);
   font-family: var(--font-family-base);
 }
 
