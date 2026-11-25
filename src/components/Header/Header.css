@@ -12,7 +12,7 @@
   --dp-header-pill-bg: #fffbfa; /* Figma Color/Sunrise Glow/99 (no token) */
   --dp-header-pill-border: #fee9e1; /* Figma Color/Sunrise Glow/97 (no token) */
   --dp-header-address: #262b34; /* Figma address text (raw colour, no variable) */
-  --dp-header-profile-border: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-header-profile-border: var(--border-neutrals-secondary); /* #c4c4c4 */
   --dp-header-cart-border: #dde2eb; /* Figma Color/Stroke/Subtle (no token) */
 
   display: flex;

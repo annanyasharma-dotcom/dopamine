@@ -1,6 +1,6 @@
 /* BottomSheet — Figma: "Bottom Sheet" (node 40002694:17186). Values match Figma variables. */
 .dp-bottom-sheet {
-  --dp-bottom-sheet-divider: var(--color-cool-neutral-200); /* Figma border/neutrals/secondary = #c4c4c4 in this file */
+  --dp-bottom-sheet-divider: var(--border-neutrals-secondary); /* #c4c4c4 */
 
   position: fixed;
   inset: 0;
@@ -97,7 +97,7 @@
   min-width: 0;
 }
 
-/* Figma's outline button here resolves border/neutrals/secondary to #c4c4c4 */
+/* Outline button border = divider colour (both Figma border/neutrals/secondary, #c4c4c4) */
 .dp-bottom-sheet__actions .dp-button--outline {
   --dp-button-border: var(--dp-bottom-sheet-divider);
 }

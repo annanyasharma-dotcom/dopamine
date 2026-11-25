@@ -9,8 +9,8 @@
   padding: var(--gap-12) var(--gap-16);
   border-radius: var(--radius-full);
   background: var(--bg-brand-primary);
-  /* Inside stroke (keeps 44px): Figma border/neutrals/secondary = #c4c4c4 in this file */
-  box-shadow: inset 0 0 0 var(--stroke-regular) var(--color-cool-neutral-200);
+  /* Inside stroke (keeps 44px): Figma border/neutrals/secondary (#c4c4c4) */
+  box-shadow: inset 0 0 0 var(--stroke-regular) var(--border-neutrals-secondary);
   font-family: var(--font-family-base);
 }
 

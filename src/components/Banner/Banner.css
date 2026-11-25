@@ -1,0 +1,84 @@
+/*
+ * Banner — Figma: "banner" component set (node 40002869:8638), 8 colours.
+ * 328 × 164, 12px padding, radius md; text column + 115–151 × 140 imagery slot.
+ */
+.dp-banner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 328px;
+  min-width: 269px; /* Figma min width */
+  max-width: 100%;
+  height: 164px;
+  padding: var(--gap-12);
+  overflow: clip;
+  border-radius: var(--radius-md);
+  background: var(--dp-banner-bg);
+  font-family: var(--font-family-base);
+  color: var(--text-brand-primary-inverse);
+}
+
+/* Figma colour → fill */
+.dp-banner--brand { --dp-banner-bg: var(--bg-brand-coral); }
+.dp-banner--blue { --dp-banner-bg: var(--color-precision-blue-200); }
+.dp-banner--green { --dp-banner-bg: var(--color-wellness-green-100); }
+.dp-banner--brown { --dp-banner-bg: var(--color-sunshine-yellow-200); }
+.dp-banner--pink { --dp-banner-bg: var(--color-comfort-pink-200); }
+.dp-banner--mauve { --dp-banner-bg: var(--color-healing-mauve-200); }
+.dp-banner--purple { --dp-banner-bg: var(--color-jovial-purple-200); }
+.dp-banner--mint-green { --dp-banner-bg: var(--color-horizon-blue-200); }
+
+.dp-banner__content {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--gap-12);
+  min-width: 1px;
+}
+
+.dp-banner__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* 4px title–subtitle gap: Figma brand variant and the published example. The other variants in the
+     component set have no gap (Figma inconsistency, see MASTER.md › Known issues). */
+  gap: var(--gap-4);
+  width: 100%;
+  overflow-wrap: break-word;
+}
+
+.dp-banner__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 18px; /* Figma h5/size */
+  line-height: 22px; /* Figma h5/line-height in this component (token export: 24px) */
+  color: var(--text-brand-primary-inverse);
+}
+
+.dp-banner__subtitle {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px; /* Figma h6/size */
+  line-height: 20px; /* Figma h6/line-height */
+  color: var(--text-brand-secondary-inverse);
+}
+
+.dp-banner__cta {
+  flex-shrink: 0;
+  width: 125px; /* Figma */
+}
+
+.dp-banner__image {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 115px;
+  max-width: 151px;
+  height: 140px;
+  overflow: clip;
+  border-radius: var(--radius-md);
+}

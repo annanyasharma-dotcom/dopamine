@@ -94,7 +94,7 @@
   --bg-brand-tertiary: var(--color-cool-neutral-50);
   --bg-brand-quartenary: var(--color-cool-neutral-100);
   --bg-brand-quinary: var(--color-cool-neutral-200);
-  --bg-brand-disabled-subtle: var(--color-cool-neutral-100);
+  --bg-brand-disabled-subtle: var(--color-cool-neutral-50);
   --bg-brand-disabled: var(--color-cool-neutral-200);
   --bg-brand-coral: var(--color-flame-coral-100);
   --bg-success-subtler: var(--color-wellness-green-25);
@@ -112,9 +112,10 @@
   --text-brand-primary: var(--color-cool-neutral-900);
   --text-brand-primary-inverse: var(--color-base-white);
   --text-brand-secondary: var(--color-cool-neutral-700);
+  --text-brand-secondary-inverse: var(--alpha-white-90);
   --text-brand-tertiary: var(--color-cool-neutral-600);
   --text-brand-quartenary: var(--color-cool-neutral-500);
-  --text-brand-disabled-subtle: var(--color-cool-neutral-400);
+  --text-brand-disabled-subtle: var(--color-cool-neutral-300);
   --text-brand-disabled: var(--color-cool-neutral-500);
   --text-brand-brand: var(--color-flame-coral-100);
   --text-success-subtle: var(--color-wellness-green-50);
@@ -134,7 +135,7 @@
   --icon-brand-secondary: var(--color-cool-neutral-700);
   --icon-brand-tertiary: var(--color-cool-neutral-600);
   --icon-brand-quartenary: var(--color-cool-neutral-500);
-  --icon-brand-disabled-subtle: var(--color-cool-neutral-400);
+  --icon-brand-disabled-subtle: var(--color-cool-neutral-300);
   --icon-brand-disabled: var(--color-cool-neutral-500);
   --icon-brand-coral: var(--color-flame-coral-100);
   --icon-success-subtle: var(--color-wellness-green-50);
@@ -149,11 +150,11 @@
   --icon-info-subtle: var(--color-precision-blue-50);
   --icon-info-base: var(--color-precision-blue-100);
   --icon-info-bold: var(--color-precision-blue-300);
-  --border-neutrals-primary: var(--color-cool-neutral-50);
-  --border-neutrals-secondary: var(--color-cool-neutral-100);
-  --border-neutrals-tertiary: var(--color-cool-neutral-200);
+  --border-neutrals-primary: var(--color-cool-neutral-100);
+  --border-neutrals-secondary: var(--color-cool-neutral-200);
+  --border-neutrals-tertiary: var(--color-cool-neutral-300);
   --border-neutrals-quartenary: var(--color-cool-neutral-400);
-  --border-neutrals-disabled: var(--color-cool-neutral-300);
+  --border-neutrals-disabled: var(--color-cool-neutral-100);
   --border-success-subtle: var(--color-wellness-green-50);
   --border-success-moderate: var(--color-wellness-green-100);
   --border-success-intense: var(--color-wellness-green-200);

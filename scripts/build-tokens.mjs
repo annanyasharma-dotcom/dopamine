@@ -41,6 +41,10 @@ const primitives = flatten(Object.values(collection('Primitives'))[0]).map(({ pa
   primitiveValues[path.join('.')] = token.$value;
   return { group: path[1], name: path.at(-1), var: cssVar(path), value: token.$value };
 });
+// Semantic tokens can also alias raw Utility values (e.g. text/brand/secondary-inverse → alpha/white/90).
+for (const { path, token } of flatten(collection('Utility').Value)) {
+  if (!String(token.$value).startsWith('{')) primitiveValues[path.join('.')] = token.$value;
+}
 
 /** "{color.cool-neutral.900}" → { var(--color-cool-neutral-900), #0d0d0d, alias } */
 function resolve(value) {
