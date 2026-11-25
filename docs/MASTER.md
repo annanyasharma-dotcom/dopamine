@@ -1199,7 +1199,7 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 - Config: `.storybook/main.ts` (stories: `src/**/*.mdx`, `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`; addons: chromatic, vitest, a11y, docs, mcp). `preview.tsx` loads fonts + tokens and sets sidebar order: Introduction → Foundations → Components.
 - Run: `npm run storybook` (port 6006; regenerates tokens first). Build: `npm run build-storybook` → `storybook-static/`.
 - Story tests: `npx vitest --project storybook --run` runs every story (and its `play` function) in headless Chromium.
-- Deployment: none configured.
+- Deployment: GitHub Actions (`.github/workflows/storybook.yml`) builds Storybook on every pull request and publishes `storybook-static/` to GitHub Pages on pushes to `main`: https://annanyasharma-dotcom.github.io/dopamine/. One-time setup: repo **Settings → Pages → Source: GitHub Actions**. It can also be run by hand from the Actions tab (`workflow_dispatch`).
 
 | Story file | Title | Stories |
 | --- | --- | --- |
@@ -1303,7 +1303,8 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
 | 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
 | 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | `1509632` |
-| 2026-11-26 | Icon library: added the Figma **Icon repo** (section `40002796:1640`), 13 icons × regular/bold (`phone-telephone`: regular/filled) as `<icon>-regular` / `<icon>-bold`; existing icon names unchanged. New **Icon Repo** story. **Hooman** added: 22 TATA 1mg character illustrations (delivery, doctor, pharmacist, phlebotomist) with their Figma usage guidance; props `name`, `height`, `label`. Stories with interaction tests. | this branch |
+| 2026-11-26 | Icon library: added the Figma **Icon repo** (section `40002796:1640`), 13 icons × regular/bold (`phone-telephone`: regular/filled) as `<icon>-regular` / `<icon>-bold`; existing icon names unchanged. New **Icon Repo** story. **Hooman** added: 22 TATA 1mg character illustrations (delivery, doctor, pharmacist, phlebotomist) with their Figma usage guidance; props `name`, `height`, `label`. Stories with interaction tests. | `8f1e3f7` |
+| 2026-11-26 | Storybook deployment: GitHub Actions workflow builds Storybook on PRs and publishes it to GitHub Pages from `main`. No component changes. | this branch |
 
 ---
 
