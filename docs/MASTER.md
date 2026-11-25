@@ -1213,7 +1213,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | `ab915f1` |
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
 | 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
-| 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | uncommitted |
+| 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | `1509632` |
 
 ---
 
