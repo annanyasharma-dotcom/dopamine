@@ -1164,7 +1164,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **InfoBanner**, **Badge**, **Chip**, **Toggle**, **Radio**, **Checkbox**, **Accordion** added (Figma section `40002855:2873`). Icon library: added `arrow-left`, `chevron-down`, `chevron-up`. Values follow the Figma file exactly. Stories with interaction tests. | `e62b041` |
 | 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | `ab915f1` |
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
-| 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | uncommitted |
+| 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
 
 ---
 
