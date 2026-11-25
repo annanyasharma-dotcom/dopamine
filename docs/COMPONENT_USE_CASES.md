@@ -1541,3 +1541,57 @@ import { QuantityDropdown } from './components';
 
 - ❌ Offering more than the user can buy; set `options` from stock and purchase limits.
 - ❌ Removing an item by choosing 0. Add 0 to `options` only if your cart treats it as remove, and say so.
+
+---
+
+## Illustration
+
+**Purpose:** full-colour supporting imagery (meds, labs, coins, discounts, delivery, collection, scheduling, tests, documents), with when-to-use guidance written in Figma.
+
+### When to use (Figma guidance)
+
+| Name | Use for |
+| --- | --- |
+| `meds` | Pharmacy categories, medicine ordering, prescription refills, medicine order confirmations |
+| `labs` | Lab-test categories, diagnostic services, health-check packages, test-booking onboarding or confirmation |
+| `coins` | Rupee wallet balances, cashback, rewards, referral credits, savings summaries. Not for non-rupee currencies |
+| `discount-blue` | Coupons, promotional offers, percentage discounts, savings banners |
+| `discount-green` | Applied discounts, successful coupon redemption, member savings, offer confirmations. Pair with explicit success text |
+| `delivery-box` | Order dispatch, shipment tracking, delivery updates, order history, package empty states |
+| `phlebo-bag` | Home sample collection, phlebotomist visits, collector assignment, appointment preparation |
+| `missing-slot` | Unavailable slots, missed bookings, scheduling issues, reschedule prompts. Pair with text on the exact issue and next step |
+| `testubes` | Blood tests, test details, sample collection instructions, sample-processing status |
+| `documents` | Medical records, lab reports, prescriptions, uploads, document empty states |
+
+### When not to use
+
+- **Small UI icons** (16–24px, recoloured with tokens): use `Icon`.
+- **As the only way to say something**, such as success or a scheduling problem. Always pair with text.
+
+### Properties
+
+| Prop | Required | Default | Values |
+| --- | --- | --- | --- |
+| `name` | **yes** | — | see table above |
+| `size` | no | `120` | px |
+| `label` | no | — (decorative) | accessible name |
+
+### Examples
+
+```tsx
+import { Illustration, InfoBanner } from './components';
+
+// Empty state
+<div style={{ textAlign: 'center' }}>
+  <Illustration name="documents" />
+  <p>No reports yet. Your lab reports will appear here.</p>
+</div>
+
+// In a banner's icon slot
+<InfoBanner icon={<Illustration name="phlebo-bag" size={40} />}>A phlebotomist will visit tomorrow, 8–10 am</InfoBanner>
+```
+
+### Sizing
+
+- Designed at 120px; images are sharp up to 3× (360 physical px). Use `size` ≤ 120 on phones.
+- `testubes` overflows its frame by a few px, as in Figma; leave a little space around it.

@@ -38,6 +38,7 @@ src/
     Grid/              Grid.tsx (Grid + GridItem), Grid.css, Grid.stories.tsx, index.ts
     Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
     Icon/              Icon.tsx, Icon.css, icons.ts (registry), Icon.stories.tsx, index.ts, svg/ (library SVGs)
+    Illustration/      Illustration.tsx, Illustration.css, illustrations.ts (registry + Figma usage), Illustration.stories.tsx, index.ts, images/ (3× PNGs)
     InfoBanner/        InfoBanner.tsx, InfoBanner.css, InfoBanner.stories.tsx, index.ts, assets/
     InputField/        InputField.tsx, InputField.css, InputField.stories.tsx, index.ts, assets/
     ListItem/          ListItem.tsx, ListItem.css, ListItem.stories.tsx, index.ts
@@ -83,6 +84,7 @@ src/
 | CounterBadge | Data display | `src/components/CounterBadge/CounterBadge.tsx` | `CounterBadge` (named + default), types `CounterBadgeProps`, `CounterBadgeColour` | tokens.css, fonts.css | `40002686:16677` |
 | Header | Navigation | `src/components/Header/Header.tsx` | `Header` (named + default), type `HeaderProps` | **CounterBadge**, tokens.css, fonts.css, `assets/*.svg` (8 icons) | `40002686:16180` |
 | Icon | Foundations / media | `src/components/Icon/Icon.tsx` | `Icon` (named + default), `icons`, `iconNames`, types `IconProps`, `IconName`, `IconDefinition` | `svg/*.svg`, tokens.css | icons from node `40002750:10762` |
+| Illustration | Foundations / media | `src/components/Illustration/Illustration.tsx` | `Illustration` (named + default), `illustrations`, `illustrationNames`, types `IllustrationProps`, `IllustrationName`, `IllustrationDefinition` | `images/*.png`, `images/testubes-mask.svg` | section `40002872:9502` (Figma icon repo) |
 | SkuCard | Commerce | `src/components/SkuCard/SkuCard.tsx` | `SkuCard` (named + default), types `SkuCardProps`, `SkuCardOrientation` | **Icon** (check), **Tag**, tokens.css, fonts.css, `assets/*.svg` (5 icons) | `40002750:10762` |
 | Toast | Feedback | `src/components/Toast/Toast.tsx` | `Toast` (named + default), types `ToastProps`, `ToastType` | **Icon** (info, close), tokens.css | `40002646:31695` |
 | Rating | Data display | `src/components/Rating/Rating.tsx` | `Rating` (named + default), types `RatingProps`, `RatingType` | **Icon** (star), tokens.css | `40002801:2398` |
@@ -106,7 +108,7 @@ src/
 | Divider | Layout | `src/components/Divider/Divider.tsx` | `Divider` (named + default), types `DividerProps`, `DividerVariant` | tokens.css | `40002686:15759` (Figma “divider”) |
 | QuantityDropdown | Commerce | `src/components/QuantityDropdown/QuantityDropdown.tsx` | `QuantityDropdown` (named + default), type `QuantityDropdownProps` | `assets/caret.svg`, tokens.css | `40002723:20300` (Figma “dropdown”) |
 
-Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Icon, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
+Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Icon, Illustration, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -681,6 +683,51 @@ export interface TagProps extends Omit<ComponentPropsWithRef<'span'>, 'children'
 
 14px tall, padding 0 `--gap-4`, gap `--gap-2` (1px for promoted, as in Figma), radius `--radius-xs`, 10/14 medium. Icons are 14px and follow the text colour.
 
+
+### Illustration (illustrated icon library)
+
+Full-colour illustrations from the Figma icon repo, each drawn on a 120×120 frame. Separate from `Icon` (one-colour SVG masks): these are colour images and can't be recoloured.
+
+```ts
+export type IllustrationName = 'meds' | 'labs' | 'coins' | 'discount-blue' | 'discount-green' | 'delivery-box' | 'phlebo-bag' | 'missing-slot' | 'testubes' | 'documents';
+export interface IllustrationProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
+  name: IllustrationName;
+  size?: number;
+  label?: string;
+}
+```
+
+| Prop | Type | Required | Default | Behaviour |
+| --- | --- | --- | --- | --- |
+| `name` | `IllustrationName` | yes | — | Which illustration. |
+| `size` | `number` | no | `120` | Square size in px; the 120 frame is scaled. |
+| `label` | `string` | no | — | With it: `role="img"` + name. Without: decorative (`aria-hidden`), matching Figma's “supporting imagery”. |
+
+Also exported: `illustrations` (registry with `src`, `description`, `usage`, `figma` node per item) and `illustrationNames`.
+
+#### Library and usage (from Figma)
+
+| Name | Depicts | Use for |
+| --- | --- | --- |
+| `meds` | Medicine bottle and blister packs in a paper bag | Pharmacy categories, medicine ordering, prescription refills, medicine order confirmations |
+| `labs` | Laboratory glassware in an open box | Lab-test categories, diagnostic services, health-check packages, test-booking onboarding or confirmation |
+| `coins` | Gold coin with a rupee symbol | Rupee wallet balances, cashback, rewards, referral credits, savings summaries (not for non-rupee currencies) |
+| `discount-blue` | Blue scalloped badge with % | Coupons, promotional offers, percentage discounts, savings banners |
+| `discount-green` | Green scalloped badge with % | Applied discounts, successful coupon redemption, member savings, offer confirmations (pair with explicit success text) |
+| `delivery-box` | Sealed cardboard box | Order dispatch, shipment tracking, delivery updates, order history, package empty states |
+| `phlebo-bag` | Red medical collection bag | Home sample collection, phlebotomist visits, collector assignment, appointment preparation |
+| `missing-slot` | Calendar with a warning symbol | Unavailable slots, missed bookings, scheduling issues, reschedule prompts (pair with text on the issue and next step) |
+| `testubes` | Two capped sample tubes with red liquid | Blood tests, test details, sample collection instructions, sample-processing status |
+| `documents` | Folder with paper documents | Medical records, lab reports, prescriptions, uploads, document empty states |
+
+#### Assets
+
+- Single-image illustrations are the Figma originals (1024–1536px, ~1.5MB each) resized to 3× of the frame (360px) with macOS `sips`, keeping transparency: ~908KB for the whole set instead of ~13.5MB. Artwork is otherwise unchanged.
+- `phlebo-bag` is a 3:2 image placed 20px from the top of the frame (120×80), as in Figma.
+- `testubes` is a Figma composite: two tube images rotated −11.52° and 8.87°, each masked by the same soft-edged `testubes-mask.svg`, rebuilt in CSS with Figma's exact offsets. It overflows the 120 frame slightly, as in Figma.
+
+**Adding an illustration:** export it from Figma into `images/` at 3× of its frame, add an entry (with Figma's usage text) to `illustrations.ts`, and add a row above.
+
 ### Search
 
 Search bar. Implements the Figma “Search” component set (`labs AI` false / true).
@@ -1023,7 +1070,7 @@ A native `<select>` sits invisibly over the Figma control, so phones open their 
 - **OtpField** has no child components. One `<input>` per digit plus an optional hidden input; `useRef` tracks the boxes and the latest code for focus handling.
 - **CounterBadge** has no child components.
 - **Header** uses **CounterBadge** for the cart count. Internal `StatusBar` (not exported) renders the illustrative status bar.
-- **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders.
+- **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders. **Illustration** is the separate full-colour illustration set (no dependencies).
 - **SkuCard** has internal `Delivery` and `Pricing` parts (not exported).
 - **Toast**, **Rating**, **Widget** and **ListItem** use **Icon**; **Footer** uses **Logo**. **Widget** is a shell meant to contain `SkuCard`, `ListItem` or other compositions.
 - **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
@@ -1079,6 +1126,7 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/CounterBadge/CounterBadge.stories.tsx` | Components/CounterBadge | Playground, Brand, Blue, Green, Green disabled, Large counts\*, With accessible label\*, All variants (+ autodocs page) |
 | `src/components/Header/Header.stories.tsx` | Components/Header | Playground, Without status bar, Without profile, Without cart, Empty cart, Short address, Label only, Test: buttons\*, Test: status bar hidden from screen readers\* (+ autodocs page) |
 | `src/components/Icon/Icon.stories.tsx` | Components/Icon | Playground, Library, Bestseller, Check, Recolour, Accessible\* (+ autodocs page) |
+| `src/components/Illustration/Illustration.stories.tsx` | Components/Illustration | Playground, Library (with Figma usage), Sizes, Test: accessible label\* (+ autodocs) |
 | `src/components/SkuCard/SkuCard.stories.tsx` | Components/SkuCard | Playground, Large, Large added, Small, Small added, Horizontal, Horizontal added, Without bestseller tag, Tag types, With image, Short name no offer, Interactive\*, Test: small buttons\*, Test: small added button\*, All variants (+ autodocs page) |
 | `src/components/Toast/Toast.stories.tsx` | Components/Toast | Playground, Warning, Error\*, Success, Info, White, With action (Undo), No icon no cross, Test: buttons\*, All variants (+ autodocs) |
 | `src/components/Rating/Rating.stories.tsx` | Components/Rating | Playground, Good, Average, Bad, Test: accessible text\*, All variants (+ autodocs) |
@@ -1114,7 +1162,7 @@ CounterBadge controls: `count`, `max` (number), `colour` (radio), `disabled` (bo
 
 Header controls: `statusBar`, `profile`, `cart` (boolean), `locationLabel`, `locationAddress` (text), `cartCount` (number), `onLocationClick`, `onProfileClick`, `onCartClick` (action spies).
 
-Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text).
+Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text). Illustration controls: `name` (select), `size` (number), `label` (text).
 
 SkuCard controls: `large`, `added`, `tag` (boolean), `orientation` (radio), all content props (text / number), `onAdd`, `onAddedClick` (action spies).
 
@@ -1165,6 +1213,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **SpecialButton** and **CompoundButton** added (Figma section `40002858:3774`). Icon library: added `chevron-right-small`, `upload`. Values follow the Figma file exactly. Stories with interaction tests. | `ab915f1` |
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
 | 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
+| 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | uncommitted |
 
 ---
 
@@ -1239,6 +1288,8 @@ Verified unless marked *assumption*.
 - **CompoundButton** is named “compount button” in Figma; its text colour #181a1f and 40px radius are raw values with no token. It has no disabled or pressed design.
 - **QuantityDropdown** options, purchase limits and states beyond the default aren't designed (Figma guidance): `options` defaults to 1–10 and the disabled look (50% opacity) is an *assumption*. Figma names it just “dropdown”.
 - **Divider** `style` is called `variant` in code because `style` is reserved for inline styles in React.
+- **Illustrations are raster PNGs** in Figma, so they can't be recoloured or scaled up past 3× (360px) without blurring. Vector exports would remove both limits.
+- **Illustration `testubes`** is rebuilt from Figma's layers and mask in CSS; it overflows the 120px frame by a few px on each side, as in Figma (reserve a little space around it).
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.
 - **Button disabled for non-brand variants** — *assumption:* Figma only defines disabled for brand. The brand disabled treatment is applied to every variant (ghost keeps a transparent background).

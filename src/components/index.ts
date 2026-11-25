@@ -11,6 +11,7 @@ export * from './Footer';
 export * from './Grid';
 export * from './Header';
 export * from './Icon';
+export * from './Illustration';
 export * from './InfoBanner';
 export * from './InputField';
 export * from './ListItem';

@@ -1,0 +1,72 @@
+/*
+ * Illustration — Figma icon repo (section 40002872:9502). Every illustration is laid out on
+ * Figma's 120×120 frame and scaled to the requested size.
+ */
+.dp-illustration {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.dp-illustration__frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  transform-origin: 0 0;
+}
+
+.dp-illustration__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* phlebo-bag: Figma places the 3:2 image 20px from the top, full width (120×80) */
+.dp-illustration__frame--phlebo-bag .dp-illustration__img {
+  top: 20px;
+  height: 80px;
+  object-fit: fill;
+}
+
+/* testubes: Figma composite — rotated layers, each masked by the same 132×132 shape */
+.dp-illustration__tube {
+  position: absolute;
+  display: block;
+  mask-image: var(--dp-mask);
+  mask-size: 132px 132px;
+  mask-repeat: no-repeat;
+  mask-mode: alpha;
+}
+
+.dp-illustration__tube img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layer A: Figma box at (-12.13, -1.09) 124.288×162.189, content 97.152×145.728 rotated -11.52° */
+.dp-illustration__tube--a {
+  left: calc(-12.13px + (124.288px - 97.152px) / 2);
+  top: calc(-1.09px + (162.189px - 145.728px) / 2);
+  width: 97.152px;
+  height: 145.728px;
+  transform: rotate(-11.52deg);
+  mask-position: 6.131px -4.91px;
+}
+
+/* Layer B: Figma box at (9.16, -6) 127.426×171, content 104.509×156.763 rotated 8.87° */
+.dp-illustration__tube--b {
+  left: calc(9.16px + (127.426px - 104.509px) / 2);
+  top: calc(-6px + (171px - 156.763px) / 2);
+  width: 104.509px;
+  height: 156.763px;
+  transform: rotate(8.87deg);
+  mask-position: -15.158px 0px;
+}
