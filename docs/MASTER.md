@@ -37,6 +37,7 @@ src/
     Footer/            Footer.tsx, Footer.css, Footer.stories.tsx, index.ts
     Grid/              Grid.tsx (Grid + GridItem), Grid.css, Grid.stories.tsx, index.ts
     Header/            Header.tsx, Header.css, Header.stories.tsx, index.ts, assets/
+    Hooman/            Hooman.tsx, Hooman.css, hoomans.ts (registry + Figma usage), Hooman.stories.tsx, index.ts, images/ (WebP)
     Icon/              Icon.tsx, Icon.css, icons.ts (registry), Icon.stories.tsx, index.ts, svg/ (library SVGs)
     Illustration/      Illustration.tsx, Illustration.css, illustrations.ts (registry + Figma usage), Illustration.stories.tsx, index.ts, images/ (3× PNGs)
     InfoBanner/        InfoBanner.tsx, InfoBanner.css, InfoBanner.stories.tsx, index.ts, assets/
@@ -83,7 +84,8 @@ src/
 
 | CounterBadge | Data display | `src/components/CounterBadge/CounterBadge.tsx` | `CounterBadge` (named + default), types `CounterBadgeProps`, `CounterBadgeColour` | tokens.css, fonts.css | `40002686:16677` |
 | Header | Navigation | `src/components/Header/Header.tsx` | `Header` (named + default), type `HeaderProps` | **CounterBadge**, tokens.css, fonts.css, `assets/*.svg` (8 icons) | `40002686:16180` |
-| Icon | Foundations / media | `src/components/Icon/Icon.tsx` | `Icon` (named + default), `icons`, `iconNames`, types `IconProps`, `IconName`, `IconDefinition` | `svg/*.svg`, tokens.css | icons from node `40002750:10762` |
+| Icon | Foundations / media | `src/components/Icon/Icon.tsx` | `Icon` (named + default), `icons`, `iconNames`, types `IconProps`, `IconName`, `IconDefinition` | `svg/*.svg`, tokens.css | icons from node `40002750:10762` and the Icon repo section `40002796:1640` |
+| Hooman | Foundations / media | `src/components/Hooman/Hooman.tsx` | `Hooman` (named + default), `hoomans`, `hoomanNames`, `hoomanCharacters`, types `HoomanProps`, `HoomanName`, `HoomanDefinition`, `HoomanCharacter` | `images/*.webp` | page “3d icons”: component sets `40002869:9466`, `40002872:9505`, `40002872:9540`, `40002872:9564` |
 | Illustration | Foundations / media | `src/components/Illustration/Illustration.tsx` | `Illustration` (named + default), `illustrations`, `illustrationNames`, types `IllustrationProps`, `IllustrationName`, `IllustrationDefinition` | `images/*.png`, `images/testubes-mask.svg` | section `40002872:9502` (Figma icon repo) |
 | SkuCard | Commerce | `src/components/SkuCard/SkuCard.tsx` | `SkuCard` (named + default), types `SkuCardProps`, `SkuCardOrientation` | **Icon** (check), **Tag**, tokens.css, fonts.css, `assets/*.svg` (5 icons) | `40002750:10762` |
 | Toast | Feedback | `src/components/Toast/Toast.tsx` | `Toast` (named + default), types `ToastProps`, `ToastType` | **Icon** (info, close), tokens.css | `40002646:31695` |
@@ -108,7 +110,7 @@ src/
 | Divider | Layout | `src/components/Divider/Divider.tsx` | `Divider` (named + default), types `DividerProps`, `DividerVariant` | tokens.css | `40002686:15759` (Figma “divider”) |
 | QuantityDropdown | Commerce | `src/components/QuantityDropdown/QuantityDropdown.tsx` | `QuantityDropdown` (named + default), type `QuantityDropdownProps` | `assets/caret.svg`, tokens.css | `40002723:20300` (Figma “dropdown”) |
 
-Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Icon, Illustration, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
+Import: `import { Accordion, Badge, BottomSheet, Button, Checkbox, Chip, CompoundButton, CounterBadge, Divider, Footer, Grid, GridItem, Header, Hooman, Icon, Illustration, InfoBanner, InputField, ListItem, Logo, OtpField, QuantityDropdown, Radio, Rating, Search, SkuCard, SpecialButton, Tag, Toast, Toggle, Widget } from './components';` (or each component's folder).
 
 ---
 
@@ -394,7 +396,10 @@ export interface HeaderProps extends Omit<ComponentPropsWithRef<'header'>, 'chil
 Renders an icon from the library. Each icon is the original Figma SVG export, used as a CSS mask, so its colour comes from CSS and one file serves every colour.
 
 ```ts
-export type IconName = 'arrow-left' | 'bestseller' | 'check' | 'chevron-down' | 'chevron-right' | 'chevron-right-small' | 'chevron-up' | 'close' | 'close-filled' | 'good-experience' | 'info' | 'restart' | 'search' | 'star' | 'upload';
+export type IconName = 'arrow-left' | 'bestseller' | 'check' | 'chevron-down' | 'chevron-right' | 'chevron-right-small' | 'chevron-up' | 'close' | 'close-filled' | 'good-experience' | 'info' | 'restart' | 'search' | 'star' | 'upload'
+  // Icon repo (26): '<icon>-regular' | '<icon>-bold' for arrow-up, arrow-down, arrow-left, arrow-right, check,
+  // chevron-up, chevron-down, chevron-left, chevron-right, close, plus, search; 'phone-telephone-regular' | 'phone-telephone-filled'
+  | 'arrow-up-regular' | 'arrow-up-bold' | /* … */ 'phone-telephone-filled';
 
 export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
   name: IconName;
@@ -431,6 +436,30 @@ export interface IconProps extends Omit<ComponentPropsWithRef<'span'>, 'children
 | `chevron-up` | 24×24 | `--color-base-black` (raw Figma fill) | Accordian (expanded) |
 | `chevron-right-small` | 12×12 | `--icon-brand-primary-inverse` white | special button › chevron-right |
 | `upload` | 20×20 | `--icon-brand-primary-inverse` white | compount button › upload icon |
+
+#### Icon repo
+
+The Figma **Icon repo** (section `40002796:1640`) is the general-purpose icon set: 13 icons, each a component set with a regular and a bold weight (`bold=false/true`; phone-telephone uses `filled=false/true`). All are 24×24 and default to `--color-base-black` (raw Figma black fill); `phone-telephone-filled` defaults to `--icon-brand-primary` (#0d0d0d fill in Figma).
+
+They are named `<icon>-regular` and `<icon>-bold` (`phone-telephone-filled`) after the Figma variant. The suffix is required: `check`, `close`, `search`, `chevron-down`, `chevron-up`, `chevron-right` and `arrow-left` already exist above as component-specific icons with **different artwork and sizes**, and those names must keep working. Prefer the Icon repo icons for new UI.
+
+| Icon | Regular / bold Figma nodes |
+| --- | --- |
+| `arrow-up` | `40002796:1657` / `40002796:1659` |
+| `arrow-down` | `40002796:1652` / `40002796:1654` |
+| `arrow-left` | `40002796:1647` / `40002796:1649` |
+| `arrow-right` | `40002796:1642` / `40002796:1644` |
+| `check` | `40002796:1662` / `40002796:1664` |
+| `chevron-up` | `40002796:1682` / `40002796:1684` |
+| `chevron-down` | `40002796:1672` / `40002796:1674` |
+| `chevron-left` | `40002796:1677` / `40002796:1679` |
+| `chevron-right` | `40002796:1667` / `40002796:1669` |
+| `close` | `40002796:1687` / `40002796:1689` |
+| `phone-telephone` | `40002796:1692` / `40002796:1694` (filled) |
+| `plus` | `40002796:1697` / `40002796:1699` |
+| `search` | `40002796:1702` / `40002796:1704` |
+
+The bold SVGs draw their outline with an internal SVG `<mask>`; that still works as a CSS mask image, so they recolour like every other icon.
 
 Also exported: `icons` (registry with `src`, `width`, `height`, `defaultColor`, `figma` per icon) and `iconNames`.
 
@@ -727,6 +756,65 @@ Also exported: `illustrations` (registry with `src`, `description`, `usage`, `fi
 - `testubes` is a Figma composite: two tube images rotated −11.52° and 8.87°, each masked by the same soft-edged `testubes-mask.svg`, rebuilt in CSS with Figma's exact offsets. It overflows the 120 frame slightly, as in Figma.
 
 **Adding an illustration:** export it from Figma into `images/` at 3× of its frame, add an entry (with Figma's usage text) to `illustrations.ts`, and add a row above.
+
+### Hooman (character illustrations)
+
+TATA 1mg character illustrations (“hoomans”) from the Figma page “3d icons”: four component sets (`delivery-hooman`, `doctor`, `pharmacist`, `phlebotomist`), 22 poses. Full-colour images on a transparent background; they can't be recoloured. Separate from `Illustration` (small objects on a 120×120 frame): hoomans are people, not square, and much larger.
+
+```ts
+export type HoomanCharacter = 'delivery' | 'doctor' | 'pharmacist' | 'phlebotomist';
+export type HoomanName = 'delivery-with-box' | 'delivery-running' | /* … `<character>-<pose>` for all 22 */ 'phlebotomist-vaccination';
+export interface HoomanProps extends Omit<ComponentPropsWithRef<'span'>, 'children'> {
+  name: HoomanName;
+  height?: number;
+  label?: string;
+}
+```
+
+| Prop | Type | Required | Default | Behaviour |
+| --- | --- | --- | --- | --- |
+| `name` | `HoomanName` | yes | — | Character and pose, `<character>-<pose>`. |
+| `height` | `number` | no | `240` | Rendered height in px; width follows the image's aspect ratio. |
+| `label` | `string` | no | — | With it: `role="img"` + name. Without: decorative (`aria-hidden`), matching Figma's “supporting imagery”. |
+| …rest | native `<span>` props | no | — | `className`, `style`, `ref`, … |
+
+Also exported: `hoomans` (registry with `src`, `character`, `pose`, `width`, `height`, `description`, `usage`, `figma` node per item), `hoomanNames` and `hoomanCharacters`.
+
+#### Library and usage (from Figma)
+
+`pose` is the Figma variant name (`pose=…`). The full usage text for each pose is in `hoomans.ts` and in the Storybook character stories; summary:
+
+| Name | Depicts | Use for |
+| --- | --- | --- |
+| `delivery-with-box` | Holding a sealed parcel | Parcel handover, delivery arrival, receiving an order, pickup |
+| `delivery-running` | Running with a parcel | Express-delivery promotions, priority fulfilment (speed metaphor, not a time promise) |
+| `delivery-bike` | On a scooter, three-quarter view | Order dispatched, out for delivery, tracking (not “arrived”) |
+| `delivery-store` | Behind a counter with parcels, thumbs-up | Packing completed, ready for pickup, handover to delivery |
+| `delivery-concerned` | Hands on hips, worried | Delays, failed delivery, service unavailable (not success) |
+| `delivery-bike-side` | On a scooter, side view | In-transit updates, journey banners, wide layouts |
+| `delivery-thumbs-up` | Standing, thumbs-up | Order confirmation, successful delivery, completed actions |
+| `delivery-confused` | Shrugging by an empty box | Empty cart, no orders, no results, missing item |
+| `doctor-arms-folded` | Smiling, arms folded | Doctor-service intros, onboarding, appointment entry points |
+| `doctor-with-meds` | Holding a medicine bottle | Prescribed-treatment and medication guidance (not an endorsement) |
+| `doctor-with-stethoscope` | Stethoscope and clipboard | Consultations, checkups, appointment booking |
+| `doctor-in-lab` | Test tubes at a lab bench | Diagnostic testing, lab services (not “results ready”) |
+| `doctor-with-patient` | Consulting a patient at a desk | Clinic appointments, care plans, report reviews |
+| `pharmacist-with-coupon` | Presenting a %-off coupon at checkout | Pharmacy offers, coupons, checkout promotions (state the real offer) |
+| `pharmacist-verifying-prescription` | Reviewing a prescription at the counter | Prescription verification, preparing orders, refills |
+| `pharmacist-standing-with-medicine` | Standing, reading a paper, holding medicine | Prescription review, medicine info, refill reminders |
+| `pharmacist-on-call` | On the phone at the counter | Call-a-pharmacist, order help, callbacks, support |
+| `phlebotomist-thumbs-up` | Clipboard and thumbs-up | Confirmed bookings, completed collection (not “normal results”) |
+| `phlebotomist-with-syringe` | Holding a syringe | Phlebotomist intros, collection-service overviews |
+| `phlebotomist-home-visit-senior` | Collecting a sample from an older woman at home | At-home blood tests, senior-friendly collection |
+| `phlebotomist-home-visit` | Collecting a sample from a man at home | Home sample collection, what to expect at a visit |
+| `phlebotomist-vaccination` | Giving an injection in the upper arm | Vaccination services (not blood tests) |
+
+#### Assets
+
+- The Figma components have a dark frame fill, so exporting the components gives a grey background. Instead, each image is Figma's **source PNG** (transparent), with the component's crop applied where it has one (`delivery-running`, `delivery-bike-side`, `delivery-confused`), trimmed to the artwork plus 2% padding, and saved as WebP (quality 90): ~1.7MB for all 22 instead of ~17MB of PNG exports.
+- Pose names were renamed in Figma on 2026-11-25 to describe what each image shows (e.g. phlebotomist `with coupon` → `thumbs-up`, `pose5` → `vaccination`); code and Figma now match.
+
+**Adding a hooman:** take the source image from the Figma component (not an export of the component), trim it, save it to `images/` as WebP, add an entry (with Figma's usage text) to `hoomans.ts`, and add a row above.
 
 ### Search
 
@@ -1070,7 +1158,7 @@ A native `<select>` sits invisibly over the Figma control, so phones open their 
 - **OtpField** has no child components. One `<input>` per digit plus an optional hidden input; `useRef` tracks the boxes and the latest code for focus handling.
 - **CounterBadge** has no child components.
 - **Header** uses **CounterBadge** for the cart count. Internal `StatusBar` (not exported) renders the illustrative status bar.
-- **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders. **Illustration** is the separate full-colour illustration set (no dependencies).
+- **Icon** is the shared icon library; **SkuCard** uses it for the bestseller and check icons. Other components still keep their icons in their own `assets/` folders. **Illustration** is the separate full-colour illustration set and **Hooman** the character illustrations (no dependencies).
 - **SkuCard** has internal `Delivery` and `Pricing` parts (not exported).
 - **Toast**, **Rating**, **Widget** and **ListItem** use **Icon**; **Footer** uses **Logo**. **Widget** is a shell meant to contain `SkuCard`, `ListItem` or other compositions.
 - **Tag** uses **Icon**; **SkuCard** now uses **Tag** for its image tag. **Search** uses **Icon**. **BottomSheet** uses **Button** (overriding the outline border to #c4c4c4 via `--dp-button-border`) and **Icon**. **Grid** is a layout wrapper for **GridItem**.
@@ -1125,7 +1213,8 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 | `src/components/OtpField/OtpField.stories.tsx` | Components/OtpField | Playground, Rest, Rest (6 digits), Typing\*, Typed, Error, Success, Disabled\*, Resend OTP\*, WithHelper, Test: type full code\*, Test: paste code\*, Test: backspace\*, Controlled, AllStates (+ autodocs page) |
 | `src/components/CounterBadge/CounterBadge.stories.tsx` | Components/CounterBadge | Playground, Brand, Blue, Green, Green disabled, Large counts\*, With accessible label\*, All variants (+ autodocs page) |
 | `src/components/Header/Header.stories.tsx` | Components/Header | Playground, Without status bar, Without profile, Without cart, Empty cart, Short address, Label only, Test: buttons\*, Test: status bar hidden from screen readers\* (+ autodocs page) |
-| `src/components/Icon/Icon.stories.tsx` | Components/Icon | Playground, Library, Bestseller, Check, Recolour, Accessible\* (+ autodocs page) |
+| `src/components/Hooman/Hooman.stories.tsx` | Components/Hooman | Playground, Delivery partner, Doctor, Pharmacist, Phlebotomist (each with Figma usage), Overview\*, Sizes, Test: accessible label\* (+ autodocs) |
+| `src/components/Icon/Icon.stories.tsx` | Components/Icon | Playground, Library, Icon Repo\*, Bestseller, Check, Recolour, Accessible\* (+ autodocs page) |
 | `src/components/Illustration/Illustration.stories.tsx` | Components/Illustration | Playground, Library (with Figma usage), Sizes, Test: accessible label\* (+ autodocs) |
 | `src/components/SkuCard/SkuCard.stories.tsx` | Components/SkuCard | Playground, Large, Large added, Small, Small added, Horizontal, Horizontal added, Without bestseller tag, Tag types, With image, Short name no offer, Interactive\*, Test: small buttons\*, Test: small added button\*, All variants (+ autodocs page) |
 | `src/components/Toast/Toast.stories.tsx` | Components/Toast | Playground, Warning, Error\*, Success, Info, White, With action (Undo), No icon no cross, Test: buttons\*, All variants (+ autodocs) |
@@ -1162,7 +1251,7 @@ CounterBadge controls: `count`, `max` (number), `colour` (radio), `disabled` (bo
 
 Header controls: `statusBar`, `profile`, `cart` (boolean), `locationLabel`, `locationAddress` (text), `cartCount` (number), `onLocationClick`, `onProfileClick`, `onCartClick` (action spies).
 
-Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text). Illustration controls: `name` (select), `size` (number), `label` (text).
+Icon controls: `name` (select), `size` (number), `color` (colour), `label` (text). Illustration controls: `name` (select), `size` (number), `label` (text). Hooman controls: `name` (select), `height` (number), `label` (text).
 
 SkuCard controls: `large`, `added`, `tag` (boolean), `orientation` (radio), all content props (text / number), `onAdd`, `onAddedClick` (action spies).
 
@@ -1214,6 +1303,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-25 | **SkuCard** horizontal: card stroke removed on request (differs from Figma). No API or size change. | `5e6362b` |
 | 2026-11-26 | **Divider** (plain / dash) and **QuantityDropdown** added (Figma section `40002862:96`). Values follow the Figma file exactly. Stories with interaction tests. | `5133c02` |
 | 2026-11-26 | **Illustration** library added: 10 full-colour illustrations from the Figma icon repo (section `40002872:9502`) with their Figma usage guidance; images resized to 3× for delivery. Stories with interaction test. | `1509632` |
+| 2026-11-26 | Icon library: added the Figma **Icon repo** (section `40002796:1640`), 13 icons × regular/bold (`phone-telephone`: regular/filled) as `<icon>-regular` / `<icon>-bold`; existing icon names unchanged. New **Icon Repo** story. **Hooman** added: 22 TATA 1mg character illustrations (delivery, doctor, pharmacist, phlebotomist) with their Figma usage guidance; props `name`, `height`, `label`. Stories with interaction tests. | this branch |
 
 ---
 
@@ -1263,7 +1353,7 @@ Verified unless marked *assumption*.
 - **SkuCard contrast (verified with the a11y addon):** coral “Add” on white and white “1 added” on coral are 3.18:1; the struck-through MRP `--text-brand-quartenary` #808080 is 3.95:1 at 12px. All below WCAG AA 4.5:1; token-level, follows Figma.
 - **SkuCard added behaviour:** per Figma, “added” must be set only after the cart confirms, and the chevron / ✓ actions are product-defined; the component just calls `onAddedClick`.
 - **SkuCard large text:** the Figma “Add” label in the added state is hidden by overflow in Figma; only “{n} added” is rendered.
-- **Icon library scope:** the library has `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-right-small`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`, `upload`. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
+- **Icon library scope:** the library has the 26 Icon repo icons (`*-regular` / `*-bold` / `phone-telephone-filled`) plus the component icons `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-right-small`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`, `upload`. Seven component icons share a base name with an Icon repo icon but have different artwork; components weren't switched to the Icon repo versions, to avoid visual changes. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
 - **Toast / Icon close colour:** Figma uses `Color/Content/Primary` and `Color/Icons/Primary` #181a1f (legacy collection, no token) for the action text and × icon; kept as exact values.
 - **Toast behaviour:** timing, stacking, placement and auto-dismiss aren't defined in Figma or implemented; the app controls when a Toast is rendered.
 - **Rating `good` contrast (verified by calculation):** white on `--bg-success-subtle` #299357 is about 3.9:1 at 12px, below WCAG AA 4.5:1. `avg` (4.6:1) and `bad` pass. Token-level; follows Figma.
@@ -1289,6 +1379,8 @@ Verified unless marked *assumption*.
 - **QuantityDropdown** options, purchase limits and states beyond the default aren't designed (Figma guidance): `options` defaults to 1–10 and the disabled look (50% opacity) is an *assumption*. Figma names it just “dropdown”.
 - **Divider** `style` is called `variant` in code because `style` is reserved for inline styles in React.
 - **Illustrations are raster PNGs** in Figma, so they can't be recoloured or scaled up past 3× (360px) without blurring. Vector exports would remove both limits.
+- **Hooman `doctor-with-stethoscope`** is a low-resolution source in Figma (348×767 after trimming, vs ~1000–1500px for the others); it softens above ~380px tall.
+- **Hoomans can't be recoloured or resized past their source** (raster images). The Figma components also have a dark frame fill that isn't reproduced (transparent instead).
 - **Illustration `testubes`** is rebuilt from Figma's layers and mask in CSS; it overflows the 120px frame by a few px on each side, as in Figma (reserve a little space around it).
 - **Text-cursor asset not used:** Figma draws the caret as an image (`Text Cursor Container`); the components use the native caret coloured with the same token (`--icon-brand-secondary`).
 - **Token export vs Figma file:** this Figma file also has `font/family/primary` and `font/weight/semibold` variables not present in the export; the code uses `--font-family-base` and `font-weight: 600`.

@@ -50,6 +50,40 @@ export const Library: Story = {
   ),
 };
 
+const repoNames = iconNames.filter((n) => n.endsWith('-regular'));
+
+/** The Figma Icon repo: every icon in its regular and bold (phone: filled) weight. */
+export const IconRepo: Story = {
+  parameters: { layout: 'padded', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 'var(--gap-16)', fontFamily: 'var(--font-family-base)' }}>
+      {repoNames.map((regular) => {
+        const base = regular.replace(/-regular$/, '');
+        // Bold first: `close-filled` is a separate component icon, not the repo's close.
+        const heavy = iconNames.find((n) => n === `${base}-bold`) ?? iconNames.find((n) => n === `${base}-filled`)!;
+        return (
+          <div key={base} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--gap-8)', padding: 'var(--gap-16)', border: '1px solid var(--border-neutrals-secondary)', borderRadius: 'var(--radius-lg)' }}>
+            <div style={{ display: 'flex', gap: 'var(--gap-16)' }}>
+              {[regular, heavy].map((name) => (
+                <div key={name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--gap-4)' }}>
+                  <div style={{ display: 'grid', placeItems: 'center', width: 48, height: 48, borderRadius: 'var(--radius-md)', background: 'var(--bg-brand-secondary)' }}>
+                    <Icon name={name} />
+                  </div>
+                  <code style={{ fontSize: 11, color: 'var(--text-brand-tertiary)' }}>{name.slice(base.length + 1)}</code>
+                </div>
+              ))}
+            </div>
+            <strong style={{ fontSize: 13 }}>{base}</strong>
+          </div>
+        );
+      })}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelectorAll('.dp-icon')).toHaveLength(repoNames.length * 2);
+  },
+};
+
 export const Bestseller: Story = { args: { name: 'bestseller' } };
 
 export const Check: Story = {
