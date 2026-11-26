@@ -244,43 +244,64 @@
   --shadow-xl: 0px 8px 10px rgba(0, 0, 0, 0.05), 0px -2px 8px rgba(0, 0, 0, 0.06);
   --shadow-xxl: 0px 7px 8.8px rgba(0, 0, 0, 0.07), 0px -6px 8px rgba(0, 0, 0, 0.06);
 
+  /* Gradient styles */
+  --savings-widget: linear-gradient(90deg, #daffea 0%, #cfe9ff 100%);
+
   /* Typography — Mobile */
   --font-display-size: 40px;
-  --font-display-line-height: 48px;
+  --font-display-line-height: 44px;
   --font-display-letter-spacing: -0.8px;
   --font-h1-size: 32px;
-  --font-h1-line-height: 40px;
+  --font-h1-line-height: 36px;
   --font-h1-letter-spacing: -0.48px;
   --font-h2-size: 28px;
-  --font-h2-line-height: 36px;
+  --font-h2-line-height: 32px;
   --font-h2-letter-spacing: -0.28px;
   --font-h3-size: 24px;
-  --font-h3-line-height: 32px;
+  --font-h3-line-height: 28px;
   --font-h3-letter-spacing: -0.24px;
   --font-h4-size: 20px;
-  --font-h4-line-height: 28px;
+  --font-h4-line-height: 24px;
   --font-h4-letter-spacing: 0px;
   --font-h5-size: 18px;
-  --font-h5-line-height: 24px;
+  --font-h5-line-height: 22px;
   --font-h5-letter-spacing: 0px;
   --font-h6-size: 16px;
   --font-h6-line-height: 20px;
   --font-h6-letter-spacing: 0px;
+  --font-body-lg-size: 16px;
+  --font-body-lg-line-height: 24px;
+  --font-body-lg-letter-spacing: 0px;
+  --font-body-base-size: 14px;
+  --font-body-base-line-height: 20px;
+  --font-body-base-letter-spacing: 0px;
+  --font-body-sm-size: 12px;
+  --font-body-sm-line-height: 18px;
+  --font-body-sm-letter-spacing: 0px;
+  --font-label-lg-size: 16px;
+  --font-label-lg-line-height: 20px;
+  --font-label-lg-letter-spacing: 0px;
+  --font-label-base-size: 14px;
+  --font-label-base-line-height: 18px;
+  --font-label-base-letter-spacing: 0px;
+  --font-label-sm-size: 12px;
+  --font-label-sm-line-height: 14px;
+  --font-label-sm-letter-spacing: 0px;
+  --font-caption-base-size: 11px;
+  --font-caption-base-line-height: 16px;
+  --font-caption-base-letter-spacing: 0px;
+  --font-caption-sm-size: 10px;
+  --font-caption-sm-line-height: 14px;
+  --font-caption-sm-letter-spacing: 0px;
   --font-body-md-size: 14px;
   --font-body-md-line-height: 18px;
   --font-body-md-letter-spacing: 0px;
-  --font-body-sm-size: 12px;
-  --font-body-sm-line-height: 16px;
-  --font-body-sm-letter-spacing: 0px;
   --font-caption-large-size: 12px;
   --font-caption-large-line-height: 16px;
   --font-caption-large-letter-spacing: 0px;
   --font-caption-md-size: 11px;
   --font-caption-md-line-height: 16px;
   --font-caption-md-letter-spacing: 0px;
-  --font-caption-sm-size: 10px;
-  --font-caption-sm-line-height: 14px;
-  --font-caption-sm-letter-spacing: 0px;
 }
 
 /* Typography — Desktop */
@@ -307,21 +328,39 @@
     --font-h6-size: 18px;
     --font-h6-line-height: 24px;
     --font-h6-letter-spacing: 0px;
-    --font-body-md-size: 24px;
-    --font-body-md-line-height: 32px;
-    --font-body-md-letter-spacing: 0px;
+    --font-body-lg-size: 24px;
+    --font-body-lg-line-height: 32px;
+    --font-body-lg-letter-spacing: 0px;
+    --font-body-base-size: 24px;
+    --font-body-base-line-height: 32px;
+    --font-body-base-letter-spacing: 0px;
     --font-body-sm-size: 20px;
     --font-body-sm-line-height: 24px;
     --font-body-sm-letter-spacing: 0px;
+    --font-label-lg-size: 24px;
+    --font-label-lg-line-height: 32px;
+    --font-label-lg-letter-spacing: 0px;
+    --font-label-base-size: 24px;
+    --font-label-base-line-height: 32px;
+    --font-label-base-letter-spacing: 0px;
+    --font-label-sm-size: 20px;
+    --font-label-sm-line-height: 24px;
+    --font-label-sm-letter-spacing: 0px;
+    --font-caption-base-size: 14px;
+    --font-caption-base-line-height: 18px;
+    --font-caption-base-letter-spacing: 0px;
+    --font-caption-sm-size: 12px;
+    --font-caption-sm-line-height: 16px;
+    --font-caption-sm-letter-spacing: 0px;
+    --font-body-md-size: 24px;
+    --font-body-md-line-height: 32px;
+    --font-body-md-letter-spacing: 0px;
     --font-caption-large-size: 16px;
     --font-caption-large-line-height: 20px;
     --font-caption-large-letter-spacing: 0px;
     --font-caption-md-size: 14px;
     --font-caption-md-line-height: 18px;
     --font-caption-md-letter-spacing: 0px;
-    --font-caption-sm-size: 12px;
-    --font-caption-sm-line-height: 16px;
-    --font-caption-sm-letter-spacing: 0px;
   }
 }
 
@@ -431,89 +470,33 @@
   line-height: var(--font-h6-line-height);
   letter-spacing: var(--font-h6-letter-spacing);
 }
-.text-label-lg-regular {
-  font-family: var(--font-family-base);
-  font-weight: 400;
-  font-size: 16px;
-}
-.text-label-lg-medium {
-  font-family: var(--font-family-base);
-  font-weight: 500;
-  font-size: 16px;
-}
-.text-label-lg-semibold {
-  font-family: var(--font-family-base);
-  font-weight: 600;
-  font-size: 16px;
-}
-.text-label-lg-bold {
-  font-family: var(--font-family-base);
-  font-weight: 700;
-  font-size: 16px;
-}
-.text-label-base-regular {
-  font-family: var(--font-family-base);
-  font-weight: 400;
-  font-size: 14px;
-}
-.text-label-base-medium {
-  font-family: var(--font-family-base);
-  font-weight: 500;
-  font-size: 14px;
-}
-.text-label-base-semibold {
-  font-family: var(--font-family-base);
-  font-weight: 600;
-  font-size: 14px;
-}
-.text-label-base-bold {
-  font-family: var(--font-family-base);
-  font-weight: 700;
-  font-size: 14px;
-}
-.text-label-sm-regular {
-  font-family: var(--font-family-base);
-  font-weight: 400;
-  font-size: 12px;
-}
-.text-label-sm-medium {
-  font-family: var(--font-family-base);
-  font-weight: 500;
-  font-size: 12px;
-}
-.text-label-sm-semibold {
-  font-family: var(--font-family-base);
-  font-weight: 600;
-  font-size: 12px;
-}
-.text-label-sm-bold {
-  font-family: var(--font-family-base);
-  font-weight: 700;
-  font-size: 12px;
-}
 .text-body-lg-regular {
   font-family: var(--font-family-base);
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--font-body-lg-size);
+  line-height: var(--font-body-lg-line-height);
+  letter-spacing: var(--font-body-lg-letter-spacing);
 }
 .text-body-lg-semibold {
   font-family: var(--font-family-base);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--font-body-lg-size);
+  line-height: var(--font-body-lg-line-height);
+  letter-spacing: var(--font-body-lg-letter-spacing);
 }
 .text-body-base-regular {
   font-family: var(--font-family-base);
   font-weight: 400;
-  font-size: var(--font-body-md-size);
-  line-height: var(--font-body-md-line-height);
-  letter-spacing: var(--font-body-md-letter-spacing);
+  font-size: var(--font-body-base-size);
+  line-height: var(--font-body-base-line-height);
+  letter-spacing: var(--font-body-base-letter-spacing);
 }
 .text-body-base-semibold {
   font-family: var(--font-family-base);
   font-weight: 600;
-  font-size: var(--font-body-md-size);
-  line-height: var(--font-body-md-line-height);
-  letter-spacing: var(--font-body-md-letter-spacing);
+  font-size: var(--font-body-base-size);
+  line-height: var(--font-body-base-line-height);
+  letter-spacing: var(--font-body-base-letter-spacing);
 }
 .text-body-sm-regular {
   font-family: var(--font-family-base);
@@ -529,19 +512,103 @@
   line-height: var(--font-body-sm-line-height);
   letter-spacing: var(--font-body-sm-letter-spacing);
 }
+.text-label-lg-regular {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: var(--font-label-lg-size);
+  line-height: var(--font-label-lg-line-height);
+  letter-spacing: var(--font-label-lg-letter-spacing);
+}
+.text-label-lg-medium {
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: var(--font-label-lg-size);
+  line-height: var(--font-label-lg-line-height);
+  letter-spacing: var(--font-label-lg-letter-spacing);
+}
+.text-label-lg-semibold {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: var(--font-label-lg-size);
+  line-height: var(--font-label-lg-line-height);
+  letter-spacing: var(--font-label-lg-letter-spacing);
+}
+.text-label-lg-bold {
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  font-size: var(--font-label-lg-size);
+  line-height: var(--font-label-lg-line-height);
+  letter-spacing: var(--font-label-lg-letter-spacing);
+}
+.text-label-base-regular {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: var(--font-label-base-size);
+  line-height: var(--font-label-base-line-height);
+  letter-spacing: var(--font-label-base-letter-spacing);
+}
+.text-label-base-medium {
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: var(--font-label-base-size);
+  line-height: var(--font-label-base-line-height);
+  letter-spacing: var(--font-label-base-letter-spacing);
+}
+.text-label-base-semibold {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: var(--font-label-base-size);
+  line-height: var(--font-label-base-line-height);
+  letter-spacing: var(--font-label-base-letter-spacing);
+}
+.text-label-base-bold {
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  font-size: var(--font-label-base-size);
+  line-height: var(--font-label-base-line-height);
+  letter-spacing: var(--font-label-base-letter-spacing);
+}
+.text-label-sm-regular {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: var(--font-label-sm-size);
+  line-height: var(--font-label-sm-line-height);
+  letter-spacing: var(--font-label-sm-letter-spacing);
+}
+.text-label-sm-medium {
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  font-size: var(--font-label-sm-size);
+  line-height: var(--font-label-sm-line-height);
+  letter-spacing: var(--font-label-sm-letter-spacing);
+}
+.text-label-sm-semibold {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: var(--font-label-sm-size);
+  line-height: var(--font-label-sm-line-height);
+  letter-spacing: var(--font-label-sm-letter-spacing);
+}
+.text-label-sm-bold {
+  font-family: var(--font-family-base);
+  font-weight: 700;
+  font-size: var(--font-label-sm-size);
+  line-height: var(--font-label-sm-line-height);
+  letter-spacing: var(--font-label-sm-letter-spacing);
+}
 .text-caption-base-regular {
   font-family: var(--font-family-base);
   font-weight: 400;
-  font-size: var(--font-caption-md-size);
-  line-height: var(--font-caption-md-line-height);
-  letter-spacing: var(--font-caption-md-letter-spacing);
+  font-size: var(--font-caption-base-size);
+  line-height: var(--font-caption-base-line-height);
+  letter-spacing: var(--font-caption-base-letter-spacing);
 }
 .text-caption-base-medium {
   font-family: var(--font-family-base);
   font-weight: 500;
-  font-size: var(--font-caption-md-size);
-  line-height: var(--font-caption-md-line-height);
-  letter-spacing: var(--font-caption-md-letter-spacing);
+  font-size: var(--font-caption-base-size);
+  line-height: var(--font-caption-base-line-height);
+  letter-spacing: var(--font-caption-base-letter-spacing);
 }
 .text-caption-sm-regular {
   font-family: var(--font-family-base);
@@ -556,4 +623,32 @@
   font-size: var(--font-caption-sm-size);
   line-height: var(--font-caption-sm-line-height);
   letter-spacing: var(--font-caption-sm-letter-spacing);
+}
+.text-character-callouts-heading {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: 54px;
+  line-height: 66px;
+  letter-spacing: 0px;
+}
+.text-character-callouts-body {
+  font-family: var(--font-family-base);
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 72px;
+  letter-spacing: 0px;
+}
+.text-character-callouts-field-label {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 54px;
+  letter-spacing: 0px;
+}
+.text-character-callouts-section-heading {
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: 60px;
+  line-height: 72px;
+  letter-spacing: 0px;
 }

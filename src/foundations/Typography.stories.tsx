@@ -20,7 +20,7 @@ export const TypeScale: Story = {
   render: () => (
     <Page
       title="Type scale"
-      description="Typography collection. Mobile values are the default; Desktop values apply from 1024px wide (resize the canvas to see samples switch). Values: size/line-height · letter-spacing, in px."
+      description="Typography variables behind the Figma text styles (library Typography collection), plus the local-only scales body-md, caption-large and caption-md. Mobile values are the default; Desktop values apply from 1024px wide (resize the canvas to see samples switch). Values: size/line-height · letter-spacing, in px."
     >
       <TokenTable
         head={['Token', 'Sample', 'Mobile', 'Desktop']}
@@ -54,7 +54,7 @@ export const TextStyles: Story = {
       title="Text styles"
       description={
         <>
-          Figma text styles, available as CSS classes (e.g. <code style={mono}>.text-h1-bold</code>). Styles that match a type-scale token use its responsive size, line-height and letter-spacing; label and body-lg styles use the fixed size from Figma.
+          Figma text styles (all 41), available as CSS classes (e.g. <code style={mono}>.text-h1-bold</code>). Each uses the size, line-height and letter-spacing of the Typography variable it is bound to in Figma, so it switches to the Desktop values from 1024px. The Character callouts styles have fixed values, as in Figma.
         </>
       }
     >

@@ -9,9 +9,10 @@ This Storybook documents the design tokens exported from Figma.
 | Source | What it holds |
 | --- | --- |
 | `src/tokens/figma-variables.json` | Figma variables: Primitives, Semantic (Light), Typography (Mobile/Desktop), Extra (radius, stroke, gap), Utility |
-| `src/tokens/figma-styles.css` | Figma styles: brand (c-p) colours, text styles, effect/shadow styles |
+| `src/tokens/figma-styles.css` | Figma styles: brand (c-p) colours, gradient styles, effect/shadow styles |
+| `src/tokens/figma-text-styles.json` | Figma text styles (41) and the library Typography variables they use (Mobile/Desktop) |
 
-`npm run tokens` turns both into **`src/tokens/tokens.css`**, which has every token as a CSS variable plus the `.text-*` text-style classes. The same command runs automatically before `npm run storybook`.
+`npm run tokens` turns these into **`src/tokens/tokens.css`**, which has every token as a CSS variable plus the `.text-*` text-style classes. The same command runs automatically before `npm run storybook`.
 
 ## Using tokens
 

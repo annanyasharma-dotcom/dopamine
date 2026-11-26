@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const dir = join(dirname(fileURLToPath(import.meta.url)), '../src/tokens');
 const variables = JSON.parse(readFileSync(join(dir, 'figma-variables.json'), 'utf8'));
 const stylesCss = readFileSync(join(dir, 'figma-styles.css'), 'utf8');
+const textStylesSrc = JSON.parse(readFileSync(join(dir, 'figma-text-styles.json'), 'utf8'));
 
 // Each array entry is { CollectionName: { modes: { ModeName: tree } } }
 const collection = (name) => variables.find((c) => c[name])?.[name].modes;
@@ -93,34 +94,48 @@ const typeValue = (mode, name, prop) => {
   for (const p of path) node = node?.[p];
   return node?.$value;
 };
-const typography = typeNames.map((name) => ({
+const localTypography = typeNames.map((name) => ({
   name,
   var: `--font-${name}`,
+  source: 'local',
   mobile: { size: typeValue('Mobile', name, 'size'), lineHeight: typeValue('Mobile', name, 'line-height'), letterSpacing: round(typeValue('Mobile', name, 'letter-spacing')) },
   desktop: { size: typeValue('Desktop', name, 'size'), lineHeight: typeValue('Desktop', name, 'line-height'), letterSpacing: round(typeValue('Desktop', name, 'letter-spacing')) },
 }));
+
+// The Figma text styles are bound to the library "Typography" collection (figma-text-styles.json).
+// Where a scale exists in both, the library values win (they are what the text styles render);
+// local-only scales (body-md, caption-large, caption-md) are kept.
+const libraryTypography = Object.entries(textStylesSrc.typography).map(([name, modes]) => ({
+  name,
+  var: `--font-${name}`,
+  source: 'text styles',
+  mobile: { size: modes.Mobile.size, lineHeight: modes.Mobile.lineHeight, letterSpacing: round(modes.Mobile.letterSpacing) },
+  desktop: { size: modes.Desktop.size, lineHeight: modes.Desktop.lineHeight, letterSpacing: round(modes.Desktop.letterSpacing) },
+}));
+const typography = [...libraryTypography, ...localTypography.filter((t) => !libraryTypography.some((l) => l.name === t.name))];
 
 // ---- Pasted styles: brand colors, text styles, shadows -------------------
 const decls = [...stylesCss.matchAll(/^\s*(--[\w-]+):\s*(.+?);\s*$/gm)].map(([, name, value]) => ({ name, value: value.trim() }));
 const brand = decls.filter((d) => d.name.startsWith('--c-p--')).map((d) => ({ name: d.name.slice(7), var: d.name, value: d.value }));
 
-const weights = { regular: 400, medium: 500, semibold: 600, bold: 700 };
-// Text styles that line up with a Typography variable get its responsive size/line-height/letter-spacing.
-const styleToType = { display: 'display', h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', h5: 'h5', h6: 'h6', 'body-base': 'body-md', 'body-sm': 'body-sm', 'caption-base': 'caption-md', 'caption-sm': 'caption-sm' };
-const textStyles = decls
-  .filter((d) => /--(regular|medium|semibold|bold)$/.test(d.name) && d.value.endsWith('px'))
-  .map((d) => {
-    const [family, weight] = d.name.slice(2).split('--');
-    const type = styleToType[family];
-    return {
-      name: `${family}/${weight}`,
-      className: `text-${family}-${weight}`,
-      family,
-      weight: weights[weight],
-      size: d.value,
-      typeToken: type ?? null,
-    };
-  });
+// ---- Text styles (Figma local text styles → .text-* classes) --------------
+const slug = (name) => name.toLowerCase().replace(/\s*\/\s*/g, '-').replace(/\s+/g, '-');
+const textStyles = textStylesSrc.textStyles.map((t) => {
+  const fixed = t.fixed ?? null;
+  const scale = t.typography ? textStylesSrc.typography[t.typography].Mobile : fixed;
+  return {
+    name: t.name,
+    className: `text-${slug(t.name)}`,
+    family: t.typography ?? slug(t.name.split('/')[0]),
+    weight: t.fontWeight,
+    size: px(scale.size),
+    lineHeight: px(scale.lineHeight),
+    letterSpacing: px(scale.letterSpacing),
+    typeToken: t.typography ?? null,
+  };
+});
+
+const gradients = decls.filter((d) => d.value.startsWith('linear-gradient')).map((d) => ({ name: d.name.slice(2), var: d.name, value: d.value }));
 
 const effectNames = ['xs', 's', 'md', 'lg', 'xl', 'xxl'];
 const shadows = decls
@@ -165,6 +180,9 @@ ${gap.map((g) => line(g.var, px(g.value))).join('\n')}
   /* Shadows */
 ${shadows.map((s) => line(s.var, s.value)).join('\n')}
 
+  /* Gradient styles */
+${gradients.map((g) => line(g.var, g.value)).join('\n')}
+
   /* Typography — Mobile */
 ${typeVars('mobile').join('\n')}
 }
@@ -183,7 +201,9 @@ ${textStyles
     return `.${s.className} {
   font-family: var(--font-family-base);
   font-weight: ${s.weight};
-  font-size: ${t ? `var(${t}-size)` : s.size};${t ? `\n  line-height: var(${t}-line-height);\n  letter-spacing: var(${t}-letter-spacing);` : ''}
+  font-size: ${t ? `var(${t}-size)` : s.size};
+  line-height: ${t ? `var(${t}-line-height)` : s.lineHeight};
+  letter-spacing: ${t ? `var(${t}-letter-spacing)` : s.letterSpacing};
 }`;
   })
   .join('\n')}
@@ -192,6 +212,6 @@ ${textStyles
 writeFileSync(join(dir, 'tokens.css'), css);
 writeFileSync(
   join(dir, 'tokens.json'),
-  JSON.stringify({ primitives: groupBy(primitives, (p) => p.group), brand, semantic, utility, radius, stroke, gap, shadows, typography, textStyles }, null, 2),
+  JSON.stringify({ primitives: groupBy(primitives, (p) => p.group), brand, gradients, semantic, utility, radius, stroke, gap, shadows, typography, textStyles }, null, 2),
 );
-console.log(`tokens: ${primitives.length} primitives, ${brand.length} brand, ${Object.values(semantic).flat().flatMap((g) => g.items).length} semantic, ${utilityItems.length} utility, ${typography.length} type scales, ${textStyles.length} text styles, ${shadows.length} shadows`);
+console.log(`tokens: ${primitives.length} primitives, ${brand.length} brand, ${Object.values(semantic).flat().flatMap((g) => g.items).length} semantic, ${utilityItems.length} utility, ${typography.length} type scales, ${textStyles.length} text styles, ${shadows.length} shadows, ${gradients.length} gradients`);

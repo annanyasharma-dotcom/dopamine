@@ -1,0 +1,494 @@
+{
+  "_source": "Figma file F8gwbRRBflKHAqne5iMfpr \u2014 local text styles (figma.getLocalTextStylesAsync) and the library \"Typography\" collection they are bound to (Mobile/Desktop). Read 2026-11-27. Source for scripts/build-tokens.mjs.",
+  "fontFamily": {
+    "variable": "font/family/primary",
+    "value": "Figtree"
+  },
+  "typography": {
+    "display": {
+      "Mobile": {
+        "size": 40,
+        "lineHeight": 44,
+        "letterSpacing": -0.8
+      },
+      "Desktop": {
+        "size": 56,
+        "lineHeight": 64,
+        "letterSpacing": -1.12
+      }
+    },
+    "h1": {
+      "Mobile": {
+        "size": 32,
+        "lineHeight": 36,
+        "letterSpacing": -0.48
+      },
+      "Desktop": {
+        "size": 40,
+        "lineHeight": 48,
+        "letterSpacing": -0.6
+      }
+    },
+    "h2": {
+      "Mobile": {
+        "size": 28,
+        "lineHeight": 32,
+        "letterSpacing": -0.28
+      },
+      "Desktop": {
+        "size": 32,
+        "lineHeight": 40,
+        "letterSpacing": -0.32
+      }
+    },
+    "h3": {
+      "Mobile": {
+        "size": 24,
+        "lineHeight": 28,
+        "letterSpacing": -0.24
+      },
+      "Desktop": {
+        "size": 28,
+        "lineHeight": 36,
+        "letterSpacing": -0.28
+      }
+    },
+    "h4": {
+      "Mobile": {
+        "size": 20,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 24,
+        "lineHeight": 32,
+        "letterSpacing": 0
+      }
+    },
+    "h5": {
+      "Mobile": {
+        "size": 18,
+        "lineHeight": 22,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 20,
+        "lineHeight": 28,
+        "letterSpacing": 0
+      }
+    },
+    "h6": {
+      "Mobile": {
+        "size": 16,
+        "lineHeight": 20,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 18,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      }
+    },
+    "body-lg": {
+      "Mobile": {
+        "size": 16,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 24,
+        "lineHeight": 32,
+        "letterSpacing": 0
+      }
+    },
+    "body-base": {
+      "Mobile": {
+        "size": 14,
+        "lineHeight": 20,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 24,
+        "lineHeight": 32,
+        "letterSpacing": 0
+      }
+    },
+    "body-sm": {
+      "Mobile": {
+        "size": 12,
+        "lineHeight": 18,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 20,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      }
+    },
+    "label-lg": {
+      "Mobile": {
+        "size": 16,
+        "lineHeight": 20,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 24,
+        "lineHeight": 32,
+        "letterSpacing": 0
+      }
+    },
+    "label-base": {
+      "Mobile": {
+        "size": 14,
+        "lineHeight": 18,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 24,
+        "lineHeight": 32,
+        "letterSpacing": 0
+      }
+    },
+    "label-sm": {
+      "Mobile": {
+        "size": 12,
+        "lineHeight": 14,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 20,
+        "lineHeight": 24,
+        "letterSpacing": 0
+      }
+    },
+    "caption-base": {
+      "Mobile": {
+        "size": 11,
+        "lineHeight": 16,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 14,
+        "lineHeight": 18,
+        "letterSpacing": 0
+      }
+    },
+    "caption-sm": {
+      "Mobile": {
+        "size": 10,
+        "lineHeight": 14,
+        "letterSpacing": 0
+      },
+      "Desktop": {
+        "size": 12,
+        "lineHeight": 16,
+        "letterSpacing": 0
+      }
+    }
+  },
+  "textStyles": [
+    {
+      "name": "display/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "display"
+    },
+    {
+      "name": "display/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "display"
+    },
+    {
+      "name": "display/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "display"
+    },
+    {
+      "name": "h1/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h1"
+    },
+    {
+      "name": "h1/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h1"
+    },
+    {
+      "name": "h2/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h2"
+    },
+    {
+      "name": "h2/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h2"
+    },
+    {
+      "name": "h3/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h3"
+    },
+    {
+      "name": "h3/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h3"
+    },
+    {
+      "name": "h4/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h4"
+    },
+    {
+      "name": "h4/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h4"
+    },
+    {
+      "name": "h5/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h5"
+    },
+    {
+      "name": "h5/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h5"
+    },
+    {
+      "name": "h6/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "h6"
+    },
+    {
+      "name": "h6/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "h6"
+    },
+    {
+      "name": "body-lg/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "body-lg"
+    },
+    {
+      "name": "body-lg/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "body-lg"
+    },
+    {
+      "name": "body-base/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "body-base"
+    },
+    {
+      "name": "body-base/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "body-base"
+    },
+    {
+      "name": "body-sm/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "body-sm"
+    },
+    {
+      "name": "body-sm/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "body-sm"
+    },
+    {
+      "name": "label-lg/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "label-lg"
+    },
+    {
+      "name": "label-lg/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "label-lg"
+    },
+    {
+      "name": "label-lg/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "label-lg"
+    },
+    {
+      "name": "label-lg/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "label-lg"
+    },
+    {
+      "name": "label-base/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "label-base"
+    },
+    {
+      "name": "label-base/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "label-base"
+    },
+    {
+      "name": "label-base/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "label-base"
+    },
+    {
+      "name": "label-base/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "label-base"
+    },
+    {
+      "name": "label-sm/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "label-sm"
+    },
+    {
+      "name": "label-sm/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "label-sm"
+    },
+    {
+      "name": "label-sm/semibold",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "typography": "label-sm"
+    },
+    {
+      "name": "label-sm/bold",
+      "fontFamily": "Figtree",
+      "fontStyle": "Bold",
+      "fontWeight": 700,
+      "typography": "label-sm"
+    },
+    {
+      "name": "caption-base/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "caption-base"
+    },
+    {
+      "name": "caption-base/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "caption-base"
+    },
+    {
+      "name": "caption-sm/regular",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "typography": "caption-sm"
+    },
+    {
+      "name": "caption-sm/medium",
+      "fontFamily": "Figtree",
+      "fontStyle": "Medium",
+      "fontWeight": 500,
+      "typography": "caption-sm"
+    },
+    {
+      "name": "Character callouts / Heading",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "fixed": {
+        "size": 54,
+        "lineHeight": 66,
+        "letterSpacing": 0
+      }
+    },
+    {
+      "name": "Character callouts / Body",
+      "fontFamily": "Figtree",
+      "fontStyle": "Regular",
+      "fontWeight": 400,
+      "fixed": {
+        "size": 48,
+        "lineHeight": 72,
+        "letterSpacing": 0
+      }
+    },
+    {
+      "name": "Character callouts / Field label",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "fixed": {
+        "size": 42,
+        "lineHeight": 54,
+        "letterSpacing": 0
+      }
+    },
+    {
+      "name": "Character callouts / Section heading",
+      "fontFamily": "Figtree",
+      "fontStyle": "SemiBold",
+      "fontWeight": 600,
+      "fixed": {
+        "size": 60,
+        "lineHeight": 72,
+        "letterSpacing": 0
+      }
+    }
+  ]
+}

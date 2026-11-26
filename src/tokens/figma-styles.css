@@ -1,4 +1,5 @@
-/* Figma local styles (pasted export). Source for scripts/build-tokens.mjs */
+/* Figma local colour, gradient and effect styles. Source for scripts/build-tokens.mjs.
+   Checked against Figma 2026-11-27: CP colours and shadows match; "savings widget" gradient added. */
 
 /* Color styles */
 --c-p--brown: rgba(144, 62, 56, 1);
@@ -9,44 +10,10 @@
 --c-p--cream-2: rgba(251, 238, 221, 1);
 --c-p--cream-3: rgba(242, 227, 204, 1);
 
-/* Text-size styles */
---display--medium: 40px;
---display--semibold: 40px;
---display--bold: 40px;
---h1--semibold: 32px;
---h1--bold: 32px;
---h2--semibold: 28px;
---h2--bold: 28px;
---h3--semibold: 24px;
---h3--bold: 24px;
---h4--semibold: 20px;
---h4--bold: 20px;
---h5--semibold: 18px;
---h5--bold: 18px;
---h6--semibold: 16px;
---h6--bold: 16px;
---label-lg--regular: 16px;
---label-lg--medium: 16px;
---label-lg--semibold: 16px;
---label-lg--bold: 16px;
---label-base--regular: 14px;
---label-base--medium: 14px;
---label-base--semibold: 14px;
---label-base--bold: 14px;
---label-sm--regular: 12px;
---label-sm--medium: 12px;
---label-sm--semibold: 12px;
---label-sm--bold: 12px;
---body-lg--regular: 16px;
---body-lg--semibold: 16px;
---body-base--regular: 14px;
---body-base--semibold: 14px;
---body-sm--regular: 12px;
---body-sm--semibold: 12px;
---caption-base--regular: 11px;
---caption-base--medium: 11px;
---caption-sm--regular: 10px;
---caption-sm--medium: 10px;
+/* Gradient styles */
+--savings-widget: linear-gradient(90deg, #daffea 0%, #cfe9ff 100%);
+
+/* Text styles: see figma-text-styles.json (synced from Figma's local text styles) */
 
 /* Effect styles */
 --xs:  0px 2px 3px rgba(0, 0, 0, 0.04);

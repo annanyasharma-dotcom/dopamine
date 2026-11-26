@@ -57,7 +57,7 @@ src/
     Toggle/            Toggle.tsx, Toggle.css, Toggle.stories.tsx, index.ts, assets/
     Widget/            Widget.tsx, Widget.css, Widget.stories.tsx, index.ts
   foundations/         Storybook pages documenting tokens (not shipped components)
-  tokens/              figma-variables.json, figma-styles.css (sources)
+  tokens/              figma-variables.json, figma-styles.css, figma-text-styles.json (sources)
                        tokens.css, tokens.json (generated), fonts.css
   Introduction.mdx     Storybook landing page
   App.tsx, main.tsx    Vite starter app (not part of the library)
@@ -1232,8 +1232,9 @@ Tokens are generated from Figma by `npm run tokens` (`scripts/build-tokens.mjs`)
 | Brand | `--c-p--{brown,gold,gold-2,gold-3,cream-1..3}` | From Figma colour styles |
 | Semantic (Light only) | `--bg-*`, `--text-*`, `--icon-*`, `--border-*` (79) | Alias primitives (`text/brand/secondary-inverse` aliases the Utility `--alpha-white-90`) |
 | Utility | `--alpha-{white,black}-{10..97}`, `--hih-*`, `--category-*` | |
-| Typography | `--font-{display,h1..h6,body-md,body-sm,caption-*}-{size,line-height,letter-spacing}` | Mobile default; Desktop at ≥1024px |
-| Text styles | `.text-{family}-{weight}` classes (37) | |
+| Typography | `--font-{display,h1..h6,body-lg,body-base,body-sm,label-lg,label-base,label-sm,caption-base,caption-sm}-{size,line-height,letter-spacing}` from the library Typography collection the text styles use; plus local-only `--font-{body-md,caption-large,caption-md}-*` | Mobile default; Desktop at ≥1024px. Synced from Figma 2026-11-27 |
+| Text styles | `.text-{family}-{weight}` classes (37) + `.text-character-callouts-*` (4) | From `figma-text-styles.json`; all 41 match Figma (mobile and desktop) |
+| Gradients | `--savings-widget` | Figma paint style “savings widget”: `linear-gradient(90deg, #daffea, #cfe9ff)` |
 | Font | `--font-family-base` = Figtree | |
 | Radius | `--radius-{none,xxs,xs,s,md,lg,xl,xxl,full}` | 0–999px |
 | Stroke | `--stroke-{none,thin,regular,medium,thick,thicker}` | 0–3px |
@@ -1359,6 +1360,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-26 | Icon library: added the Figma **Icon repo** (section `40002796:1640`), 13 icons × regular/bold (`phone-telephone`: regular/filled) as `<icon>-regular` / `<icon>-bold`; existing icon names unchanged. New **Icon Repo** story. **Hooman** added: 22 TATA 1mg character illustrations (delivery, doctor, pharmacist, phlebotomist) with their Figma usage guidance; props `name`, `height`, `label`. Stories with interaction tests. | `8f1e3f7` |
 | 2026-11-26 | **Semantic tokens updated from Figma**: `bg/brand/disabled-subtle` → cool-neutral 50, `text/brand/disabled-subtle` and `icon/brand/disabled-subtle` → 300, `border/neutrals/primary` → 100, `secondary` → 200, `tertiary` → 300, `disabled` → 100; new `text/brand/secondary-inverse` (→ Utility `alpha/white/90`). `build-tokens.mjs` resolves aliases to Utility values. Visible changes: Button (outline/inverse borders, disabled), InputField and OtpField (borders, disabled, placeholder). 13 components that used primitives to match Figma now use the semantic tokens (no visual change). **Banner** added (Figma `40002869:8638`): props `title`, `subtitle`, `colour`, `cta`, `onCtaClick`, `image`. Stories with interaction tests. | this branch |
 | 2026-11-26 | Storybook deployment: GitHub Actions workflow builds Storybook on PRs and publishes it to GitHub Pages from `main`. No component changes. | this branch |
+| 2026-11-27 | **Tokens synced with Figma** (variables + text styles audit). Variables: all 218 matched. Text styles: 31 of 37 `.text-*` classes had wrong line heights or no line height/Desktop sizes — now generated from `figma-text-styles.json` (Figma's 41 local text styles and the library Typography variables they use); added `--font-{body-lg,body-base,label-*,caption-base}-*`, corrected display/h1–h5/body-sm line heights, added 4 Character callouts classes and the `--savings-widget` gradient. Components unchanged. | uncommitted |
 
 ---
 
@@ -1366,20 +1368,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 
 Verified unless marked *assumption*.
 
-- **Typography token gap (all components):** the Figma file's fixed text variables are not in the token export, whose typography scale is responsive (e.g. `body-md` is 14/18 mobile, 24/32 desktop). Each component keeps the Figma values as `--dp-<component>-*` variables:
-  - Button: body-base 14/20, body-lg 16/24
-  - InputField: label-base 14/18, label-sm 12/14, caption-base 11/16
-  - OtpField: label-base 14/18, body-sm 12/18, Tag 11/16
-  - CounterBadge: label-sm 12/14
-  - Header: label-base 14/18
-  - SkuCard: label-base 14/18, label-sm 12/14, body-sm 12/18, body-lg 16/24, caption-base 11/16, caption-sm 10/14, Tag 11/16, Body/12 12/16
-  - Toast: label-base 14/18, label-sm 12/14 · Rating: label-sm 12/14 · Footer: display 40/44 (export: 40/48 mobile, 56/64 desktop) · Widget: h5 18/22 (export: 18/24), h6 16/20 · ListItem: label-lg 16/20, label-base 14/18
-  - Tag: caption-sm 10/14 · Search: label-lg 16/20 · Grid: label-sm 12/14 · BottomSheet: label-lg 16/20, label-base 14/18
-  - InfoBanner: Body/12 bold 12/16 · Badge: label-sm 12/14 · Chip: label-base 14/18, Tag 11/16 · Accordion: label-lg 16/20, body-base 14/20
-  - SpecialButton: caption-sm 10/14 · CompoundButton: label-sm 12/14, label-base 14/18
-  - QuantityDropdown: label-base 14/18
-
-  Re-exporting these Figma text variables into `tokens.css` would let all components share them.
+- **Components keep fixed text sizes (by design):** the Figma text variables (label-base, body-base, …) are now tokens (`--font-label-base-size` etc., synced 2026-11-27), but they switch to larger Desktop values from 1024px (e.g. label-base 14→24px). Components were built from Figma's Mobile mode, so they still use their own fixed values via `--dp-<component>-*` variables (all equal to the Mobile token values). Switching a component to the tokens would make it scale up on desktop — do that only where that's intended.
 - **OtpField legacy colours:** the Figma OTP component uses variables from an older collection that aren't in the token export. They are mapped to the closest semantic tokens, also used by InputField:
   - `Color/States/Error` #a3111e → `--border-error-moderate` / `--text-error-base` #c50f1f
   - `Color/States/Success` #308956 → `--border-success-moderate` / `--text-success-base` #156437
