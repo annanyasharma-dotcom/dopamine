@@ -22,6 +22,7 @@ Source-of-truth order when things disagree: component implementation → TypeScr
 .claude/skills/react-component-integrity/SKILL.md   Engineering rules for working on components
 .storybook/            main.ts, preview.tsx (loads fonts + tokens), preview.css (light canvas)
 docs/                  MASTER.md (this file), COMPONENT_USE_CASES.md
+explorations/flows/    Flow prototypes built from src/ (not Storybook stories); deployed to /explorations/
 scripts/build-tokens.mjs   Figma export → tokens.css / tokens.json
 src/
   components/          One folder per component; index.ts re-exports all
@@ -1250,7 +1251,7 @@ Icons: the `Icon` component is the icon library (§3). No dark theme, breakpoint
 - Config: `.storybook/main.ts` (stories: `src/**/*.mdx`, `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`; addons: chromatic, vitest, a11y, docs, mcp). `preview.tsx` loads fonts + tokens and sets sidebar order: Introduction → Foundations → Components.
 - Run: `npm run storybook` (port 6006; regenerates tokens first). Build: `npm run build-storybook` → `storybook-static/`.
 - Story tests: `npx vitest --project storybook --run` runs every story (and its `play` function) in headless Chromium.
-- Deployment: GitHub Actions (`.github/workflows/storybook.yml`) builds Storybook on every pull request and publishes `storybook-static/` to GitHub Pages on pushes to `main`: https://annanyasharma-dotcom.github.io/dopamine/. One-time setup: repo **Settings → Pages → Source: GitHub Actions**. It can also be run by hand from the Actions tab (`workflow_dispatch`).
+- Deployment: GitHub Actions (`.github/workflows/storybook.yml`) builds Storybook on every pull request and publishes `storybook-static/` to GitHub Pages on pushes to `main`: https://annanyasharma-dotcom.github.io/dopamine/. The same workflow builds the flow explorations (`npm run build-explorations`) into `storybook-static/explorations/`, published at https://annanyasharma-dotcom.github.io/dopamine/explorations/. One-time setup: repo **Settings → Pages → Source: GitHub Actions**. It can also be run by hand from the Actions tab (`workflow_dispatch`).
 
 | Story file | Title | Stories |
 | --- | --- | --- |
@@ -1361,6 +1362,7 @@ Follow `.claude/skills/react-component-integrity/SKILL.md`. In short:
 | 2026-11-26 | **Semantic tokens updated from Figma**: `bg/brand/disabled-subtle` → cool-neutral 50, `text/brand/disabled-subtle` and `icon/brand/disabled-subtle` → 300, `border/neutrals/primary` → 100, `secondary` → 200, `tertiary` → 300, `disabled` → 100; new `text/brand/secondary-inverse` (→ Utility `alpha/white/90`). `build-tokens.mjs` resolves aliases to Utility values. Visible changes: Button (outline/inverse borders, disabled), InputField and OtpField (borders, disabled, placeholder). 13 components that used primitives to match Figma now use the semantic tokens (no visual change). **Banner** added (Figma `40002869:8638`): props `title`, `subtitle`, `colour`, `cta`, `onCtaClick`, `image`. Stories with interaction tests. | this branch |
 | 2026-11-26 | Storybook deployment: GitHub Actions workflow builds Storybook on PRs and publishes it to GitHub Pages from `main`. No component changes. | this branch |
 | 2026-11-27 | **Tokens synced with Figma** (variables + text styles audit). Variables: all 218 matched. Text styles: 31 of 37 `.text-*` classes had wrong line heights or no line height/Desktop sizes — now generated from `figma-text-styles.json` (Figma's 41 local text styles and the library Typography variables they use); added `--font-{body-lg,body-base,label-*,caption-base}-*`, corrected display/h1–h5/body-sm line heights, added 4 Character callouts classes and the `--savings-widget` gradient. Components unchanged. | `ad0e491` |
+| 2026-11-27 | **Flow explorations** added in `explorations/flows/` (outside `src/`, so not in Storybook): email login, mobile OTP sign-in, and a shopping journey (home → product page → cart → order placed), built only from existing components and tokens via the `@ds` alias to `src/`. New scripts `explorations` / `build-explorations`; the Pages workflow now also builds them to `/explorations/`. No component, token or story changes. | this branch |
 
 ---
 
@@ -1394,6 +1396,12 @@ Verified unless marked *assumption*.
 - **Icon library scope:** the library has the 26 Icon repo icons (`*-regular` / `*-bold` / `phone-telephone-filled`) plus the component icons `arrow-left`, `bestseller`, `check`, `chevron-down`, `chevron-right`, `chevron-right-small`, `chevron-up`, `close`, `close-filled`, `good-experience`, `info`, `restart`, `search`, `star`, `upload`. Seven component icons share a base name with an Icon repo icon but have different artwork; components weren't switched to the Icon repo versions, to avoid visual changes. Icons used by Button, InputField, OtpField, Header and SkuCard (arrows, InputField close, resend, header icons, plus, small star, lightning, chevron-down, offer chevron) are still per-component and could be moved into the library later.
 - **Toast / Icon close colour:** Figma uses `Color/Content/Primary` and `Color/Icons/Primary` #181a1f (legacy collection, no token) for the action text and × icon; kept as exact values.
 - **Toast behaviour:** timing, stacking, placement and auto-dismiss aren't defined in Figma or implemented; the app controls when a Toast is rendered.
+- **Gaps found building the flow explorations** (worked around locally in `explorations/flows/`, not in the library):
+  - No inner-page header for PDP / cart (see *Header variants not built*); the explorations use a local `PageBar` with Header's bag artwork.
+  - Button has no icon-only variant; the onboarding “next” button is a local round button styled with tokens.
+  - The Icon library has no eye, mail or lock icons, and InputField has no icon slot; the password field uses a “Show” text toggle.
+  - An Icon inside a Button needs `color="currentColor"` to follow the button's text colour (Icon otherwise uses its own default colour).
+  - The repo has no global `box-sizing: border-box` reset; layouts outside components must set it themselves.
 - **Rating `good` contrast (verified by calculation):** white on `--bg-success-subtle` #299357 is about 3.9:1 at 12px, below WCAG AA 4.5:1. `avg` (4.6:1) and `bad` pass. Token-level; follows Figma.
 - **Logo `inverse` with `colour="black"`** isn't a Figma variant; `inverse` always gives the white logo.
 - **Footer** is static by design (Figma guidance), so the message can't be changed through props.

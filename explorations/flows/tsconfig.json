@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "paths": { "@ds/*": ["../../src/*"] },
+    "noEmit": true,
+    "tsBuildInfoFile": "../../node_modules/.tmp/tsconfig.explorations.tsbuildinfo"
+  },
+  "include": ["src", "main.tsx"]
+}

@@ -10,6 +10,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "explorations": "vite -c explorations/flows/vite.config.ts",
+    "build-explorations": "vite build -c explorations/flows/vite.config.ts",
     "tokens": "node scripts/build-tokens.mjs",
     "prestorybook": "npm run tokens",
     "prebuild-storybook": "npm run tokens"
